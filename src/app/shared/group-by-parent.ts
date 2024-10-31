@@ -7,12 +7,12 @@ export function groupByParent(arr) {
 
     let root = [];
 
-    // Iterate again to place each object in its parent's `items` array
+    // Iterate again to place each object in its parentId's `items` array
     arr.forEach((obj) => {
-        if (obj.parent != null) {
-            const parent = map.get(obj.parent);
-            if (parent) {
-                parent.items.push(map.get(obj.id));
+        if (obj.parentId != null) {
+            const parentId = map.get(obj.parentId);
+            if (parentId) {
+                parentId.items.push(map.get(obj.id));
             }
         } else {
             // If no parent, this is a root object

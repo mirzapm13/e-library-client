@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
         const config: AppConfig = {
             ripple: true, // toggles ripple on and off
             inputStyle: 'outlined', // default style for input elements, can be "outlined" or "filled"
-            menuMode: 'drawer', // layout mode of the menu, valid values are "static", "overlay", "slim", "slim_plus", "horizontal", "reveal" and "drawer"
+            menuMode: 'static', // layout mode of the menu, valid values are "static", "overlay", "slim", "slim_plus", "horizontal", "reveal" and "drawer"
             colorScheme: 'light', // color scheme of the template, valid values are "light" and "dark"
             theme: 'pegadaian', // default component theme for PrimeNG
             menuTheme: 'light', // theme of the menu, valid values are "light" and "dark"

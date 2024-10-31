@@ -26,70 +26,6 @@
   "profile": {
     "name": "typicode"
   },
-  "user": [
-    {
-      "nama": "Admin",
-      "email": "admin@galeri24.co.id",
-      "status": false,
-      "id": "1df5"
-    },
-    {
-      "nama": "Direksi",
-      "email": "direksi@galeri24.co.id",
-      "status": true,
-      "id": "09cc"
-    },
-    {
-      "id": "5503",
-      "nama": "Mrza",
-      "email": "mirzamail@mail.com",
-      "password": "testpass",
-      "nik": "123",
-      "jabatan": "1",
-      "department": "2",
-      "status": true,
-      "role": [
-        {
-          "label": "Admin",
-          "value": "1"
-        },
-        {
-          "label": "Direksi",
-          "value": "2"
-        }
-      ]
-    }
-  ],
-  "jabatan": [
-    {
-      "nama": "Admin",
-      "id": "1"
-    },
-    {
-      "nama": "Direksi",
-      "id": "2"
-    }
-  ],
-  "department": [
-    {
-      "nama": "IT",
-      "id": "1"
-    },
-    {
-      "nama": "HR",
-      "id": "2"
-    }
-  ],
-  "role": [
-    {
-      "nama": "Admin",
-      "id": "1"
-    },
-    {
-      "nama": "Direksi",
-      "id": "2"
-    }
-  ],
   "countries": {
     "data": [
       {
@@ -1094,78 +1030,6 @@
       "parent": null
     }
   ],
-  "menus": [
-    {
-      "id": 1,
-      "name": "Dashboard",
-      "path": "/",
-      "order": "1",
-      "icon": "pi pi-fw pi-home",
-      "status": 1,
-      "parentId": null
-    },
-    {
-      "id": 2,
-      "name": "Menu",
-      "path": "/menu",
-      "order": "2",
-      "icon": "pi pi-fw pi-cog",
-      "status": 1,
-      "parentId": null,
-      "children": [
-        {
-          "id": 3,
-          "name": "Master Menu",
-          "path": "/menu",
-          "order": "1",
-          "icon": "pi pi-fw pi-cog",
-          "status": 1,
-          "parentId": 2
-        },
-        {
-          "id": 4,
-          "name": "New Menu",
-          "path": "/menu/new",
-          "order": "1",
-          "icon": "pi pi-fw pi-cog",
-          "status": 1,
-          "parentId": 2
-        }
-      ]
-    },
-    {
-      "id": "452d",
-      "parent": {
-        "id": 2,
-        "name": "Menu",
-        "path": "/menu",
-        "order": "2",
-        "icon": "pi pi-fw pi-cog",
-        "status": 1,
-        "parentId": null,
-        "children": [
-          {
-            "id": 3,
-            "name": "Master Menu",
-            "path": "/menu",
-            "order": "1",
-            "icon": "pi pi-fw pi-cog",
-            "status": 1,
-            "parentId": 2
-          },
-          {
-            "id": 4,
-            "name": "New Menu",
-            "path": "/menu/new",
-            "order": "1",
-            "icon": "pi pi-fw pi-cog",
-            "status": 1,
-            "parentId": 2
-          }
-        ]
-      }
-    }
-  ],
   "menu-settings": [
     {
       "id": 1,
@@ -1178,30 +1042,150 @@
     },
     {
       "id": 2,
-      "name": "Menu",
-      "path": "/menu",
-      "order": "2",
-      "icon": "pi pi-fw pi-cog",
+      "name": "Library",
+      "path": "/library",
+      "order": 2,
+      "icon": "pi pi-fw pi-book",
       "status": 1,
       "parentId": null
     },
     {
       "id": 3,
-      "name": "Master Menu",
-      "path": "/menu",
-      "order": "1",
-      "icon": "pi pi-fw pi-cog",
-      "status": 0,
+      "name": "Dokumen",
+      "path": "/library/dokumen",
+      "order": 1,
+      "icon": "pi pi-fw pi-file-o",
+      "status": 1,
       "parentId": 2
     },
     {
       "id": 4,
-      "name": "New Menu",
-      "path": "/menu/new",
-      "order": "2",
-      "icon": "pi pi-fw pi-cog",
-      "status": 0,
+      "name": "Approval Dokumen",
+      "path": "/library/approval",
+      "order": 2,
+      "icon": "pi pi-fw pi-verified",
+      "status": 1,
       "parentId": 2
+    },
+    {
+      "id": 5,
+      "name": "Master Data",
+      "path": "/master-data",
+      "order": 3,
+      "icon": "pi pi-fw pi-cog",
+      "status": 1,
+      "parentId": null
+    },
+    {
+      "id": 6,
+      "name": "Manajemen Menu",
+      "path": "/master-data/menu",
+      "order": 1,
+      "icon": "pi pi-fw pi-list",
+      "status": 1,
+      "parentId": 5
+    },
+    {
+      "id": 7,
+      "name": "Manajemen Role",
+      "path": "/master-data/role",
+      "order": 2,
+      "icon": "pi pi-fw pi-sign-in",
+      "status": 1,
+      "parentId": 5
+    },
+    {
+      "id": 8,
+      "name": "Manajemen Taxonomy",
+      "path": "/master-data/taxonomy",
+      "order": 3,
+      "icon": "pi pi-fw pi-sitemap",
+      "status": 1,
+      "parentId": 5
+    },
+    {
+      "id": 9,
+      "name": "Manajemen Approval",
+      "path": "/master-data/approval",
+      "order": 4,
+      "icon": "pi pi-fw pi-users",
+      "status": 1,
+      "parentId": 5
+    }
+
+  ],
+  "user": [
+    {
+      "nama": "Admin",
+      "email": "admin@galeri24.co.id",
+      "status": false,
+      "id": "1df5"
+    },
+    {
+      "nama": "Direksi",
+      "email": "direksi@galeri24.co.id",
+      "status": true,
+      "id": "09cc"
+    },
+    {
+      "id": "5503",
+      "nama": "Mrza",
+      "email": "mirzamail@mail.com",
+      "password": "testpass",
+      "nik": "123",
+      "jabatan": "1",
+      "department": "2",
+      "status": true,
+      "role": [
+        {
+          "label": "Admin",
+          "value": "1"
+        },
+        {
+          "label": "Direksi",
+          "value": "2"
+        }
+      ]
+    }
+  ],
+  "jabatan": [
+    {
+      "nama": "Admin",
+      "id": "1"
+    },
+    {
+      "nama": "Direksi",
+      "id": "2"
+    }
+  ],
+  "department": [
+    {
+      "nama": "IT",
+      "id": "1"
+    },
+    {
+      "nama": "HR",
+      "id": "2"
+    }
+  ],
+  "role": [
+    {
+      "nama": "Admin",
+      "description" : "Description of admin",
+      "id": 1,
+      "status": true
+    },
+    {
+      "nama": "Contributor",
+      "description" : "Description of contributor",
+      "id": 2,
+      "status": true
+    },
+    {
+      "nama": "Approver",
+      "description":"Description of approver",
+      "id": 3,
+      "status": true
     }
   ]
 }

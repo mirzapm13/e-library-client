@@ -6,22 +6,22 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([
             {
                 path: '',
-                data: { breadcrumb: 'Manajemen Menu' },
+                data: { breadcrumb: 'Manajemen Role' },
                 loadComponent: () =>
-                    import('./menu-main/menu-main.component').then(
-                        (m) => m.MenuMainComponent
+                    import('./master-role/master-role.component').then(
+                        (m) => m.MasterRoleComponent
                     ),
             },
             {
                 path: 'new',
-                data: { breadcrumb: 'New Menu' },
+                data: { breadcrumb: 'New Role' },
                 loadComponent: () =>
-                    import('./menu-new/menu-new.component').then(
-                        (m) => m.MenuNewComponent
+                    import('./new-role/new-role.component').then(
+                        (m) => m.NewRoleComponent
                     ),
             },
         ]),
     ],
     exports: [RouterModule],
 })
-export class MenuRoutingModule {}
+export class RoleRoutingModule {}

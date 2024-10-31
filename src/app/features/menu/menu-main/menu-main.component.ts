@@ -46,10 +46,10 @@ export class MenuMainComponent implements OnInit {
     }
 
     goToNewMenu(): void {
-        this.router.navigateByUrl('/menu/new');
+        this.router.navigateByUrl('/master-data/menu/new');
     }
 
-    trackByFunction = (index, item) => {
+    trackByFunction = (_index, item) => {
         return item.id; // O index
     };
 }

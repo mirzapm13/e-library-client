@@ -30,11 +30,44 @@ const routes: Routes = [
                     ),
             },
             {
-                path: 'menu',
-                loadChildren: () =>
-                    import('./features/menu/menu.module').then(
-                        (m) => m.MenuModule
-                    ),
+                path: 'library',
+                children: [
+                    {
+                        path: '**',
+                        loadChildren: () =>
+                            import(
+                                './shared/components/accessdenied/accessdenied.module'
+                            ).then((m) => m.AccessdeniedModule),
+                    },
+                ],
+            },
+            {
+                path: 'master-data',
+                children: [
+                    {
+                        path: 'menu',
+                        data: { breadcrumb: 'Master Data' },
+                        loadChildren: () =>
+                            import('./features/menu/menu.module').then(
+                                (m) => m.MenuModule
+                            ),
+                    },
+                    {
+                        path: 'role',
+                        data: { breadcrumb: 'Master Data' },
+                        loadChildren: () =>
+                            import('./features/role/role.module').then(
+                                (m) => m.RoleModule
+                            ),
+                    },
+                    {
+                        path: '**',
+                        loadChildren: () =>
+                            import(
+                                './shared/components/accessdenied/accessdenied.module'
+                            ).then((m) => m.AccessdeniedModule),
+                    },
+                ],
             },
             {
                 path: 'document',

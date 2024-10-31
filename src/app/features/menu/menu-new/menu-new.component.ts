@@ -6,6 +6,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MenuService } from 'src/app/shared/services/menus.service';
+import { Location } from '@angular/common';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @Component({
     selector: 'app-menu-new',
@@ -16,6 +18,7 @@ import { MenuService } from 'src/app/shared/services/menus.service';
         MultiSelectModule,
         ButtonModule,
         ReactiveFormsModule,
+        InputSwitchModule,
     ],
     templateUrl: './menu-new.component.html',
     styleUrl: './menu-new.component.scss',
@@ -26,7 +29,8 @@ export class MenuNewComponent implements OnInit {
     constructor(
         private menuService: MenuService,
         private roleService: RolesService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private location: Location
     ) {
         this.newMenuForm = this.fb.group({
             parent: [],
@@ -37,7 +41,7 @@ export class MenuNewComponent implements OnInit {
             path: [''],
             icon: [''],
             order: [''],
-            status: [false],
+            status: [true],
             role: [[]],
         });
     }
@@ -70,5 +74,9 @@ export class MenuNewComponent implements OnInit {
         this.menuService.addMenu(this.newMenuForm.value).subscribe((item) => {
             console.log('item.value');
         });
+    }
+
+    clickBack() {
+        this.location.back();
     }
 }

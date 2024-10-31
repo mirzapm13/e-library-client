@@ -1,19 +1,19 @@
 <div class="card">
-    <h5>Master Data - Menu</h5>
+    <h5>Master Data - Role</h5>
 
-    <ng-container *ngIf="menus">
+    <ng-container *ngIf="roles">
         <div class="flex flex-column gap-4">
             <div class="flex justify-content-end gap-2">
                 <p-button
                     icon="pi pi-plus"
                     label="New"
                     severity="primary"
-                    (click)="goToNewMenu()"
+                    (click)="goToNewRole()"
                 />
             </div>
 
             <p-table
-                [value]="menus"
+                [value]="roles"
                 [paginator]="true"
                 [rows]="5"
                 [tableStyle]="{ 'min-width': '50rem' }"
@@ -23,30 +23,18 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Nama</th>
-                        <th>Path</th>
-                        <th>Parent</th>
-                        <th class="text-center">Order</th>
-                        <th>Icon</th>
+                        <th>Deskripsi</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-menu let-i="rowIndex">
+                <ng-template pTemplate="body" let-role let-i="rowIndex">
                     <tr>
-                        <td>{{ menu.nama }}</td>
-                        <td>{{ menu.path }}</td>
-                        <td>{{ menu.parent }}</td>
-                        <td class="text-center">{{ menu.order }}</td>
-                        <td>{{ menu.icon }}</td>
+                        <td>{{ role.nama }}</td>
+                        <td>{{ role.description }}</td>
                         <td class="text-center">
-                            <!-- <p-inputSwitch
-                                [ngModel]="!!menus[i].status"
-                                (ngModelChange)="
-                                    menus[i].status = +!menus[i].status
-                                "
-                            /> -->
-                            <ng-container *ngIf="!!menu.status; else inactive">
+                            <ng-container *ngIf="!!role.status; else inactive">
                                 <p-button
                                     label="Active"
                                     size="small"

@@ -1,4 +1,12 @@
 <div class="card min-h-full">
+    <p-button
+        icon="pi pi-chevron-left"
+        label="Back"
+        (onClick)="clickBack()"
+        size="small"
+        [outlined]="true"
+    />
+
     <h5>New Menu</h5>
 
     <form
@@ -92,12 +100,13 @@
         <div class="field grid">
             <label class="col-2" for="status">Status</label>
             <div class="col-12 md:col-10">
-                <input
+                <!-- <input
                     type="checkbox"
                     name="status"
                     id="status"
                     formControlName="status"
-                />
+                /> -->
+                <p-inputSwitch formControlName="status" />
             </div>
         </div>
 

@@ -1,7 +1,9 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { MenuService } from '../shared/services/menus.service';
+import { groupByParent } from '../shared/group-by-parent';
 import { recursiveMap } from '../shared/recursive-map';
+import { group } from '@angular/animations';
 
 @Component({
     selector: 'app-menu',
@@ -15,14 +17,27 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.menuService.getMenus().subscribe((item) => {
-            const mapped = recursiveMap(item, (item) => {
+            // const mapped = recursiveMap(item, (item) => {
+            //     return {
+            //         label: item.name,
+            //         routerLink: [item.path],
+            //         icon: item.icon,
+            //         ...(item.children && { items: item.children }),
+            //     };
+            // });
+
+            const grouped = groupByParent(item);
+            console.log(grouped);
+
+            const mapped = recursiveMap(grouped, (item) => {
                 return {
                     label: item.name,
                     routerLink: [item.path],
                     icon: item.icon,
-                    ...(item.children && { items: item.children }),
+                    ...(item.items && { items: item.items }),
                 };
             });
+
             this.model = [
                 {
                     label: 'Galeri 24 Library',
