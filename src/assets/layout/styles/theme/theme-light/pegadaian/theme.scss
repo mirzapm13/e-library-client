@@ -12,3 +12,15 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
 @import "../_variables";
 @import "../../theme-base/_components";
 @import "../_extensions";
+
+.layout-topbar {
+    background-color: rgb(243, 223, 168) !important;
+}
+
+.layout-sidebar {
+    background: linear-gradient(
+        336deg,
+        rgb(194, 170, 115) 16%,
+        rgb(243, 223, 168) 100%
+    ) !important;
+}
