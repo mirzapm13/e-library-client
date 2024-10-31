@@ -11,7 +11,7 @@ const routes: Routes = [
     {
         path: '',
         component: AppLayoutComponent,
-        canActivateChild: [AuthGuard],
+        // canActivateChild: [AuthGuard],
         children: [
             // { path: '', loadChildren: () => import('./demo/components/dashboards/dashboards.module').then((m) => m.DashboardsModule) },
             // { path: 'uikit', data: { breadcrumb: 'UI Kit' }, loadChildren: () => import('./demo/components/uikit/uikit.module').then((m) => m.UIkitModule) },
@@ -137,10 +137,15 @@ const routes: Routes = [
     {
         path: 'auth',
         data: { breadcrumb: 'Auth' },
-        loadChildren: () =>
-            import('./demo/components/auth/auth.module').then(
-                (m) => m.AuthModule
-            ),
+        children: [
+            {
+                path: 'login',
+                loadChildren: () =>
+                    import('./features/auth/login/login.module').then(
+                        (m) => m.LoginModule
+                    ),
+            },
+        ],
     },
     {
         path: 'landing',
