@@ -1,0 +1,45 @@
+<div class="card" *ngIf="(item$ | async)?.value as users">
+    <h5>Master User</h5>
+
+    <div class="flex flex-column gap-4">
+        <div class="flex justify-content-end gap-2">
+            <p-button
+                icon="pi pi-plus"
+                label="New"
+                severity="primary"
+                (click)="goToNewUser()"
+            />
+            <p-button icon="pi pi-trash" label="Delete" severity="danger" />
+            <p-button
+                icon="pi pi-download"
+                label="Export"
+                severity="secondary"
+            />
+        </div>
+        <p-table
+            [value]="users"
+            [paginator]="true"
+            [rows]="5"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [rowsPerPageOptions]="[5, 10, 20]"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-user>
+                <tr>
+                    <td>{{ user.nama }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <input type="checkbox" [checked]="user.status" />
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

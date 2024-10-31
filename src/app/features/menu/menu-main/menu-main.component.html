@@ -1,0 +1,62 @@
+<div class="card">
+    <h5>Master Menu</h5>
+
+    <ng-container *ngIf="menus">
+        <div class="flex flex-column gap-4">
+            <div class="flex justify-content-end gap-2">
+                <p-button
+                    icon="pi pi-plus"
+                    label="New"
+                    severity="primary"
+                    (click)="goToNewMenu()"
+                />
+            </div>
+
+            <p-table
+                [value]="menus"
+                [paginator]="true"
+                [rows]="5"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [rowsPerPageOptions]="[5, 10, 20]"
+                [rowTrackBy]="trackByFunction"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Path</th>
+                        <th>Parent</th>
+                        <th>Order</th>
+                        <th>Icon</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-menu let-i="rowIndex">
+                    <tr>
+                        <td>{{ menu.nama }}</td>
+                        <td>{{ menu.path }}</td>
+                        <td>{{ menu.parent }}</td>
+                        <td>{{ menu.order }}</td>
+                        <td>{{ menu.icon }}</td>
+                        <td>
+                            <p-inputSwitch
+                                [ngModel]="!!menus[i].status"
+                                (ngModelChange)="
+                                    menus[i].status = +!menus[i].status
+                                "
+                            />
+                        </td>
+                        <td>
+                            <p-button
+                                icon="pi pi-pencil"
+                                label="Edit"
+                                severity="secondary"
+                            />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </ng-container>
+</div>

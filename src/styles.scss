@@ -2,18 +2,32 @@
 $gutter: 1rem; //for primeflex grid system
 
 /* Layout */
-@import 'assets/layout/styles/layout/layout.scss';
+@import "assets/layout/styles/layout/layout.scss";
 
 /* PrimeNG */
-@import '../node_modules/primeng/resources/primeng.min.css';
-@import '../node_modules/primeflex/primeflex.scss';
-@import '../node_modules/primeicons/primeicons.css';
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
 
 /* Quill Text Editor for p-editor */
-@import '../node_modules/quill/dist/quill.core.css';
-@import '../node_modules/quill/dist/quill.snow.css';
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.snow.css";
 
 /* Demos */
-@import 'assets/demo/styles/flags/flags.css';
-@import 'assets/demo/styles/badges.scss';
-@import 'assets/demo/styles/code.scss';
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+// :root {
+//     --primary-50: #f6f2ec;
+//     --primary-100: #ece5d9;
+//     --primary-200: #dacbb3;
+//     --primary-300: #c7b08e;
+//     --primary-400: #b59668;
+//     --primary-500: #a27c42;
+//     --primary-color: #a27c42;
+//     --primary-600: #826335;
+//     --primary-700: #614a28;
+//     --primary-800: #41321a;
+//     --primary-900: #20190d;
+// }

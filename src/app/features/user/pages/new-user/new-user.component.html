@@ -1,0 +1,97 @@
+<div class="card">
+    <h5>New User</h5>
+    <form
+        [formGroup]="newUserForm"
+        (ngSubmit)="onSubmit()"
+        class="flex flex-column gap-2 mt-5"
+    >
+        <div class="field grid">
+            <label class="col-2" for="nama">Nama</label>
+            <div class="col-12 md:col-10">
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    name="nama"
+                    formControlName="nama"
+                />
+            </div>
+        </div>
+        <div class="field grid">
+            <label class="col-2" for="email">Email</label>
+            <div class="col-12 md:col-10">
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    name="email"
+                    formControlName="email"
+                />
+            </div>
+        </div>
+        <div class="field grid">
+            <label class="col-2" for="password">Password</label>
+            <div class="col-12 md:col-10">
+                <input
+                    class="w-full"
+                    pInputText
+                    type="password"
+                    name="password"
+                    formControlName="password"
+                    autocomplete="one-time-code"
+                />
+            </div>
+        </div>
+        <div class="field grid">
+            <label class="col-2" for="nik">NIK</label>
+            <div class="col-12 md:col-10">
+                <input
+                    class="w-full"
+                    pInputText
+                    type="text"
+                    name="nik"
+                    formControlName="nik"
+                />
+            </div>
+        </div>
+        <div class="field grid">
+            <label class="col-2" for="jabatan">Jabatan</label>
+            <div class="col-12 md:col-10">
+                <p-dropdown
+                    styleClass="w-full"
+                    placeholder="Pilih Jabatan"
+                    formControlName="jabatan"
+                    [options]="jabatan"
+                />
+            </div>
+        </div>
+        <div class="field grid">
+            <label class="col-2" for="department">Department</label>
+            <div class="col-12 md:col-10">
+                <p-dropdown
+                    styleClass="w-full"
+                    placeholder="Pilih Department"
+                    formControlName="department"
+                    [options]="department"
+                />
+            </div>
+        </div>
+        <div class="field grid">
+            <label class="col-2" for="role">Role</label>
+            <div class="col-12 md:col-10">
+                <p-multiSelect
+                    styleClass="w-full"
+                    placeholder="Pilih Role"
+                    optionLabel="label"
+                    class="multiselect-custom"
+                    display="chip"
+                    [options]="role"
+                    formControlName="role"
+                ></p-multiSelect>
+            </div>
+        </div>
+        <div class="flex justify-content-end">
+            <p-button class="" type="submit" label="Submit"></p-button>
+        </div>
+    </form>
+</div>
