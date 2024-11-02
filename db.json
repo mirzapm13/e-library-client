@@ -1041,7 +1041,7 @@
       "parentId": null
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Library",
       "path": "/library",
       "order": 2,
@@ -1050,25 +1050,25 @@
       "parentId": null
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Dokumen",
       "path": "/library/dokumen",
       "order": 1,
       "icon": "pi pi-fw pi-file-o",
       "status": 1,
-      "parentId": 2
+      "parentId": "2"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Approval Dokumen",
       "path": "/library/approval",
       "order": 2,
       "icon": "pi pi-fw pi-verified",
       "status": 1,
-      "parentId": 2
+      "parentId": "2"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Master Data",
       "path": "/master-data",
       "order": 3,
@@ -1077,40 +1077,40 @@
       "parentId": null
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Manajemen Menu",
       "path": "/master-data/menu",
       "order": 1,
       "icon": "pi pi-fw pi-list",
       "status": 1,
-      "parentId": 5
+      "parentId": "5"
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Manajemen Role",
       "path": "/master-data/role",
       "order": 2,
       "icon": "pi pi-fw pi-sign-in",
       "status": 1,
-      "parentId": 5
+      "parentId": "5"
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Manajemen Taxonomy",
       "path": "/master-data/taxonomy",
       "order": 3,
       "icon": "pi pi-fw pi-sitemap",
       "status": 1,
-      "parentId": 5
+      "parentId": "5"
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Manajemen Approval",
       "path": "/master-data/approval",
       "order": 4,
       "icon": "pi pi-fw pi-users",
       "status": 1,
-      "parentId": 5
+      "parentId": "5"
     }
 
   ],
