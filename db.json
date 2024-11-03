@@ -1187,5 +1187,9 @@
       "id": 3,
       "status": true
     }
-  ]
+  ],
+  "user-data": {
+    "nama": "Test User",
+    "role": "Admin"
+  }
 }

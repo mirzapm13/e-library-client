@@ -1,46 +1,85 @@
 import { Injectable } from '@angular/core';
 import {
-    ActivatedRoute,
     ActivatedRouteSnapshot,
-    CanActivateChild,
+    CanActivate,
     Router,
+    RouterStateSnapshot,
 } from '@angular/router';
-import { AuthService } from './core/auth/services/auth.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { JwtService } from './core/auth/services/jwt.service';
+import { UserService } from './core/auth/services/user.service';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivateChild {
+export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
-        private jwtService: JwtService,
         private oidcSecurityService: OidcSecurityService,
-        private activatedRoute: ActivatedRoute
+        private userService: UserService
     ) {}
 
     isAuthenticated;
+    userData;
 
-    canActivateChild(route: ActivatedRouteSnapshot) {
-        this.oidcSecurityService
-            .checkAuth()
-            .subscribe(
-                ({
-                    isAuthenticated,
-                    userData,
-                    accessToken,
-                    idToken,
-                    configId,
-                }) => {
-                    this.isAuthenticated = isAuthenticated;
-                    console.log(userData);
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        return this.oidcSecurityService.checkAuth().pipe(
+            switchMap((auth) => {
+                if (auth.isAuthenticated) {
+                    return this.userService.fetchUserData().pipe(
+                        map(() => true),
+                        catchError((err) => {
+                            console.error(err);
+                            this.router.navigateByUrl('/auth/login');
+                            return of(false);
+                        })
+                    );
+                } else {
+                    this.router.navigateByUrl('/auth/login');
+                    return of(false);
                 }
-            );
+            })
+        );
 
-        if (!this.isAuthenticated) {
-            this.router.navigate(['/auth/login']);
-            return false;
-        }
-
-        return true;
+        // return true;
     }
+
+    // canActivateChild(route: ActivatedRouteSnapshot) {
+    //     this.oidcSecurityService
+    //         .checkAuth()
+    //         .subscribe(
+    //             ({
+    //                 isAuthenticated,
+    //                 userData,
+    //                 accessToken,
+    //                 idToken,
+    //                 configId,
+    //             }) => {
+    //                 this.isAuthenticated = isAuthenticated;
+    //                 console.log(userData);
+    //             }
+    //         );
+
+    //     if (!this.isAuthenticated) {
+    //         this.router.navigate(['/auth/login']);
+    //         return false;
+    //     }
+
+    //     return true;
+    // }
 }
+
+// .subscribe(
+//     ({
+//         isAuthenticated,
+//         userData,
+//         accessToken,
+//         idToken,
+//         configId,
+//     }) => {
+//         this.isAuthenticated = isAuthenticated;
+//     }
+// );
+
+// if (!this.isAuthenticated) {
+//     this.router.navigate(['/auth/login']);
+//     return false;
+// }
