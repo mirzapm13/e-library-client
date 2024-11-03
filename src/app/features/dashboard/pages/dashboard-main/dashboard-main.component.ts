@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { ChartModule } from 'primeng/chart';
 
 @Component({
@@ -9,6 +10,8 @@ import { ChartModule } from 'primeng/chart';
     styleUrl: './dashboard-main.component.scss',
 })
 export class DashboardMainComponent implements OnInit {
+    constructor(private oidcSecurityService: OidcSecurityService) {}
+
     item: string = 'Hello Angular';
 
     lineChartData: any;
@@ -21,12 +24,22 @@ export class DashboardMainComponent implements OnInit {
 
     ngOnInit() {
         this.initChart();
-        // this.productService.getProductsSmall().then(data => this.products = data);
+    }
 
-        // this.items = [
-        //     { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-        //     { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        // ];
+    getToken() {
+        this.oidcSecurityService
+            .checkAuth()
+            .subscribe(
+                ({
+                    isAuthenticated,
+                    userData,
+                    accessToken,
+                    idToken,
+                    configId,
+                }) => {
+                    console.log(isAuthenticated), console.log(accessToken);
+                }
+            );
     }
 
     initChart() {

@@ -8,7 +8,7 @@
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint",
-         "server": "npx json-server db.json",
+        "server": "npx json-server db.json",
         "update-theme": "npx sass --update src/assets/layout/styles/theme/theme-light/pegadaian/theme.scss:src/assets/layout/styles/theme/theme-light/pegadaian/theme.css"
     },
     "private": true,
@@ -27,6 +27,7 @@
         "@fullcalendar/daygrid": "^6.0.3",
         "@fullcalendar/interaction": "^6.0.3",
         "@fullcalendar/timegrid": "^6.0.3",
+        "angular-auth-oidc-client": "18.0.2",
         "chart.js": "^3.3.2",
         "pdf-lib": "^1.17.1",
         "primeflex": "^3.3.1",
