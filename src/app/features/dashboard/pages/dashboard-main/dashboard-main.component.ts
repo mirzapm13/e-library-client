@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { ChartModule } from 'primeng/chart';
+import { UserService } from 'src/app/core/auth/services/user.service';
 
 @Component({
     selector: 'app-dashboard-main',
@@ -10,7 +11,10 @@ import { ChartModule } from 'primeng/chart';
     styleUrl: './dashboard-main.component.scss',
 })
 export class DashboardMainComponent implements OnInit {
-    constructor(private oidcSecurityService: OidcSecurityService) {}
+    constructor(
+        private oidcSecurityService: OidcSecurityService,
+        private userService: UserService
+    ) {}
 
     item: string = 'Hello Angular';
 
@@ -37,7 +41,7 @@ export class DashboardMainComponent implements OnInit {
                     idToken,
                     configId,
                 }) => {
-                    console.log(isAuthenticated), console.log(accessToken);
+                    console.log(accessToken);
                 }
             );
     }

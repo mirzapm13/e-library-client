@@ -2,47 +2,45 @@ import { Component, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { JwtService } from 'src/app/core/auth/services/jwt.service';
+import { finalize, of, switchMap } from 'rxjs';
 
 @Component({
     templateUrl: './login.component.html',
-    // standalone: true,
 })
 export class LoginComponent implements OnInit {
     rememberMe: boolean = false;
 
     constructor(
         private layoutService: LayoutService,
-        private oidcSecurityService: OidcSecurityService,
-        private readonly jwtService: JwtService
+        private oidcSecurityService: OidcSecurityService
     ) {}
 
-    idToken: string;
-    isAuthenticated: boolean;
+    public loading: boolean = false;
 
     ngOnInit(): void {
+        this.loading = true;
         this.oidcSecurityService
             .checkAuth()
+            .pipe(
+                switchMap((auth) => {
+                    if (auth.isAuthenticated) {
+                        return this.oidcSecurityService.logoff(null, {
+                            customParams: { id_token_hint: auth.idToken },
+                        });
+                    } else {
+                        return of(auth);
+                    }
+                })
+            )
             .subscribe(
-                ({
-                    isAuthenticated,
-                    userData,
-                    accessToken,
-                    idToken,
-                    configId,
-                }) => {
-                    this.isAuthenticated = isAuthenticated;
-                    this.idToken = idToken;
-                    console.log(isAuthenticated);
+                () => {
+                    this.loading = false;
+                },
+                (error) => {
+                    this.loading = false;
+                    console.error('Error occurred:', error);
                 }
             );
-
-        if (this.isAuthenticated) {
-            this.oidcSecurityService
-                .logoff(null, {
-                    customParams: { id_token_hint: this.idToken },
-                })
-                .subscribe();
-        }
     }
 
     get dark(): boolean {
@@ -50,6 +48,30 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.oidcSecurityService.authorize();
+        this.oidcSecurityService.authorize(null, {
+            redirectUrl: 'http://localhost:4200/',
+        });
     }
 }
+
+// .subscribe(
+//     ({
+//         isAuthenticated,
+//         userData,
+//         accessToken,
+//         idToken,
+//         configId,
+//     }) => {
+//         this.isAuthenticated = isAuthenticated;
+//         this.idToken = idToken;
+//         console.log(isAuthenticated);
+//     }
+// );
+
+// if (this.isAuthenticated) {
+//     this.oidcSecurityService
+//         .logoff(null, {
+//             customParams: { id_token_hint: this.idToken },
+//         })
+//         .subscribe();
+// }

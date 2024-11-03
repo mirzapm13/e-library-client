@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { MenuService } from '../shared/services/menus.service';
 import { groupByParent } from '../shared/group-by-parent';
 import { recursiveMap } from '../shared/recursive-map';
+import { UserService } from '../core/auth/services/user.service';
 // import { group } from '@angular/animations';
 
 @Component({
@@ -10,25 +11,18 @@ import { recursiveMap } from '../shared/recursive-map';
     templateUrl: './app.menu.component.html',
 })
 export class AppMenuComponent implements OnInit {
-    constructor(private menuService: MenuService) {}
+    constructor(
+        private menuService: MenuService,
+        private userService: UserService
+    ) {}
 
     model: any[] = [];
     menuMap: any[] = [];
 
     ngOnInit() {
+        // console.log(this.userService.getUserData());
         this.menuService.getMenus().subscribe((item) => {
-            // const mapped = recursiveMap(item, (item) => {
-            //     return {
-            //         label: item.name,
-            //         routerLink: [item.path],
-            //         icon: item.icon,
-            //         ...(item.children && { items: item.children }),
-            //     };
-            // });
-
             const grouped = groupByParent(item);
-            console.log(item);
-
             const mapped = recursiveMap(grouped, (item) => {
                 return {
                     label: item.name,
