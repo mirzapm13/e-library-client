@@ -1,0 +1,131 @@
+<div class="card min-h-full">
+    <p-button
+        icon="pi pi-chevron-left"
+        label="Back"
+        (onClick)="clickBack()"
+        size="small"
+        [outlined]="true"
+    />
+
+    <h5>New Menu</h5>
+
+    <form
+        [formGroup]="newMenuForm"
+        (ngSubmit)="onSubmit()"
+        class="flex flex-column gap-2 mt-5"
+    >
+        <div class="field grid">
+            <label class="col-2" for="parent">Parent</label>
+            <div class="col-12 md:col-10">
+                <p-dropdown
+                    styleClass="w-full"
+                    placeholder="Pilih Parent"
+                    [options]="parent"
+                    formControlName="parent"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="name">Name</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="name"
+                    id="name"
+                    formControlName="name"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="description">Deskripsi</label>
+            <div class="col-12 md:col-10">
+                <textarea
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="description"
+                    id="description"
+                    rows="5"
+                    formControlName="description"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="path">Path</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="path"
+                    id="path"
+                    formControlName="path"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="icon">Icon</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="icon"
+                    id="icon"
+                    formControlName="icon"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="order">Order</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="number"
+                    name="order"
+                    id="order"
+                    formControlName="order"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="status">Status</label>
+            <div class="col-12 md:col-10">
+                <!-- <input
+                    type="checkbox"
+                    name="status"
+                    id="status"
+                    formControlName="status"
+                /> -->
+                <p-inputSwitch formControlName="status" />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="role">Role</label>
+            <div class="col-12 md:col-10">
+                <p-multiSelect
+                    styleClass="w-full"
+                    placeholder="Pilih Role"
+                    optionLabel="label"
+                    class="multiselect-custom"
+                    display="chip"
+                    [options]="roles"
+                    formControlName="role"
+                ></p-multiSelect>
+            </div>
+        </div>
+        <div class="flex justify-content-end mt-8">
+            <p-button class="" type="submit" label="Submit"></p-button>
+        </div>
+    </form>
+</div>

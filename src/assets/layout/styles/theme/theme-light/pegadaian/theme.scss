@@ -24,3 +24,10 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
         rgb(243, 223, 168) 100%
     ) !important;
 }
+
+.field.grid {
+    > label {
+        align-items: baseline !important;
+        margin-top: 8px !important;
+    }
+}

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
+import { MasterModule } from './features/master/master.module';
 import { AuthGuard } from './auth-guard.service';
 
 const routerOptions: ExtraOptions = {
@@ -11,10 +12,17 @@ const routes: Routes = [
     {
         path: '',
         component: AppLayoutComponent,
-        // canActivateChild: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children: [
             // { path: '', loadChildren: () => import('./demo/components/dashboards/dashboards.module').then((m) => m.DashboardsModule) },
-            // { path: 'uikit', data: { breadcrumb: 'UI Kit' }, loadChildren: () => import('./demo/components/uikit/uikit.module').then((m) => m.UIkitModule) },
+            {
+                path: 'uikit',
+                data: { breadcrumb: 'UI Kit' },
+                loadChildren: () =>
+                    import('./demo/components/uikit/uikit.module').then(
+                        (m) => m.UIkitModule
+                    ),
+            },
             {
                 path: '',
                 loadChildren: () =>
@@ -43,31 +51,10 @@ const routes: Routes = [
             },
             {
                 path: 'master-data',
-                children: [
-                    {
-                        path: 'menu',
-                        data: { breadcrumb: 'Master Data' },
-                        loadChildren: () =>
-                            import('./features/menu/menu.module').then(
-                                (m) => m.MenuModule
-                            ),
-                    },
-                    {
-                        path: 'role',
-                        data: { breadcrumb: 'Master Data' },
-                        loadChildren: () =>
-                            import('./features/role/role.module').then(
-                                (m) => m.RoleModule
-                            ),
-                    },
-                    {
-                        path: '**',
-                        loadChildren: () =>
-                            import(
-                                './shared/components/accessdenied/accessdenied.module'
-                            ).then((m) => m.AccessdeniedModule),
-                    },
-                ],
+                loadChildren: () =>
+                    import('./features/master/master.module').then(
+                        (m) => MasterModule
+                    ),
             },
             {
                 path: 'document',

@@ -2,13 +2,21 @@
     <div class="col-6">
         <div class="card h-full">
             <h5>Matriks Penggunaan</h5>
-            <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+            <p-chart
+                type="line"
+                [data]="lineChartData"
+                [options]="lineChartOptions"
+            ></p-chart>
         </div>
     </div>
     <div class="col-6">
         <div class="card h-full">
             <h5>Berdasarkan Kategori</h5>
-            <p-chart type="doughnut" [data]="pieChartData" [options]="pieChartOptions" />
+            <p-chart
+                type="doughnut"
+                [data]="pieChartData"
+                [options]="pieChartOptions"
+            />
         </div>
     </div>
 </div>
@@ -22,7 +30,7 @@
     <div class="col-6">
         <div class="card">
             <h5>Dokumen Terbaaru</h5>
+            <button (click)="getToken()">Get Token</button>
         </div>
     </div>
-
 </div>

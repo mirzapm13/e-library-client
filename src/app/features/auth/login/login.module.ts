@@ -10,7 +10,16 @@ import { AppConfigModule } from 'src/app/layout/config/app.config.module';
 import { PasswordModule } from 'primeng/password';
 
 @NgModule({
-    imports: [CommonModule, LoginRoutingModule, ButtonModule, InputTextModule, CheckboxModule, FormsModule, AppConfigModule, PasswordModule],
-    declarations: [LoginComponent]
+    imports: [
+        CommonModule,
+        LoginRoutingModule,
+        ButtonModule,
+        InputTextModule,
+        CheckboxModule,
+        FormsModule,
+        AppConfigModule,
+        PasswordModule,
+    ],
+    declarations: [LoginComponent],
 })
 export class LoginModule {}

@@ -9,16 +9,17 @@ import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { EMPTY } from 'rxjs';
 import { JwtService } from './core/auth/services/jwt.service';
-import { UserService } from './core/auth/services/user.service';
+import { AuthService } from './core/auth/services/auth.service';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
+import { AuthConfigModule } from './auth/auth-config.module';
 
-export function initAuth(jwtService: JwtService, userService: UserService) {
-    return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
+export function initAuth(jwtService: JwtService, authService: AuthService) {
+    return () => (jwtService.getToken() ? authService.getCurrentUser() : EMPTY);
 }
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [AppRoutingModule, AppLayoutModule, AuthModule],
+    imports: [AppRoutingModule, AppLayoutModule, AuthConfigModule],
     providers: [
         provideHttpClient(
             withInterceptors([
@@ -27,13 +28,6 @@ export function initAuth(jwtService: JwtService, userService: UserService) {
                 tokenInterceptor,
             ])
         ),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initAuth,
-            deps: [JwtService, UserService],
-            multi: true,
-        },
-        { provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
     bootstrap: [AppComponent],
 })
