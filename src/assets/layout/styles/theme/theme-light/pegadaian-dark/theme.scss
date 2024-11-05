@@ -14,11 +14,11 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
 @import "../_extensions";
 
 .layout-topbar {
-    background: linear-gradient(344deg, #a27c42 0%, #d7b568 100%) !important;
+    background-color: #b49c76 !important;
 }
 
 .layout-sidebar {
-    background: linear-gradient(352deg, #a27c42 0%, #d7b568 100%) !important;
+    background: linear-gradient(336deg, #705327 0%, #61461b 68%) !important;
 }
 
 // .field.grid {
@@ -39,11 +39,11 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
     color: white !important;
 
     &.active-route {
-        color: #614a28 !important;
+        color: #c5ae8a !important;
     }
 
     &:hover {
-        color: #614a28 !important;
+        color: #c5ae8a !important;
     }
 
     .layout-menuitem-text {

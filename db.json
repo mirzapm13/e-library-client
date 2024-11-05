@@ -1096,8 +1096,8 @@
     },
     {
       "id": "8",
-      "name": "Manajemen Taxonomy",
-      "path": "/master-data/taxonomy",
+      "name": "Manajemen Category",
+      "path": "/master-data/category",
       "order": 3,
       "icon": "pi pi-fw pi-sitemap",
       "status": 1,
@@ -1191,5 +1191,43 @@
   "user-data": {
     "nama": "Test User",
     "role": "Admin"
-  }
+  },
+  "category": [
+    {
+      "name": "Laporan",
+      "id": 1,
+      "status": true,
+      "parent": null
+    },
+    {
+      "name": "Perizinan",
+      "id": 2,
+      "status": true,
+      "parent": null
+    },
+    {
+      "name": "Pengumuman",
+      "id": 3,
+      "status": true,
+      "parent": null
+    },
+    {
+      "name": "Cuti",
+      "id": 4,
+      "status": true,
+      "parentId": 2
+    },
+    {
+      "name": "Sakit",
+      "id": 5,
+      "status": true,
+      "parentId": 2
+    },
+    {
+      "name": "Town Hall",
+      "id": 6,
+      "status": true,
+      "parentId": 3
+    }
+  ]
 }

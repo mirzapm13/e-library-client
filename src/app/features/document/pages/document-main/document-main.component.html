@@ -1,5 +1,15 @@
 <div class="card">
-    <p>Test</p>
+    <p-tabView activeIndexChange="onTabChange">
+        <p-tabPanel
+            *ngFor="let category of categories"
+            [header]="category.name"
+        >
+            {{ selectedCategory }}
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<div class="card">
     <iframe
         class="mb-4"
         title="test-frame"

@@ -9,7 +9,11 @@
         "test": "ng test",
         "lint": "ng lint",
         "server": "npx json-server db.json",
-        "update-theme": "npx sass --update src/assets/layout/styles/theme/theme-light/pegadaian/theme.scss:src/assets/layout/styles/theme/theme-light/pegadaian/theme.css"
+        "update-theme": "npx sass --update src/assets/layout/styles/theme/theme-light/pegadaian/theme.scss:src/assets/layout/styles/theme/theme-light/pegadaian/theme.css",
+        "update-theme-dark": "npx sass --update src/assets/layout/styles/theme/theme-light/pegadaian-dark/theme.scss:src/assets/layout/styles/theme/theme-light/pegadaian-dark/theme.css",
+        "update-theme-galeri24": "npx sass --update src/assets/layout/styles/theme/theme-light/galeri24/theme.scss:src/assets/layout/styles/theme/theme-light/galeri24/theme.css",
+        "update-theme-galeri24-light": "npx sass --update src/assets/layout/styles/theme/theme-light/galeri24-light/theme.scss:src/assets/layout/styles/theme/theme-light/galeri24-light/theme.css",
+        "update-theme-galeri24-alt": "npx sass --update src/assets/layout/styles/theme/theme-light/galeri24-alt/theme.scss:src/assets/layout/styles/theme/theme-light/galeri24-alt/theme.css"
     },
     "private": true,
     "dependencies": {

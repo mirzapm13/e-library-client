@@ -4,9 +4,9 @@ import { TableModule } from 'primeng/table';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MenuService } from 'src/app/shared/services/menus.service';
-import { addParentName } from 'src/app/shared/recursive-map';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormsModule } from '@angular/forms';
+import { addParentName } from 'src/app/shared/utils/add-parent-name';
 
 @Component({
     selector: 'app-menu-main',

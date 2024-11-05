@@ -169,6 +169,10 @@ export class AppConfigComponent implements OnInit {
             { name: 'turquoise', color: '#58AED3' },
             { name: 'yellow', color: '#FFB340' },
             { name: 'pegadaian', color: '#A27C42' },
+            { name: 'pegadaian-dark', color: '#61461B' },
+            { name: 'galeri24', color: '#61461B' },
+            { name: 'galeri24-light', color: '#f3dfa8' },
+            { name: 'galeri24-alt', color: '#61461B' },
         ];
     }
 

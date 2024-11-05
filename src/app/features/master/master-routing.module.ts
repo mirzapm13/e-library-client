@@ -12,9 +12,17 @@ import { RouterModule } from '@angular/router';
             },
             {
                 path: 'menu',
-                data: { breadcrumb: 'Manajemen Role' },
+                data: { breadcrumb: 'Manajemen Menu' },
                 loadChildren: () =>
                     import('./menu/menu.module').then((m) => m.MenuModule),
+            },
+            {
+                path: 'category',
+                data: { breadcrumb: 'Manajemen Category' },
+                loadChildren: () =>
+                    import('./category/category.module').then(
+                        (m) => m.CategoryModule
+                    ),
             },
         ]),
     ],

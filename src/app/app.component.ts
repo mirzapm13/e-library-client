@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
             inputStyle: 'outlined', // default style for input elements, can be "outlined" or "filled"
             menuMode: 'static', // layout mode of the menu, valid values are "static", "overlay", "slim", "slim_plus", "horizontal", "reveal" and "drawer"
             colorScheme: 'light', // color scheme of the template, valid values are "light" and "dark"
-            theme: 'pegadaian', // default component theme for PrimeNG
+            theme: 'galeri24-alt', // default component theme for PrimeNG
             menuTheme: 'light', // theme of the menu, valid values are "light" and "dark"
             topbarTheme: 'light', // theme of the topbar, valid values are "light" and "dark"
             scale: 14, // size of the body font size to scale the whole application

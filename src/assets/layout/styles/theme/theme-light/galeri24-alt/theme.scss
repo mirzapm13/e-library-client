@@ -13,20 +13,37 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
 @import "../../theme-base/_components";
 @import "../_extensions";
 
+// .layout-topbar {
+//     background-color: #b49c76 !important;
+// }
+
+// .layout-sidebar {
+//     background: linear-gradient(336deg, #705327 0%, #61461b 68%) !important;
+// }
+
 .layout-topbar {
-    background: linear-gradient(344deg, #a27c42 0%, #d7b568 100%) !important;
+    background: linear-gradient(
+        220deg,
+        rgba(180, 156, 118, 1) 0%,
+        rgb(116 95 60) 80%
+    ) !important;
+    box-shadow: rgba(0, 0, 0, 0.45) 40px 25px 20px -22px !important;
 }
 
 .layout-sidebar {
-    background: linear-gradient(352deg, #a27c42 0%, #d7b568 100%) !important;
+    background: linear-gradient(
+        156deg,
+        rgba(97, 70, 27, 1) 40%,
+        rgb(42, 29, 10) 100%
+    ) !important;
 }
 
-// .field.grid {
-//     > label {
-//         align-items: baseline !important;
-//         margin-top: 8px !important;
-//     }
-// }
+.field.grid {
+    > label {
+        align-items: baseline !important;
+        margin-top: 8px !important;
+    }
+}
 
 .layout-sidebar
     .layout-menu
@@ -39,11 +56,11 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
     color: white !important;
 
     &.active-route {
-        color: #614a28 !important;
+        color: #c5ae8a !important;
     }
 
     &:hover {
-        color: #614a28 !important;
+        color: #c5ae8a !important;
     }
 
     .layout-menuitem-text {
@@ -57,4 +74,22 @@ $highlightFocusBg: rgba($primaryColor, 0.24) !default;
     .layout-submenu-toggler {
         color: inherit !important;
     }
+}
+
+.layout-container {
+    background: #fcb43e17 !important;
+}
+
+.layout-content .card {
+    // background: #a47c3a21 !important ;
+    // background: #fcb43e17 !important;
+}
+
+p-table {
+    border-radius: 20px;
+    overflow: auto;
+}
+
+p-treeselect > div {
+    width: 100% !important;
 }
