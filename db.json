@@ -1236,42 +1236,60 @@
       "id":"1",
       "categoryId": "1",
       "url": "https://file-examples.com/storage/fe00d37cde6728af4966ebc/2017/10/file-sample_150kB.pdf",
-      "description": "Lorem ipsum odor amet, consectetuer adipiscing elit. In ultrices varius mi vivamus torquent; vivamus euismod accumsan. Nascetur facilisis augue sem justo duis gravida. Senectus mauris venenatis malesuada; nibh ipsum enim eros ut. Euismod class mi vivamus taciti lectus. Ipsum consectetur elementum massa adipiscing curabitur natoque per fames. Sapien netus augue porttitor bibendum odio; bibendum porta fusce."
+      "expired": "20-06-2024",
+      "tags": ["Tag 1", "Tag 2", "Tag 3", "Tag 4"],
+      "short_desc": "Lorem ipsum odor amet",
+      "long_desc": "Lorem ipsum odor amet, consectetuer adipiscing elit. In ultrices varius mi vivamus torquent; vivamus euismod accumsan. Nascetur facilisis augue sem justo duis gravida. Senectus mauris venenatis malesuada; nibh ipsum enim eros ut. Euismod class mi vivamus taciti lectus. Ipsum consectetur elementum massa adipiscing curabitur natoque per fames. Sapien netus augue porttitor bibendum odio; bibendum porta fusce."
     },
     {
       "name": "Document 2",
       "id": "2",
       "categoryId": "2",
       "url": "https://file-examples.com/storage/fe00d37cde6728af4966ebc/2017/10/file-example_PDF_500_kB.pdf",
-      "description": "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque in dignissim donec morbi ornare sociosqu. Consequat dapibus sodales dignissim luctus porttitor venenatis nunc. Magna hac duis leo posuere condimentum; imperdiet ad orci."
+      "expired": "20-06-2024",
+      "tags": ["Tag 1", "Tag 2", "Tag 3", "Tag 4"],
+      "short_desc": "Lorem ipsum odor amet",
+      "long_desc": "Lorem ipsum odor amet, consectetuer adipiscing elit. Natoque in dignissim donec morbi ornare sociosqu. Consequat dapibus sodales dignissim luctus porttitor venenatis nunc. Magna hac duis leo posuere condimentum; imperdiet ad orci."
     },
     {
       "name": "Document 3",
       "id": "3",
       "categoryId":"3",
       "url": "https://file-examples.com/storage/fe00d37cde6728af4966ebc/2017/10/file-sample_150kB.pdf",
-      "description": "Lorem ipsum odor amet, consectetuer adipiscing elit. Potenti vestibulum dapibus eleifend tellus metus; convallis nunc."
+      "expired": "15-06-2024",
+      "tags": ["Tag 1", "Tag 2", "Tag 3", "Tag 4"],
+      "short_desc": "Lorem ipsum odor amet",
+      "long_desc": "Lorem ipsum odor amet, consectetuer adipiscing elit. Potenti vestibulum dapibus eleifend tellus metus; convallis nunc."
     },
     {
       "name": "Document 4",
       "id": "4",
       "categoryId": "4",
       "url": "https://file-examples.com/storage/fe00d37cde6728af4966ebc/2017/10/file-example_PDF_1MB.pdf",
-      "description": "Lorem ipsum odor amet, consectetuer adipiscing elit. Felis mi commodo massa netus ullamcorper ornare. Porta primis nostra dapibus, orci ridiculus hac. Sem nec parturient; auctor fames quis metus curabitur libero. Nullam tortor ultrices primis et adipiscing sapien elementum."
+      "expired": "15-06-2024",
+      "tags": ["Tag 1", "Tag 2", "Tag 3", "Tag 4"],
+      "short_desc": "Lorem ipsum odor amet",
+      "long_desc": "Lorem ipsum odor amet, consectetuer adipiscing elit. Felis mi commodo massa netus ullamcorper ornare. Porta primis nostra dapibus, orci ridiculus hac. Sem nec parturient; auctor fames quis metus curabitur libero. Nullam tortor ultrices primis et adipiscing sapien elementum."
     },
     {
       "name":"Document 5",
       "id": "5",
       "categoryId" : "5",
       "url": "https://file-examples.com/storage/fe00d37cde6728af4966ebc/2017/10/file-example_PDF_1MB.pdf",
-      "description": "Lorem ipsum odor amet, consectetuer adipiscing elit."
+      "expired": "25-06-2024",
+      "tags": ["Tag 1", "Tag 2", "Tag 3", "Tag 4"],
+      "short_desc": "Lorem ipsum odor amet",
+      "long_desc": "Lorem ipsum odor amet, consectetuer adipiscing elit."
     },
     {
       "name": "Document 6",
       "id": "6",
       "categoryId" : "6",
       "url": "https://file-examples.com/storage/fe00d37cde6728af4966ebc/2017/10/file-example_PDF_500_kB.pdf",
-      "desctiption": "Lorem ipsum odor amet, consectetuer adipiscing elit. Varius magnis condimentum senectus lectus leo ligula. Ornare duis vehicula orci facilisi mollis in sollicitudin, et pharetra."
+      "expired": "30-06-2024",
+      "tags": ["Tag 1", "Tag 2", "Tag 3", "Tag 4"],
+      "short_desc": "Lorem ipsum odor amet",
+      "long_desc": "Lorem ipsum odor amet, consectetuer adipiscing elit. Varius magnis condimentum senectus lectus leo ligula. Ornare duis vehicula orci facilisi mollis in sollicitudin, et pharetra."
     }
   ]
 }
