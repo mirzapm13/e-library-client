@@ -11,12 +11,20 @@ import { TabViewModule } from 'primeng/tabview';
 import { CommonModule } from '@angular/common';
 import { map } from 'rxjs';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
+import { DataViewModule } from 'primeng/dataview';
+import { TreeNode } from 'primeng/api';
 
 @Component({
     selector: 'app-document-main',
     templateUrl: './document-main.component.html',
     standalone: true,
-    imports: [CommonModule, SafePipe, ButtonModule, TabViewModule],
+    imports: [
+        CommonModule,
+        SafePipe,
+        ButtonModule,
+        TabViewModule,
+        DataViewModule,
+    ],
 })
 export class DocumentMainComponent implements OnInit {
     constructor(private categoryService: CategoryService) {}
@@ -24,7 +32,7 @@ export class DocumentMainComponent implements OnInit {
 
     docSrc: string;
     currentDateTime = new Date();
-    selectedCategory;
+    selectedCategory: TreeNode[];
 
     ngOnInit(): void {
         this.docSrc = 'assets/docs/sample.pdf';

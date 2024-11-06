@@ -158,6 +158,8 @@ export class NewCategoryComponent implements OnInit {
             .getCategories()
             .pipe(
                 map((data) => {
+                    // console.log(data);
+
                     const grouped = groupByParent(data);
                     const mapped = recursiveMap(
                         grouped,
@@ -174,7 +176,6 @@ export class NewCategoryComponent implements OnInit {
                 })
             )
             .subscribe((data) => {
-                console.log(data);
                 this.categories = data;
             });
     }
