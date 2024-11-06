@@ -1,0 +1,56 @@
+.DocumentCard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 2rem;
+    gap: 20px;
+    border-bottom: 1px solid #e2e8f0;
+
+    &__Top {
+        display: flex;
+        width: 100%;
+        gap: 20px;
+    }
+
+    &__Bottom {
+        // display: none;
+        p {
+            line-height: 1.5rem !important;
+        }
+    }
+
+    &__Icon {
+        width: fit-content;
+    }
+
+    &__Details {
+        display: flex;
+        flex-direction: column;
+
+        &__Tags {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+
+            p {
+                border-radius: 50px;
+                padding-block: 4px;
+                background-color: #f3e3ca;
+                color: #614a28;
+                padding-inline: 6px;
+            }
+        }
+    }
+
+    &__More {
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        &__Buttons {
+            margin-top: 20px;
+            display: flex;
+            column-gap: 8px;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<div class="card">
+<!-- <div class="card">
     <p-tabView activeIndexChange="onTabChange">
         <p-tabPanel
             *ngFor="let category of categories"
@@ -7,10 +7,53 @@
             {{ selectedCategory }}
         </p-tabPanel>
     </p-tabView>
+</div> -->
+
+<div class="card">
+    <p-dataView #dv [value]="documents">
+        <ng-template pTemplate="list" let-documents>
+            <div class="grid">
+                <div class="DocumentCard" *ngFor="let doc of documents">
+                    <div class="DocumentCard__Top">
+                        <div class="DocumentCard__Icon">
+                            <img
+                                src="/assets/layout/images/pdf-file-format.png"
+                                alt="pdf-logo"
+                                width="60px"
+                            />
+                        </div>
+                        <div class="DocumentCard__Details">
+                            <h5 class="mb-1">{{ doc.name }}</h5>
+                            <p class="mb-3">{{ doc.parents }}</p>
+                            <p class="mb-4">{{ doc.short_desc }}</p>
+                        </div>
+                        <div class="DocumentCard__More">
+                            <p class="mb-2">Expired : {{ doc.expired }}</p>
+                            <div class="DocumentCard__Details__Tags">
+                                <p class="text-sm" *ngFor="let tag of doc.tags">
+                                    {{ tag }}
+                                </p>
+                            </div>
+                            <div class="DocumentCard__More__Buttons">
+                                <p-button
+                                    label="Read More"
+                                    size="small"
+                                    [outlined]="true"
+                                />
+                                <p-button label="View Document" size="small" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="DocumentCard__Bottom">
+                        <h6>Description</h6>
+                        <p>{{ doc.long_desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataView>
 </div>
-
-<!-- <div class="card">Test</div> -->
-
+<!-- 
 <div class="card">
     <iframe
         class="mb-4"
@@ -29,4 +72,4 @@
             (onClick)="downloadPdf()"
         />
     </div>
-</div>
+</div> -->
