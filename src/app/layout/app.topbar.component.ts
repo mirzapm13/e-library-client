@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-topbar',
@@ -32,22 +33,16 @@ export class AppTopbarComponent {
     logout() {
         this.oidcSecurityService
             .checkAuth()
-            .subscribe(
-                ({
-                    isAuthenticated,
-                    userData,
-                    accessToken,
-                    idToken,
-                    configId,
-                }) => {
-                    if (isAuthenticated) {
-                        this.oidcSecurityService
-                            .logoff(null, {
-                                customParams: { id_token_hint: idToken },
-                            })
-                            .subscribe();
-                    }
-                }
-            );
+            .pipe(
+                switchMap((auth) => {
+                    return this.oidcSecurityService.logoffAndRevokeTokens(
+                        null,
+                        {
+                            customParams: { id_token_hint: auth.idToken },
+                        }
+                    );
+                })
+            )
+            .subscribe();
     }
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { JwtService } from 'src/app/core/auth/services/jwt.service';
-import { finalize, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 @Component({
     templateUrl: './login.component.html',
@@ -24,9 +23,12 @@ export class LoginComponent implements OnInit {
             .pipe(
                 switchMap((auth) => {
                     if (auth.isAuthenticated) {
-                        return this.oidcSecurityService.logoff(null, {
-                            customParams: { id_token_hint: auth.idToken },
-                        });
+                        return this.oidcSecurityService.logoffAndRevokeTokens(
+                            null,
+                            {
+                                customParams: { id_token_hint: auth.idToken },
+                            }
+                        );
                     } else {
                         return of(auth);
                     }
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
+        this.loading = true;
         this.oidcSecurityService.authorize(null, {
             redirectUrl: 'http://localhost:4200/',
         });

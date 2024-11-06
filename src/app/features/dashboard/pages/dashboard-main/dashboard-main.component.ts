@@ -41,7 +41,7 @@ export class DashboardMainComponent implements OnInit {
                     idToken,
                     configId,
                 }) => {
-                    console.log(accessToken);
+                    console.log(userData);
                 }
             );
     }

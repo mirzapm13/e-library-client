@@ -1,0 +1,29 @@
+$primaryColor: #c9a672 !default;
+$primaryLightColor: #c7b08e !default;
+$primaryLighterColor: rgba($primaryLightColor, 0.1);
+$primaryDarkColor: #614a28 !default;
+$primaryDarkerColor: #41321a !default;
+$primaryTextColor: #ffffff !default;
+
+$highlightBg: $primaryLighterColor !default;
+$highlightTextColor: $primaryColor !default;
+$highlightFocusBg: rgba($primaryColor, 0.24) !default;
+
+@import "../_variables";
+@import "../../theme-base/_components";
+@import "../_extensions";
+
+.layout-topbar {
+    background-color: #f3dfa8 !important;
+}
+
+.layout-sidebar {
+    background: linear-gradient(336deg, #c2aa73 16%, #f3dfa8 100%) !important;
+}
+
+.field.grid {
+    > label {
+        align-items: baseline !important;
+        margin-top: 8px !important;
+    }
+}

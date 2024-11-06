@@ -1,0 +1,69 @@
+<div class="card">
+    <h5>Master Data - Category</h5>
+
+    <ng-container *ngIf="categories">
+        <div class="flex flex-column gap-4">
+            <div class="flex justify-content-end gap-2">
+                <p-button
+                    icon="pi pi-plus"
+                    label="New"
+                    severity="primary"
+                    (click)="goToNewCategory()"
+                />
+            </div>
+
+            <p-table
+                [value]="categories"
+                [paginator]="true"
+                [rows]="5"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [rowsPerPageOptions]="[5, 10, 20]"
+            >
+                <!-- [rowTrackBy]="trackByFunction" -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Parent</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-category let-i="rowIndex">
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.parentName }}</td>
+                        <td class="text-center">
+                            <ng-container
+                                *ngIf="!!category.status; else inactive"
+                            >
+                                <p-button
+                                    label="Active"
+                                    size="small"
+                                    severity="success"
+                                    class="menu-status"
+                                />
+                            </ng-container>
+                            <ng-template #inactive>
+                                <p-button
+                                    label="Inactive"
+                                    size="small"
+                                    severity="danger"
+                                    class="menu-status"
+                                />
+                            </ng-template>
+                        </td>
+                        <td class="text-center">
+                            <p-button
+                                icon="pi pi-user-edit"
+                                size="small"
+                                label="Edit"
+                                severity="secondary"
+                            />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </ng-container>
+</div>

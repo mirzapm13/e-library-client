@@ -12,7 +12,6 @@ const routes: Routes = [
     {
         path: '',
         component: AppLayoutComponent,
-        // canActivateChild: [AuthGuard],
         canActivate: [AuthGuard],
         children: [
             // { path: '', loadChildren: () => import('./demo/components/dashboards/dashboards.module').then((m) => m.DashboardsModule) },
@@ -42,11 +41,11 @@ const routes: Routes = [
                 path: 'library',
                 children: [
                     {
-                        path: '**',
+                        path: 'dokumen',
                         loadChildren: () =>
-                            import(
-                                './shared/components/accessdenied/accessdenied.module'
-                            ).then((m) => m.AccessdeniedModule),
+                            import('./features/document/document.module ').then(
+                                (m) => m.DocumentModule
+                            ),
                     },
                 ],
             },
