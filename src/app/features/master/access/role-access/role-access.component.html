@@ -1,0 +1,65 @@
+<div class="card">
+    <p-button
+        icon="pi pi-chevron-left"
+        label="Back"
+        size="small"
+        [outlined]="true"
+        (onClick)="clickBack()"
+    />
+
+    <h5>Role Management Access</h5>
+
+    <form [formGroup]="roleAccessForm" class="flex flex-column gap-2 mt-5">
+        <div class="field grid">
+            <label class="col-2" for="name">Name</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="name"
+                    id="name"
+                    formControlName="nama"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="position">Description</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    id="name"
+                    formControlName="description"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="position">Status</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    id="name"
+                    formControlName="status"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="role">Role</label>
+            <div class="col-12 md:col-10">
+                <p-dropdown
+                    styleClass="w-full"
+                    placeholder="Choose Role"
+                    formControlName="item"
+                    [options]="roleOptions"
+                />
+            </div>
+        </div>
+    </form>
+</div>

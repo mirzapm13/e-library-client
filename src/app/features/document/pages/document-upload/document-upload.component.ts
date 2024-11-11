@@ -1,24 +1,31 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import {
+    FormArray,
     FormBuilder,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { ChipsModule } from 'primeng/chips';
+import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { map } from 'rxjs';
-import { CategoryService } from 'src/app/shared/services/category.service';
 import { UsersService } from 'src/app/shared/services/users.service';
+import { CategoryService } from 'src/app/shared/services/category.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
 @Component({
-    selector: 'app-new-category',
+    selector: 'app-document-upload',
     standalone: true,
     imports: [
         CommonModule,
@@ -28,29 +35,41 @@ import { recursiveMap } from 'src/app/shared/utils/recursive-map';
         TreeSelectModule,
         FormsModule,
         ReactiveFormsModule,
-        MultiSelectModule,
+        FileUploadModule,
+        RadioButtonModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        DividerModule,
     ],
-    templateUrl: './new-category.component.html',
-    styleUrl: './new-category.component.scss',
+    templateUrl: './document-upload.component.html',
+    styleUrl: './document-upload.component.scss',
 })
-export class NewCategoryComponent implements OnInit {
-    newCategoryForm: FormGroup;
+export class DocumentUploadComponent implements OnInit {
+    uploadForm: FormGroup;
+    categories: any;
+    users: any = [];
 
     constructor(
-        private location: Location,
+        private router: Router,
         private categoryService: CategoryService,
         private fb: FormBuilder,
         private usersService: UsersService
     ) {
-        this.newCategoryForm = this.fb.group({
+        this.uploadForm = this.fb.group({
             name: [''],
-            status: [false],
+            short_desc: [''],
+            long_desc: [''],
+            // status: [false],
             selectedCategory: [],
-            selectedUsers: [],
+            files: [[]],
+            kriteria: [],
+            klasifikasi: [],
+            expired: [],
+            tags: [[]],
+            approvals: this.fb.array([this.createItem()]),
         });
     }
-    categories = [];
-    users = [];
 
     ngOnInit(): void {
         this.categoryService
@@ -78,19 +97,36 @@ export class NewCategoryComponent implements OnInit {
 
         this.usersService.getUsers().subscribe((data) => {
             if (data.value) {
-                this.users = data.value.map((data) => {
-                    return { label: data.nama, value: data };
+                const mapped = data.value.map((item) => {
+                    return { ...item, label: item.nama, value: item.id };
                 });
-                console.log(this.users);
+                this.users = mapped;
+                console.log(mapped);
             }
         });
     }
 
     clickBack() {
-        this.location.back();
+        this.router.navigateByUrl('/library/dokumen');
     }
 
     onSubmit() {
-        console.log(this.newCategoryForm.value);
+        console.log(this.uploadForm.value);
+    }
+
+    //==== dynamic form
+
+    createItem(): FormGroup {
+        return this.fb.group({
+            item: [],
+        });
+    }
+
+    addNameField(): void {
+        this.approvals.push(this.createItem());
+    }
+
+    get approvals(): FormArray {
+        return this.uploadForm.get('approvals') as FormArray;
     }
 }

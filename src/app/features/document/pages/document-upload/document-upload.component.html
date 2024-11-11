@@ -1,0 +1,222 @@
+<div class="card min-h-full">
+    <p-button
+        icon="pi pi-chevron-left"
+        label="Back"
+        (onClick)="clickBack()"
+        size="small"
+        [outlined]="true"
+    />
+
+    <h5>Upload Dokumen</h5>
+
+    <form
+        class="flex flex-column gap-2 mt-5"
+        [formGroup]="uploadForm"
+        (ngSubmit)="onSubmit()"
+    >
+        <div class="field grid">
+            <label class="col-2" for="file">Choose File</label>
+            <div class="col-12 md:col-10">
+                <p-fileUpload
+                    #fu
+                    mode="basic"
+                    chooseLabel="Upload"
+                    chooseIcon="pi pi-upload"
+                    name="file[]"
+                    url="https://www.primefaces.org/cdn/api/upload.php"
+                    accept="application/pdf"
+                />
+                <!-- maxFileSize="1000000"
+                    (onUpload)="onUpload($event)" -->
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="name">Document Number</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="name"
+                    id="name"
+                    formControlName="name"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="name">Title</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="short_desc"
+                    id="short_desc"
+                    formControlName="short_desc"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="name">Description</label>
+            <div class="col-12 md:col-10">
+                <textarea
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="long_desc"
+                    id="long_desc"
+                    rows="5"
+                    formControlName="long_desc"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="status">Category</label>
+            <div class="col-12 md:col-10">
+                <p-treeSelect
+                    formControlName="selectedCategory"
+                    [filter]="true"
+                    class="block w-full"
+                    [options]="categories"
+                    selectionMode="single"
+                    name="category"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="status">Kriteria</label>
+            <div class="flex gap-5 col-12 md:col-10">
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        name="kriteria"
+                        value="Public"
+                        formControlName="kriteria"
+                        inputId="kriteria1"
+                    />
+                    <label for="kriteria1" class="ml-2"> Public </label>
+                </div>
+
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        name="kriteria"
+                        value="Rahasia"
+                        formControlName="kriteria"
+                        inputId="kriteria2"
+                    />
+                    <label for="kriteria2" class="ml-2"> Rahasia </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="status">Klasifikasi Dokumen</label>
+            <div class="flex gap-5 col-12 md:col-10">
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        name="klasifikasi"
+                        value="Top Management"
+                        formControlName="klasifikasi"
+                        inputId="klasifikasi1"
+                    />
+                    <label for="klasifikasi1" class="ml-2">
+                        Top Management
+                    </label>
+                </div>
+
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        name="klasifikasi"
+                        value="Middle"
+                        formControlName="klasifikasi"
+                        inputId="klasifikasi2"
+                    />
+                    <label for="klasifikasi2" class="ml-2"> Middle </label>
+                </div>
+
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        name="klasifikasi"
+                        value="Staff"
+                        formControlName="klasifikasi"
+                        inputId="klasifikasi3"
+                    />
+                    <label for="klasifikasi3" class="ml-2"> Staff </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="status">Tanggal Expired</label>
+            <div class="flex gap-5 col-12 md:col-10">
+                <p-calendar
+                    class="CalendarInput"
+                    formControlName="expired"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                    inputId="icondisplay"
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="tag">Tag</label>
+            <div class="flex gap-5 col-12 md:col-10">
+                <p-chips
+                    class="TagInput"
+                    styleClass="TagInput"
+                    formControlName="tags"
+                    name="tag"
+                    [max]="4"
+                    placeholder="Maximum 4 items"
+                />
+            </div>
+        </div>
+
+        <p-divider />
+
+        <div class="field grid">
+            <label class="col-2" for="approval">Approver(s)</label>
+            <div
+                formArrayName="approvals"
+                class="flex flex-column gap-2 md:col-10 px-3 py-0"
+            >
+                <div
+                    *ngFor="
+                        let item of approvals.controls;
+                        let i = index;
+                        let isLast = last
+                    "
+                    [formGroupName]="i"
+                    class="flex flex-column gap-3"
+                >
+                    <p-dropdown
+                        styleClass="w-full"
+                        placeholder="Choose Approver"
+                        formControlName="item"
+                        [options]="users"
+                    />
+
+                    <p-button
+                        *ngIf="isLast"
+                        type="button"
+                        (click)="addNameField()"
+                        label="Add Name"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <p-divider />
+
+        <div class="flex justify-content-end mt-8">
+            <p-button class="" type="submit" label="Submit"></p-button>
+        </div>
+    </form>
+</div>

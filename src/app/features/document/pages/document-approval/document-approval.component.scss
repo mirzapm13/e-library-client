@@ -1,11 +1,3 @@
-.CardTitle {
-    h5 {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-}
-
 .DocumentCard {
     display: flex;
     flex-direction: column;
@@ -38,9 +30,6 @@
             display: flex;
             gap: 8px;
             margin-top: auto;
-            width: 230px;
-            max-width: 230px;
-            justify-content: end;
 
             p {
                 border-radius: 50px;
@@ -52,16 +41,20 @@
         }
     }
 
+    &__Approval {
+        padding-left: 20px;
+        display: flex;
+        align-items: baseline;
+    }
+
     &__More {
         margin-left: auto;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
         &__Buttons {
             margin-top: 20px;
             display: flex;
-            justify-content: end;
             column-gap: 8px;
         }
     }

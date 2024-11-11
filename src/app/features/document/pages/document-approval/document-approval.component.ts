@@ -1,42 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PDFDocument, rgb } from 'pdf-lib';
+import { TreeNode } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { download } from 'src/app/shared/utils/download-file';
-import { SafePipe } from 'src/app/shared/pipes/safe-url-pipe';
+import { DataViewModule } from 'primeng/dataview';
+import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
+import { TreeSelectModule } from 'primeng/treeselect';
+import { map } from 'rxjs';
 import {
     CategoryService,
     ICategoryState,
 } from 'src/app/shared/services/category.service';
-import { TabViewModule } from 'primeng/tabview';
-import { CommonModule } from '@angular/common';
-import { map } from 'rxjs';
-import { groupByParent } from 'src/app/shared/utils/group-by-parent';
-import { DataViewModule } from 'primeng/dataview';
-import { TreeNode } from 'primeng/api';
 import { DocumentService } from 'src/app/shared/services/document.service';
-import { InputTextModule } from 'primeng/inputtext';
+import { download } from 'src/app/shared/utils/download-file';
+import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
-import { TreeSelectModule } from 'primeng/treeselect';
-import { Router } from '@angular/router';
-import { MenubarModule } from 'primeng/menubar';
 
 @Component({
-    selector: 'app-document-main',
-    templateUrl: './document-main.component.html',
-    styleUrl: './document-main.component.scss',
+    selector: 'app-document-approval',
     standalone: true,
     imports: [
         CommonModule,
-        SafePipe,
         ButtonModule,
-        TabViewModule,
-        DataViewModule,
         InputTextModule,
         TreeSelectModule,
+        DataViewModule,
         MenubarModule,
     ],
+    templateUrl: './document-approval.component.html',
+    styleUrl: './document-approval.component.scss',
 })
-export class DocumentMainComponent implements OnInit {
+export class DocumentApprovalComponent {
     constructor(
         private categoryService: CategoryService,
         private documentService: DocumentService,
@@ -70,12 +66,11 @@ export class DocumentMainComponent implements OnInit {
                             return {
                                 label: item.name,
                                 id: item.id,
-                                ...(item.items && { items: item.items }),
+                                ...(item.items && { children: item.items }),
                             };
                         },
                         'items'
                     );
-                    console.log(mapped);
                     return mapped;
                 })
             )
@@ -128,10 +123,6 @@ export class DocumentMainComponent implements OnInit {
     }
 
     goToDocument(id) {
-        this.router.navigateByUrl(`/library/dokumen/${id}`);
-    }
-
-    goToUpload() {
-        this.router.navigateByUrl(`/library/upload`);
+        this.router.navigateByUrl(`/library/approval/${id}`);
     }
 }

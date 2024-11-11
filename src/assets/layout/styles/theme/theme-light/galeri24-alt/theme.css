@@ -6152,4 +6152,45 @@ p {
   margin: 0 0 0 0 !important;
 }
 
+.pills {
+  border-radius: 50px;
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+
+.pills.status-approved {
+  background: #c8e6c9;
+  color: #256029;
+}
+
+.pills.status-rejected {
+  background: #ffcdd2;
+  color: #c63737;
+}
+
+.pills.status-waiting {
+  background: #feedaf;
+  color: #8a5340;
+}
+
+.pills.status-returned {
+  background: #eccfff;
+  color: #694382;
+}
+
+.TagInput {
+  width: 100%;
+}
+
+.TagInput .p-inputtext {
+  width: 100%;
+}
+
+.TagInput .p-inputtext ul {
+  width: 100%;
+}
+
 /*# sourceMappingURL=theme.css.map */

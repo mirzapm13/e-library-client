@@ -3,6 +3,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { MasterModule } from './features/master/master.module';
 import { AuthGuard } from './auth-guard.service';
+import { Breadcrumb } from 'primeng/breadcrumb';
 
 const routerOptions: ExtraOptions = {
     anchorScrolling: 'enabled',
@@ -30,24 +31,20 @@ const routes: Routes = [
                         (m) => m.DashboardModule
                     ),
             },
-            {
-                path: 'user',
-                loadChildren: () =>
-                    import('./features/user/user.module').then(
-                        (m) => m.UserModule
-                    ),
-            },
+            // {
+            //     path: 'user',
+            //     loadChildren: () =>
+            //         import('./features/user/user.module').then(
+            //             (m) => m.UserModule
+            //         ),
+            // },
             {
                 path: 'library',
-                children: [
-                    {
-                        path: 'dokumen',
-                        loadChildren: () =>
-                            import('./features/document/document.module ').then(
-                                (m) => m.DocumentModule
-                            ),
-                    },
-                ],
+                data: { breadcrumb: 'Library' },
+                loadChildren: () =>
+                    import('./features/document/document.module ').then(
+                        (m) => m.DocumentModule
+                    ),
             },
             {
                 path: 'master-data',

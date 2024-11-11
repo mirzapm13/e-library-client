@@ -1,12 +1,5 @@
 <div class="MainContainer">
     <div class="card">
-        <!-- <div class="p-3 flex justify-content-end">
-            <p-button
-                icon="pi pi-plus"
-                label="Upload Dokumen"
-                (onClick)="goToUpload()"
-            />
-        </div> -->
         <div class="p-3">
             <p-menubar [model]="categories" />
         </div>
@@ -17,12 +10,12 @@
                         type="text"
                         class="w-full"
                         pInputText
-                        placeholder="Search by Keyword"
+                        placeholder="Search by Doc. Number"
                     />
                     <i class="pi pi-search"></i>
                 </span>
             </div>
-            <!-- <div class="col-3">
+            <div class="col-3">
                 <span class="p-input-icon-right w-full">
                     <input
                         type="text"
@@ -32,8 +25,8 @@
                     />
                     <i class="pi pi-search"></i>
                 </span>
-            </div> -->
-            <!-- <div class="col-3">
+            </div>
+            <div class="col-3">
                 <span class="p-input-icon-right w-full">
                     <input
                         type="text"
@@ -43,7 +36,7 @@
                     />
                     <i class="pi pi-search"></i>
                 </span>
-            </div> -->
+            </div>
             <!-- <div class="col-3">
                 <p-treeSelect
                     formControlName="selectedCategory"
@@ -56,16 +49,11 @@
                 />
             </div> -->
 
-            <div class="flex col-3 justify-content-between">
+            <div class="col-1">
                 <p-button
-                    severity="secondary"
                     icon="pi pi-search"
                     label="Search"
-                />
-                <p-button
-                    icon="pi pi-plus"
-                    label="Upload Dokumen"
-                    (onClick)="goToUpload()"
+                    severity="secondary"
                 />
             </div>
         </div>
@@ -84,21 +72,22 @@
                             </div>
                             <div class="DocumentCard__Details">
                                 <h5 class="mb-1">{{ doc.name }}</h5>
-
-                                <p
-                                    class="mb-1"
-                                    style="
-                                        font-weight: 700;
-                                        font-size: 1.25rem;
-                                        text-transform: uppercase;
-                                    "
-                                >
-                                    {{ doc.short_desc }}
-                                </p>
+                                <p class="mb-2">Requested By : User</p>
                                 <p class="mb-3">{{ doc.parents }}</p>
+                                <!-- <p class="mb-4">{{ doc.short_desc }}</p> -->
+                            </div>
+                            <div class="DocumentCard__Approval">
+                                <p>
+                                    Approval status :
+                                    <span
+                                        [class]="'pills status-' + doc.status"
+                                        >{{ doc.status }}</span
+                                    >
+                                </p>
                             </div>
                             <div class="DocumentCard__More">
                                 <p class="mb-2">Expired : {{ doc.expired }}</p>
+
                                 <div class="DocumentCard__Details__Tags">
                                     <p
                                         class="text-sm"
@@ -119,12 +108,13 @@
                                         (onClick)="goToDocument(doc.id)"
                                     />
                                 </div>
+                                <!-- (onClick)="goToDocument(doc.id)" -->
                             </div>
                         </div>
-                        <div class="DocumentCard__Bottom">
+                        <!-- <div class="DocumentCard__Bottom">
                             <h6>Description</h6>
                             <p>{{ doc.long_desc }}</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </ng-template>

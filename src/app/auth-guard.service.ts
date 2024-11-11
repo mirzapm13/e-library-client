@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.oidcSecurityService.checkAuth().pipe(
             switchMap((auth) => {
+                console.log(auth.isAuthenticated);
                 if (auth.isAuthenticated) {
                     return this.userService.fetchUserData().pipe(
                         map(() => true),

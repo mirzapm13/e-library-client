@@ -1,56 +1,54 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import {
+    FormArray,
     FormBuilder,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { DividerModule } from 'primeng/divider';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { map } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
-import { UsersService } from 'src/app/shared/services/users.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
 @Component({
-    selector: 'app-new-category',
+    selector: 'app-category-access',
     standalone: true,
     imports: [
         CommonModule,
         ButtonModule,
-        InputSwitchModule,
-        InputTextModule,
-        TreeSelectModule,
         FormsModule,
         ReactiveFormsModule,
-        MultiSelectModule,
+        InputTextModule,
+        DropdownModule,
+        DividerModule,
+        TreeSelectModule,
     ],
-    templateUrl: './new-category.component.html',
-    styleUrl: './new-category.component.scss',
+    templateUrl: './category-access.component.html',
+    styleUrl: './category-access.component.scss',
 })
-export class NewCategoryComponent implements OnInit {
-    newCategoryForm: FormGroup;
+export class CategoryAccessComponent implements OnInit {
+    categoryAccessForm: FormGroup;
+    categoryOptions: any;
 
     constructor(
-        private location: Location,
-        private categoryService: CategoryService,
+        private router: Router,
         private fb: FormBuilder,
-        private usersService: UsersService
+        private categoryService: CategoryService
     ) {
-        this.newCategoryForm = this.fb.group({
-            name: [''],
-            status: [false],
-            selectedCategory: [],
-            selectedUsers: [],
+        this.categoryAccessForm = this.fb.group({
+            nama: [],
+            jabatan: [],
+            categories: this.fb.array([this.createItem()]),
         });
     }
-    categories = [];
-    users = [];
 
     ngOnInit(): void {
         this.categoryService
@@ -73,24 +71,25 @@ export class NewCategoryComponent implements OnInit {
                 })
             )
             .subscribe((data) => {
-                this.categories = data;
+                this.categoryOptions = data;
             });
-
-        this.usersService.getUsers().subscribe((data) => {
-            if (data.value) {
-                this.users = data.value.map((data) => {
-                    return { label: data.nama, value: data };
-                });
-                console.log(this.users);
-            }
-        });
     }
 
     clickBack() {
-        this.location.back();
+        this.router.navigateByUrl('/master-data/access');
     }
 
-    onSubmit() {
-        console.log(this.newCategoryForm.value);
+    createItem(): FormGroup {
+        return this.fb.group({
+            item: [],
+        });
+    }
+
+    addCategoryField(): void {
+        this.categories.push(this.createItem());
+    }
+
+    get categories(): FormArray {
+        return this.categoryAccessForm.get('categories') as FormArray;
     }
 }

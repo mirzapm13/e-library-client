@@ -13,6 +13,8 @@ export function groupByParent(arr) {
             const parentId = map.get(obj.parentId);
             if (parentId) {
                 parentId.childs.push(map.get(obj.id));
+            } else {
+                root.push(map.get(obj.id));
             }
         } else {
             // If no parent, this is a root object

@@ -13,7 +13,6 @@
     }
 
     &__Bottom {
-        // display: none;
         p {
             line-height: 1.5rem !important;
         }
@@ -31,6 +30,9 @@
             display: flex;
             gap: 8px;
             margin-top: auto;
+            width: 230px;
+            max-width: 230px;
+            flex-wrap: wrap;
 
             p {
                 border-radius: 50px;

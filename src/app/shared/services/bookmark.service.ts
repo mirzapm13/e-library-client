@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root',
 })
-export class DocumentService {
+export class BookmarkService {
     constructor(private readonly http: HttpClient) {}
 
-    getDocuments(): Observable<any> {
-        return this.http.get<any>('/documents');
+    getBookmarks(): Observable<any> {
+        return this.http.get<any>('/bookmarks');
     }
 
-    getDocument(id): Observable<any> {
-        return this.http.get<any>(`/documents/${id}`);
-    }
+    // getDocument(id): Observable<any> {
+    //     return this.http.get<any>(`/bookmark/${id}`);
+    // }
 }

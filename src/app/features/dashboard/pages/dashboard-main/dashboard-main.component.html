@@ -1,36 +1,134 @@
 <div class="grid">
     <div class="col-6">
         <div class="card h-full">
-            <h5>Matriks Penggunaan</h5>
-            <p-chart
-                type="line"
-                [data]="lineChartData"
-                [options]="lineChartOptions"
-            ></p-chart>
+            <div class="CardTitle">
+                <h5>New Document<span class="pi pi-check-square"></span></h5>
+            </div>
+
+            <p-dataView #dv [value]="bookmarks">
+                <ng-template pTemplate="list" let-documents>
+                    <div class="grid">
+                        <div class="DocumentCard" *ngFor="let doc of documents">
+                            <div class="DocumentCard__Top">
+                                <div class="DocumentCard__Icon">
+                                    <img
+                                        src="/assets/layout/images/pdf-file-format.png"
+                                        alt="pdf-logo"
+                                        width="60px"
+                                    />
+                                </div>
+                                <div class="DocumentCard__Details">
+                                    <h5 class="mb-1">{{ doc.name }}</h5>
+
+                                    <p
+                                        class="mb-1"
+                                        style="
+                                            font-weight: 700;
+                                            font-size: 1.25rem;
+                                            text-transform: uppercase;
+                                        "
+                                    >
+                                        {{ doc.short_desc }}
+                                    </p>
+                                    <p class="mb-3">{{ doc.parents }}</p>
+                                </div>
+                                <div class="DocumentCard__More">
+                                    <div class="DocumentCard__Details__Tags">
+                                        <p
+                                            class="text-sm"
+                                            *ngFor="let tag of doc.tags"
+                                        >
+                                            {{ tag }}
+                                        </p>
+                                    </div>
+                                    <div class="DocumentCard__More__Buttons">
+                                        <p-button
+                                            label="View Document"
+                                            size="small"
+                                            (onClick)="goToDocument(doc.id)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="DocumentCard__Bottom">
+                                <h6>Description</h6>
+                                <p>{{ doc.long_desc }}</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
         </div>
     </div>
     <div class="col-6">
         <div class="card h-full">
-            <h5>Berdasarkan Kategori</h5>
-            <p-chart
-                type="doughnut"
-                [data]="pieChartData"
-                [options]="pieChartOptions"
-            />
+            <div class="CardTitle">
+                <h5>Bookmark <span class="pi pi-bookmark-fill"></span></h5>
+            </div>
+
+            <p-dataView #dv [value]="bookmarks">
+                <ng-template pTemplate="list" let-documents>
+                    <div class="grid">
+                        <div class="DocumentCard" *ngFor="let doc of documents">
+                            <div class="DocumentCard__Top">
+                                <div class="DocumentCard__Icon">
+                                    <img
+                                        src="/assets/layout/images/pdf-file-format.png"
+                                        alt="pdf-logo"
+                                        width="60px"
+                                    />
+                                </div>
+                                <div class="DocumentCard__Details">
+                                    <h5 class="mb-1">{{ doc.name }}</h5>
+
+                                    <p
+                                        class="mb-1"
+                                        style="
+                                            font-weight: 700;
+                                            font-size: 1.25rem;
+                                            text-transform: uppercase;
+                                        "
+                                    >
+                                        {{ doc.short_desc }}
+                                    </p>
+                                    <p class="mb-3">{{ doc.parents }}</p>
+                                </div>
+                                <div class="DocumentCard__More">
+                                    <div class="DocumentCard__Details__Tags">
+                                        <p
+                                            class="text-sm"
+                                            *ngFor="let tag of doc.tags"
+                                        >
+                                            {{ tag }}
+                                        </p>
+                                    </div>
+                                    <div class="DocumentCard__More__Buttons">
+                                        <p-button
+                                            label="View Document"
+                                            size="small"
+                                            (onClick)="goToDocument(doc.id)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
         </div>
     </div>
 </div>
 
-<div class="grid">
+<!-- <div class="grid">
     <div class="col-6">
         <div class="card">
             <h5>Pengumuman</h5>
         </div>
     </div>
-    <div class="col-6">
-        <div class="card">
-            <h5>Dokumen Terbaaru</h5>
-            <button (click)="getToken()">Get Token</button>
-        </div>
-    </div>
-</div>
+</div> -->
+
+<!-- <p-chart
+    type="line"
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+></p-chart> -->

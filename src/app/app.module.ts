@@ -7,6 +7,8 @@ import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { AuthConfigModule } from './auth/auth-config.module';
+import { AbstractSecurityStorage } from 'angular-auth-oidc-client';
+import { MyStorageService } from './auth/auth-custom-storage';
 
 @NgModule({
     declarations: [AppComponent],
@@ -19,6 +21,7 @@ import { AuthConfigModule } from './auth/auth-config.module';
                 tokenInterceptor,
             ])
         ),
+        { provide: AbstractSecurityStorage, useClass: MyStorageService },
     ],
     bootstrap: [AppComponent],
 })

@@ -1,0 +1,35 @@
+.Container {
+    display: grid;
+    grid-template-columns: minmax(100px, 4fr) minmax(100px, 3fr);
+    gap: 40px;
+
+    &__Details {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+
+        .Top {
+            &__Tags {
+                display: flex;
+                gap: 8px;
+                margin-top: 10px;
+
+                p {
+                    border-radius: 50px;
+                    padding-block: 4px;
+                    background-color: #f3e3ca;
+                    color: #614a28;
+                    padding-inline: 6px;
+                }
+            }
+        }
+
+        .Bottom {
+        }
+
+        .Buttons {
+            display: flex;
+            justify-content: end;
+        }
+    }
+}
