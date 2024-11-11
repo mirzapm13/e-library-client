@@ -13,7 +13,7 @@ const routes: Routes = [
     {
         path: '',
         component: AppLayoutComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],/
         children: [
             // { path: '', loadChildren: () => import('./demo/components/dashboards/dashboards.module').then((m) => m.DashboardsModule) },
             {
