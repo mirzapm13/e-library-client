@@ -7,9 +7,10 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { InputGroupModule } from 'primeng/inputgroup';
+import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 
 @Component({
     selector: 'app-new-role',
@@ -21,12 +22,20 @@ import { InputTextModule } from 'primeng/inputtext';
         CommonModule,
         ReactiveFormsModule,
         InputTextModule,
+        TableModule,
+        CheckboxModule,
     ],
     templateUrl: './new-access.component.html',
     styleUrl: './new-access.component.scss',
 })
 export class NewAccessComponent {
     newRoleForm: FormGroup;
+    access = {
+        view: true,
+        upload: true,
+        approve: true,
+        edit: true,
+    };
 
     constructor(private fb: FormBuilder, private location: Location) {
         this.newRoleForm = this.fb.group({
@@ -42,7 +51,11 @@ export class NewAccessComponent {
             // role: [[]],
             name: [''],
             description: [''],
-            status: [true],
+            status: [false],
+            view: [true],
+            upload: [false],
+            approve: [false],
+            edit: [false],
         });
     }
 

@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
-import { CategoryService } from 'src/app/shared/services/category.service';
 import { RolesService } from 'src/app/shared/services/role.service';
 
 @Component({

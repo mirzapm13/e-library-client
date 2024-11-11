@@ -25,7 +25,7 @@ export class MasterAccessComponent implements OnInit {
     ngOnInit(): void {
         this.roleService.getRoles().subscribe((item) => {
             if (item.value) this.roles = item.value;
-            // console.log(item.value);
+            console.log(item.value);
         });
         // this.usersService.getUsers().subscribe((item) => {
         //     console.log(item);

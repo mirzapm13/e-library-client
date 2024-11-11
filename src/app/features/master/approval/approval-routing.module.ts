@@ -12,6 +12,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.MasterApprovalComponent
                     ),
             },
+            {
+                path: 'edit/:id',
+                data: { breadcrumb: 'Edit Approval' },
+                loadComponent: () =>
+                    import('./edit-approval/edit-approval.component').then(
+                        (m) => m.EditApprovalComponent
+                    ),
+            },
         ]),
     ],
     exports: [RouterModule],

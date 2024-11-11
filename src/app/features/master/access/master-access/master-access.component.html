@@ -43,7 +43,8 @@
                             /> -->
                             <!-- class="menu-status" -->
                             <p-button
-                                label="Inactive"
+                                *ngIf="role.status; else inactive"
+                                label="Active"
                                 size="small"
                                 severity="success"
                                 class="menu-status"

@@ -1,0 +1,87 @@
+<div class="card">
+    <p-button
+        icon="pi pi-chevron-left"
+        label="Back"
+        size="small"
+        [outlined]="true"
+        (onClick)="clickBack()"
+    />
+
+    <h5>Edit Approval Category</h5>
+
+    <form [formGroup]="editApprovalForm" class="flex flex-column gap-2 mt-5">
+        <div class="field grid">
+            <label class="col-2" for="name">Name</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="name"
+                    id="name"
+                    formControlName="name"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="position">Status</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    id="name"
+                    formControlName="status"
+                />
+            </div>
+        </div>
+
+        <p-divider />
+
+        <div class="field grid">
+            <label class="col-2" for="categories">Categories</label>
+            <div
+                formArrayName="categories"
+                class="flex flex-column gap-2 md:col-10 px-3 py-0"
+            >
+                <div
+                    *ngFor="
+                        let item of categories.controls;
+                        let i = index;
+                        let isLast = last
+                    "
+                    [formGroupName]="i"
+                    class="flex flex-column gap-3"
+                >
+                    <!-- <p-dropdown
+                        styleClass="w-full"
+                        placeholder="Choose Categories"
+                        formControlName="item"
+                        [options]="categoryOptions"
+                    /> -->
+
+                    <p-treeSelect
+                        formControlName="item"
+                        [filter]="true"
+                        class="block w-full"
+                        [options]="categoryOptions"
+                        selectionMode="single"
+                        name="category"
+                        [required]="true"
+                        placeholder="Choose Category"
+                    />
+
+                    <p-button
+                        *ngIf="isLast"
+                        type="button"
+                        (click)="addCategoryField()"
+                        label="Add Category"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <p-divider />
+    </form>
+</div>
