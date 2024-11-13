@@ -115,7 +115,7 @@ export class MenuEditComponent {
         this.menuService
             .editMenu(this.id, this.editMenuForm.value)
             .subscribe(({ isLoading, error, value }) => {
-                console.log(value);
+                console.log(value.message);
             });
     }
 

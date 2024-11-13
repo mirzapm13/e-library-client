@@ -30,6 +30,7 @@ export class MenuMainComponent implements OnInit {
             .getMenus()
             .subscribe(({ isLoading, error, value }) => {
                 if (error) return;
+                if (!value) return;
                 this.menus = value.data;
             });
     }
