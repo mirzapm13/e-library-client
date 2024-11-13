@@ -7,7 +7,7 @@
         [outlined]="true"
     />
 
-    <h5>Upload Dokumen</h5>
+    <h5>Document Upload</h5>
 
     <form
         class="flex flex-column gap-2 mt-5"
@@ -89,7 +89,7 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Kriteria</label>
+            <label class="col-2" for="status">Criteria</label>
             <div class="flex gap-5 col-12 md:col-10">
                 <div class="flex align-items-center">
                     <p-radioButton
@@ -98,7 +98,7 @@
                         formControlName="kriteria"
                         inputId="kriteria1"
                     />
-                    <label for="kriteria1" class="ml-2"> Public </label>
+                    <label for="kriteria1" class="ml-2"> Internal </label>
                 </div>
 
                 <div class="flex align-items-center">
@@ -108,13 +108,13 @@
                         formControlName="kriteria"
                         inputId="kriteria2"
                     />
-                    <label for="kriteria2" class="ml-2"> Rahasia </label>
+                    <label for="kriteria2" class="ml-2"> Restricted </label>
                 </div>
             </div>
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Klasifikasi Dokumen</label>
+            <label class="col-2" for="status">Document Clasification</label>
             <div class="flex gap-5 col-12 md:col-10">
                 <div class="flex align-items-center">
                     <p-radioButton
@@ -151,7 +151,18 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Tanggal Expired</label>
+            <label class="col-2" for="status">Release Document</label>
+            <div class="flex gap-5 col-12 md:col-10">
+                <p-checkbox
+                    formControlName="view"
+                    [binary]="true"
+                    inputId="binary"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <label class="col-2" for="status">Expired Date</label>
             <div class="flex gap-5 col-12 md:col-10">
                 <p-calendar
                     class="CalendarInput"

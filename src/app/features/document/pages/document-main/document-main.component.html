@@ -22,41 +22,8 @@
                     <i class="pi pi-search"></i>
                 </span>
             </div>
-            <!-- <div class="col-3">
-                <span class="p-input-icon-right w-full">
-                    <input
-                        type="text"
-                        class="w-full"
-                        pInputText
-                        placeholder="Search by Tags"
-                    />
-                    <i class="pi pi-search"></i>
-                </span>
-            </div> -->
-            <!-- <div class="col-3">
-                <span class="p-input-icon-right w-full">
-                    <input
-                        type="text"
-                        class="w-full"
-                        pInputText
-                        placeholder="Search by Description"
-                    />
-                    <i class="pi pi-search"></i>
-                </span>
-            </div> -->
-            <!-- <div class="col-3">
-                <p-treeSelect
-                    formControlName="selectedCategory"
-                    [filter]="true"
-                    class="block w-full"
-                    [options]="categories"
-                    selectionMode="single"
-                    name="category"
-                    placeholder="Search by Category"
-                />
-            </div> -->
 
-            <div class="flex col-3 justify-content-between">
+            <div class="flex col-9 justify-content-between">
                 <p-button
                     severity="secondary"
                     icon="pi pi-search"
@@ -96,6 +63,15 @@
                                     {{ doc.short_desc }}
                                 </p>
                                 <p class="mb-3">{{ doc.parents }}</p>
+
+                                <div class="DocumentCard__Details__Icons">
+                                    <i class="pi pi-user"></i>
+                                    <span>Username</span>
+                                </div>
+                                <div class="DocumentCard__Details__Icons">
+                                    <i class="pi pi-clock"></i>
+                                    <span>12 November 2024, 13:47:45</span>
+                                </div>
                             </div>
                             <div class="DocumentCard__More">
                                 <p class="mb-2">Expired : {{ doc.expired }}</p>
