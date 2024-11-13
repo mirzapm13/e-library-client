@@ -31,7 +31,7 @@
 
                 <ng-template pTemplate="body" let-role let-i="rowIndex">
                     <tr>
-                        <td>{{ role.nama }}</td>
+                        <td>{{ role.name }}</td>
                         <td>{{ role.description }}</td>
                         <td class="text-center">
                             <!-- <p-button
@@ -64,7 +64,7 @@
                                 size="small"
                                 label="Edit"
                                 severity="secondary"
-                                (onClick)="goToEditAccess(1)"
+                                (onClick)="goToEditAccess(role.id)"
                             />
                         </td>
                     </tr>

@@ -23,13 +23,9 @@ export class MasterAccessComponent implements OnInit {
     roles: any[] = [];
 
     ngOnInit(): void {
-        this.roleService.getRoles().subscribe((item) => {
-            if (item.value) this.roles = item.value;
-            console.log(item.value);
+        this.roleService.getRoles().subscribe(({ isLoading, error, value }) => {
+            this.roles = value.data;
         });
-        // this.usersService.getUsers().subscribe((item) => {
-        //     console.log(item);
-        // });
     }
 
     goToNewRole() {
@@ -45,6 +41,6 @@ export class MasterAccessComponent implements OnInit {
     }
 
     goToEditAccess(id) {
-        this.router.navigateByUrl(`/master-data/access/role/${id}`);
+        this.router.navigateByUrl(`/master-data/access/edit/${id}`);
     }
 }

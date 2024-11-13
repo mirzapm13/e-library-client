@@ -36,6 +36,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.RoleAccessComponent
                     ),
             },
+            {
+                path: 'edit/:id',
+                data: { breadcrumb: 'Edit Access' },
+                loadComponent: () =>
+                    import('./edit-access/edit-access.component').then(
+                        (m) => m.EditAccessComponent
+                    ),
+            },
         ]),
     ],
     exports: [RouterModule],

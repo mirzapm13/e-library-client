@@ -105,8 +105,8 @@ export class MenuNewComponent implements OnInit {
             console.log('not valid');
             return;
         }
-        console.log(this.newMenuForm.value);
-        return;
+        // console.log(this.newMenuForm.value);
+        // return;
         this.menuService
             .addMenu(this.newMenuForm.value)
             .subscribe(({ isLoading, error, value }) => {

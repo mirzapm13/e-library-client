@@ -47,7 +47,6 @@ export class MenuEditComponent {
             parent_id: [null],
             order: ['', Validators.required],
             status: [true, Validators.required],
-
             description: [''],
         });
     }

@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -7,6 +7,7 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -15,7 +16,7 @@ import { TableModule } from 'primeng/table';
 import { RolesService } from 'src/app/shared/services/role.service';
 
 @Component({
-    selector: 'app-new-role',
+    selector: 'app-edit-access',
     standalone: true,
     imports: [
         ButtonModule,
@@ -27,21 +28,33 @@ import { RolesService } from 'src/app/shared/services/role.service';
         TableModule,
         CheckboxModule,
     ],
-    templateUrl: './new-access.component.html',
-    styleUrl: './new-access.component.scss',
+    templateUrl: './edit-access.component.html',
+    styleUrl: './edit-access.component.scss',
 })
-export class NewAccessComponent {
-    newRoleForm: FormGroup;
+export class EditAccessComponent implements OnInit {
+    editRoleForm: FormGroup;
+    id;
 
     constructor(
         private fb: FormBuilder,
         private location: Location,
-        private roleService: RolesService
+        private roleService: RolesService,
+        private route: ActivatedRoute
     ) {
-        this.newRoleForm = this.fb.group({
+        this.editRoleForm = this.fb.group({
             name: [null, Validators.required],
             description: [null, Validators.required],
         });
+    }
+
+    ngOnInit(): void {
+        this.id = this.route.snapshot.paramMap.get('id');
+        this.roleService
+            .getRoleById(this.id)
+            .subscribe(({ isLoading, error, value }) => {
+                if (error) return;
+                this.editRoleForm.patchValue(value.data);
+            });
     }
 
     clickBack() {
@@ -49,13 +62,13 @@ export class NewAccessComponent {
     }
 
     onSubmit() {
-        if (!this.newRoleForm.valid) {
+        if (!this.editRoleForm.valid) {
             console.log('This is not valid');
             return;
         }
-        return;
+        // return;
         this.roleService
-            .addRole(this.newRoleForm.value)
+            .editRole(this.id, this.editRoleForm.value)
             .subscribe(({ isLoading, error, value }) => {
                 console.log(value.data);
             });
