@@ -41,7 +41,7 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="description">Deskripsi</label>
+            <label class="col-2" for="description">Description</label>
             <div class="col-12 md:col-10">
                 <textarea
                     pInputText
@@ -72,14 +72,27 @@
         <div class="field grid">
             <label class="col-2" for="icon">Icon</label>
             <div class="col-12 md:col-10">
-                <input
+                <!-- <input
                     pInputText
                     class="w-full"
                     type="text"
                     name="icon"
                     id="icon"
                     formControlName="icon"
-                />
+                /> -->
+                <p-dropdown
+                    styleClass="w-full"
+                    placeholder="Choose Icon"
+                    [options]="icons"
+                    formControlName="icon"
+                >
+                    <ng-template let-item pTemplate="icon">
+                        <i class="pi pi-{{ item.label }}"></i>
+                    </ng-template>
+                    <ng-template let-object pTemplate="item">
+                        <i class="{{ object.label }}"></i>
+                    </ng-template>
+                </p-dropdown>
             </div>
         </div>
 
@@ -126,6 +139,16 @@
         </div>
         <div class="flex justify-content-end mt-8">
             <p-button class="" type="submit" label="Submit"></p-button>
+        </div>
+
+        <div class="grid text-center">
+            <div
+                class="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5"
+                *ngFor="let icon of icons"
+            >
+                <i class="text-2xl pi pi-{{ icon.label }}"></i>
+                <div>pi-{{ icon.label }}</div>
+            </div>
         </div>
     </form>
 </div>

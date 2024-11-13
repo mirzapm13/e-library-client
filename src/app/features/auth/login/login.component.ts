@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { of, switchMap } from 'rxjs';
 
 @Component({
     templateUrl: './login.component.html',
