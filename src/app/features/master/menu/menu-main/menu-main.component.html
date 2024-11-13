@@ -22,7 +22,7 @@
             >
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Nama</th>
+                        <th>Name</th>
                         <th>Path</th>
                         <th>Parent</th>
                         <th class="text-center">Order</th>
@@ -34,18 +34,12 @@
 
                 <ng-template pTemplate="body" let-menu let-i="rowIndex">
                     <tr>
-                        <td>{{ menu.nama }}</td>
+                        <td>{{ menu.name }}</td>
                         <td>{{ menu.path }}</td>
-                        <td>{{ menu.parent }}</td>
+                        <td>{{ menu.parentId }}</td>
                         <td class="text-center">{{ menu.order }}</td>
                         <td>{{ menu.icon }}</td>
                         <td class="text-center">
-                            <!-- <p-inputSwitch
-                                [ngModel]="!!menus[i].status"
-                                (ngModelChange)="
-                                    menus[i].status = +!menus[i].status
-                                "
-                            /> -->
                             <ng-container *ngIf="!!menu.status; else inactive">
                                 <p-button
                                     label="Active"
@@ -69,6 +63,7 @@
                                 size="small"
                                 label="Edit"
                                 severity="secondary"
+                                (onClick)="goToEditMenu(menu.id)"
                             />
                         </td>
                     </tr>

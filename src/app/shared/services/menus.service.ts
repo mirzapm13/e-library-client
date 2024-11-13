@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, startWith } from 'rxjs';
+import {
+    catchError,
+    map,
+    Observable,
+    of,
+    startWith,
+    tap,
+    throwError,
+} from 'rxjs';
 import { HttpRequestState } from 'src/app/shared/http-request-state';
 
 const menus = [
@@ -93,9 +101,20 @@ const menus = [
 export class MenuService {
     constructor(private readonly http: HttpClient) {}
 
-    getMenus(): Observable<any> {
-        return of(menus);
-        return this.http.get('/menu-settings').pipe();
+    getMenus(): Observable<HttpRequestState<any>> {
+        return this.http.get<any>('/menus').pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error })),
+            startWith({ isLoading: true })
+        );
+    }
+
+    getMenuById(id): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/menus/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error })),
+            startWith({ isLoading: true })
+        );
     }
 
     getMenuMaster(): Observable<any> {
@@ -104,7 +123,15 @@ export class MenuService {
     }
 
     addMenu(data): Observable<HttpRequestState<any>> {
-        return this.http.post('/menu-settings', data).pipe(
+        return this.http.post<any>('/menus', data).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error })),
+            startWith({ isLoading: true })
+        );
+    }
+
+    editMenu(id, data): Observable<HttpRequestState<any>> {
+        return this.http.put<any>(`/menus/${id}`, data).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error })),
             startWith({ isLoading: true })

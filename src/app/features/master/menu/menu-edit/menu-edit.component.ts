@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ButtonModule } from 'primeng/button';
+import { CommonModule, Location } from '@angular/common';
+import { Component } from '@angular/core';
 import {
-    FormBuilder,
-    FormGroup,
     ReactiveFormsModule,
+    FormGroup,
+    FormBuilder,
     Validators,
 } from '@angular/forms';
-import { MenuService } from 'src/app/shared/services/menus.service';
-import { CommonModule, Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { RolesService } from 'src/app/shared/services/role.service';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { IconService } from 'src/app/demo/service/icon.service';
+import { MenuService } from 'src/app/shared/services/menus.service';
 
 @Component({
-    selector: 'app-menu-new',
+    selector: 'app-menu-edit',
     standalone: true,
     imports: [
         CommonModule,
@@ -27,21 +27,20 @@ import { IconService } from 'src/app/demo/service/icon.service';
         ReactiveFormsModule,
         InputSwitchModule,
     ],
-    templateUrl: './menu-new.component.html',
-    styleUrl: './menu-new.component.scss',
+    templateUrl: './menu-edit.component.html',
+    styleUrl: './menu-edit.component.scss',
 })
-export class MenuNewComponent implements OnInit {
-    newMenuForm: FormGroup;
-    menu: any = {};
+export class MenuEditComponent {
+    editMenuForm: FormGroup;
 
     constructor(
         private menuService: MenuService,
-        private roleService: RolesService,
         private fb: FormBuilder,
         private location: Location,
-        private iconService: IconService
+        private iconService: IconService,
+        private route: ActivatedRoute
     ) {
-        this.newMenuForm = this.fb.group({
+        this.editMenuForm = this.fb.group({
             name: ['', Validators.required],
             path: ['', Validators.required],
             icon: ['', Validators.required],
@@ -62,27 +61,21 @@ export class MenuNewComponent implements OnInit {
 
     selectedIcon: any;
 
-    onFilter(event: Event): void {
-        const searchText = (event.target as HTMLInputElement).value;
-
-        if (!searchText) {
-            this.filteredIcons = this.icons;
-        } else {
-            this.filteredIcons = this.icons.filter((it) => {
-                return it.icon.tags[0].includes(searchText);
-            });
-        }
-    }
+    menu: {};
+    id: string;
 
     ngOnInit(): void {
-        this.menuService.getMenus().subscribe(({ isLoading, error, value }) => {
-            if (error) return;
-            if (isLoading) return;
-            this.parent = value.data.map((item) => ({
-                label: item.name,
-                value: item.id,
-            }));
-        });
+        this.id = this.route.snapshot.paramMap.get('id');
+        this.menuService
+            .getMenuById(this.id)
+            .subscribe(({ isLoading, error, value }) => {
+                if (error) return;
+                if (isLoading) return;
+
+                this.editMenuForm.patchValue(value.data);
+
+                console.log(value);
+            });
 
         this.iconService.getIcons().subscribe((data) => {
             data = data.filter((value) => {
@@ -100,15 +93,27 @@ export class MenuNewComponent implements OnInit {
         });
     }
 
+    onFilter(event: Event): void {
+        const searchText = (event.target as HTMLInputElement).value;
+
+        if (!searchText) {
+            this.filteredIcons = this.icons;
+        } else {
+            this.filteredIcons = this.icons.filter((it) => {
+                return it.icon.tags[0].includes(searchText);
+            });
+        }
+    }
+
     onSubmit() {
-        if (!this.newMenuForm.valid) {
+        if (!this.editMenuForm.valid) {
             console.log('not valid');
             return;
         }
-        console.log(this.newMenuForm.value);
-        return;
+        console.log(this.editMenuForm.value);
+        // return;
         this.menuService
-            .addMenu(this.newMenuForm.value)
+            .editMenu(this.id, this.editMenuForm.value)
             .subscribe(({ isLoading, error, value }) => {
                 console.log(value);
             });

@@ -497,9 +497,8 @@ export class AppMenuComponent implements OnInit {
     ];
 
     ngOnInit() {
-        // console.log(this.userService.getUserData());
         this.menuService
-            .getMenus()
+            .getMenuMaster()
             .pipe(
                 map((data) => {
                     const grouped = groupByParent(data);
