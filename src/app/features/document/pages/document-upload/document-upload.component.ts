@@ -23,6 +23,7 @@ import { UsersService } from 'src/app/shared/services/users.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
     selector: 'app-document-upload',
@@ -41,6 +42,7 @@ import { recursiveMap } from 'src/app/shared/utils/recursive-map';
         ChipsModule,
         DropdownModule,
         DividerModule,
+        CheckboxModule,
     ],
     templateUrl: './document-upload.component.html',
     styleUrl: './document-upload.component.scss',

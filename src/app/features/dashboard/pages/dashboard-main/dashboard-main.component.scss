@@ -36,7 +36,8 @@
 
         &__Tags {
             display: flex;
-            gap: 8px;
+            column-gap: 16px;
+            row-gap: 10px;
             margin-top: auto;
             width: 230px;
             max-width: 230px;

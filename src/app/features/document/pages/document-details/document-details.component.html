@@ -34,13 +34,23 @@
 
         <div class="Container__Details">
             <div class="Top">
-                <p class="mb-4">{{ currentDoc.parents }}</p>
+                <h3 class="mb-0">{{ currentDoc.name }}</h3>
 
-                <h1>{{ currentDoc.name }}</h1>
-                <p>{{ currentDoc.short_desc }}</p>
+                <h3 class="m-0 mb-1" style="font-weight: 700; color: #69707a">
+                    {{ currentDoc.short_desc }}
+                </h3>
+                <p class="m-0 mb-5 text-lg">
+                    {{ currentDoc.parents }}
+                </p>
 
-                <h5 class="mb-1">Description</h5>
-                <p>{{ currentDoc.long_desc }}</p>
+                <div class="Container__Details__Icons">
+                    <i class="pi pi-user"></i>
+                    <span>Username</span>
+                </div>
+                <div class="Container__Details__Icons">
+                    <i class="pi pi-clock"></i>
+                    <span>12 November 2024, 13:47:45</span>
+                </div>
 
                 <p class="text-lg mt-5">
                     Expired at : {{ currentDoc.expired }}
@@ -49,6 +59,9 @@
                 <div class="Top__Tags flex">
                     <p *ngFor="let tag of currentDoc.tags">{{ tag }}</p>
                 </div>
+
+                <h5 class="mb-1">Description</h5>
+                <p>{{ currentDoc.long_desc }}</p>
             </div>
             <!-- 
             <div class="Bottom">
