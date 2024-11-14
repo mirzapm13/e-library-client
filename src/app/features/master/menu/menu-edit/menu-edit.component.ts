@@ -51,7 +51,7 @@ export class MenuEditComponent {
             parent_id: [null],
             order: ['', Validators.required],
             status: [true, Validators.required],
-            description: [''],
+            // description: [''],
         });
     }
 
@@ -69,10 +69,15 @@ export class MenuEditComponent {
     id: string;
     defaultMenu;
 
+    loading = false;
+
     ngOnInit(): void {
+        this.loading = true;
+
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.menuService.getMenus().subscribe(({ isLoading, error, value }) => {
+            if (isLoading) return;
             if (error) return;
             this.menus = value.data.map((item) => ({
                 ...item,
@@ -94,8 +99,6 @@ export class MenuEditComponent {
                 if (error) return;
                 if (isLoading) return;
 
-                // this.editMenuForm.patchValue(value.data);
-
                 this.defaultMenu = this.menus.filter((item) => {
                     return item.id == value.data.parentId;
                 })[0];
@@ -105,6 +108,7 @@ export class MenuEditComponent {
                     parent_id: this.defaultMenu,
                 };
                 this.editMenuForm.patchValue(patchData);
+                this.loading = false;
             });
 
         this.iconService.getIcons().subscribe((data) => {
@@ -136,18 +140,20 @@ export class MenuEditComponent {
     }
 
     onSubmit() {
+        this.loading = true;
         let payload = this.editMenuForm.value;
-        payload = { ...payload, parent_id: payload.parent_id.id };
+        payload = { ...payload, parent_id: payload.parent_id?.id };
+
         if (!this.editMenuForm.valid) {
             console.log('not valid');
             return;
         }
-        console.log(payload);
-        return;
+        // return;
         this.menuService
             .editMenu(this.id, payload)
             .subscribe(({ isLoading, error, value }) => {
                 console.log(value.message);
+                this.loading = false;
             });
     }
 

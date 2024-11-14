@@ -50,7 +50,10 @@ export class NewCategoryComponent implements OnInit {
     categories = [];
     categoryOptions = [];
 
+    loading = false;
     ngOnInit(): void {
+        this.loading = true;
+
         this.categoryService
             .getCategories()
             .subscribe(({ isLoading, error, value }) => {
@@ -68,6 +71,8 @@ export class NewCategoryComponent implements OnInit {
                     'children'
                 );
             });
+
+        this.loading = false;
     }
 
     clickBack() {
@@ -75,18 +80,23 @@ export class NewCategoryComponent implements OnInit {
     }
 
     onSubmit() {
+        this.loading = true;
+
         let payload = this.newCategoryForm.value;
         payload = { ...payload, parent_id: payload.parent_id.id };
         console.log(payload);
+
         if (!this.newCategoryForm.valid) {
             console.log('not valid');
+            this.loading = false;
             return;
         }
-        return;
+
         this.categoryService
             .addCategory(payload)
             .subscribe(({ isLoading, error, value }) => {
                 console.log(value);
+                this.loading = false;
             });
     }
 }

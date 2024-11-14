@@ -12,64 +12,73 @@
                 />
             </div>
 
-            <p-table
-                [value]="roles"
-                [paginator]="true"
-                [rows]="5"
-                [tableStyle]="{ 'min-width': '50rem' }"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                [rowTrackBy]="trackByFunction"
+            <div
+                class="flex justify-content-center"
+                *ngIf="loading; else tableView"
             >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Role</th>
-                        <th>Description</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Role Management</th>
-                    </tr>
-                </ng-template>
+                <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+            </div>
 
-                <ng-template pTemplate="body" let-role let-i="rowIndex">
-                    <tr>
-                        <td>{{ role.name }}</td>
-                        <td>{{ role.description }}</td>
-                        <td class="text-center">
-                            <!-- <p-button
+            <ng-template #tableView>
+                <p-table
+                    [value]="roles"
+                    [paginator]="true"
+                    [rows]="5"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    [rowsPerPageOptions]="[5, 10, 20]"
+                    [rowTrackBy]="trackByFunction"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Role</th>
+                            <th>Description</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Role Management</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-role let-i="rowIndex">
+                        <tr>
+                            <td>{{ role.name }}</td>
+                            <td>{{ role.description }}</td>
+                            <td class="text-center">
+                                <!-- <p-button
                                 icon="pi pi-sitemap"
                                 label="Edit"
                                 size="small"
                                 severity="success"
                                 (onClick)="goToCategoryAccess(1)"
                             /> -->
-                            <!-- class="menu-status" -->
-                            <p-button
-                                *ngIf="role.status; else inactive"
-                                label="Active"
-                                size="small"
-                                severity="success"
-                                class="menu-status"
-                            />
-                            <ng-template #inactive>
+                                <!-- class="menu-status" -->
                                 <p-button
-                                    label="Inactive"
+                                    *ngIf="role.status; else inactive"
+                                    label="Active"
                                     size="small"
-                                    severity="danger"
+                                    severity="success"
                                     class="menu-status"
                                 />
-                            </ng-template>
-                        </td>
-                        <td class="text-center">
-                            <p-button
-                                icon="pi pi-user-edit"
-                                size="small"
-                                label="Edit"
-                                severity="secondary"
-                                (onClick)="goToEditAccess(role.id)"
-                            />
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                                <ng-template #inactive>
+                                    <p-button
+                                        label="Inactive"
+                                        size="small"
+                                        severity="danger"
+                                        class="menu-status"
+                                    />
+                                </ng-template>
+                            </td>
+                            <td class="text-center">
+                                <p-button
+                                    icon="pi pi-user-edit"
+                                    size="small"
+                                    label="Edit"
+                                    severity="secondary"
+                                    (onClick)="goToEditAccess(role.id)"
+                                />
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-template>
         </div>
     </ng-container>
 </div>

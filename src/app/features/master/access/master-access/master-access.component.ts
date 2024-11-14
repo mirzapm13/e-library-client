@@ -14,17 +14,16 @@ import { UsersService } from 'src/app/shared/services/users.service';
     styleUrl: './master-access.component.scss',
 })
 export class MasterAccessComponent implements OnInit {
-    constructor(
-        private roleService: RolesService,
-        private router: Router,
-        private usersService: UsersService
-    ) {}
+    constructor(private roleService: RolesService, private router: Router) {}
 
     roles: any[] = [];
 
+    loading = true;
     ngOnInit(): void {
         this.roleService.getRoles().subscribe(({ isLoading, error, value }) => {
             this.roles = value.data;
+
+            this.loading = false;
         });
     }
 

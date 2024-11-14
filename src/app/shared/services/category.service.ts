@@ -76,32 +76,32 @@ export class CategoryService {
     getCategories(): Observable<HttpRequestState<any>> {
         return this.http.get<any>('/categories').pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     getCategoryById(id): Observable<HttpRequestState<any>> {
         return this.http.get<any>(`/categories/${id}`).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     addCategory(data): Observable<HttpRequestState<any>> {
         return this.http.post<any>('/categories', data).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     editCategory(id, data): Observable<HttpRequestState<any>> {
         return this.http.post<any>(`/categories/${id}`, data).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 

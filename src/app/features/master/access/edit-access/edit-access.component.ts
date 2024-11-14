@@ -47,13 +47,17 @@ export class EditAccessComponent implements OnInit {
         });
     }
 
+    loading;
+
     ngOnInit(): void {
+        this.loading = true;
         this.id = this.route.snapshot.paramMap.get('id');
         this.roleService
             .getRoleById(this.id)
             .subscribe(({ isLoading, error, value }) => {
                 if (error) return;
                 this.editRoleForm.patchValue(value.data);
+                this.loading = false;
             });
     }
 
@@ -62,6 +66,7 @@ export class EditAccessComponent implements OnInit {
     }
 
     onSubmit() {
+        this.loading = true;
         if (!this.editRoleForm.valid) {
             console.log('This is not valid');
             return;
@@ -70,6 +75,7 @@ export class EditAccessComponent implements OnInit {
         this.roleService
             .editRole(this.id, this.editRoleForm.value)
             .subscribe(({ isLoading, error, value }) => {
+                this.loading = false;
                 console.log(value.data);
             });
     }

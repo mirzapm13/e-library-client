@@ -41,32 +41,32 @@ export class RolesService {
     getRoles(): Observable<HttpRequestState<any>> {
         return this.http.get<any>(`/roles`).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     getRoleById(id): Observable<HttpRequestState<any>> {
         return this.http.get<any>(`/roles/${id}`).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     addRole(data): Observable<HttpRequestState<any>> {
         return this.http.post<any>(`/roles`, data).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     editRole(id, data): Observable<HttpRequestState<any>> {
         return this.http.put<any>(`/roles/${id}`, data).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 }

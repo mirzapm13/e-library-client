@@ -51,10 +51,13 @@ export class EditCategoryComponent {
         });
     }
     categories = [];
-    defaultCategory;
+    defaultParent;
     categoryOptions;
 
+    loading = false;
+
     ngOnInit(): void {
+        this.loading = true;
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.categoryService
@@ -80,15 +83,18 @@ export class EditCategoryComponent {
             .subscribe(({ isLoading, error, value }) => {
                 if (error) return;
 
-                this.defaultCategory = this.categories.filter((item) => {
+                this.defaultParent = this.categories.filter((item) => {
                     return item.id == value.data.parentId;
                 })[0];
 
                 let patchData = {
                     ...value.data,
-                    parent_id: this.defaultCategory,
+                    parent_id: this.defaultParent,
                 };
+                console.log(patchData);
                 this.editCategoryForm.patchValue(patchData);
+
+                this.loading = false;
             });
     }
 
@@ -97,6 +103,8 @@ export class EditCategoryComponent {
     }
 
     onSubmit() {
+        this.loading = true;
+
         let payload = this.editCategoryForm.value;
         payload = { ...payload, parent_id: payload.parent_id.id };
         console.log(payload);
@@ -104,11 +112,12 @@ export class EditCategoryComponent {
             console.log('not valid');
             return;
         }
-        return;
+
         this.categoryService
-            .addCategory(payload)
+            .editCategory(this.id, payload)
             .subscribe(({ isLoading, error, value }) => {
                 console.log(value);
+                this.loading = false;
             });
     }
 }

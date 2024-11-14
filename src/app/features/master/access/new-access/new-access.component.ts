@@ -43,20 +43,22 @@ export class NewAccessComponent {
             description: [null, Validators.required],
         });
     }
+    loading = false;
 
     clickBack() {
         this.location.back();
     }
 
     onSubmit() {
+        this.loading = true;
         if (!this.newRoleForm.valid) {
             console.log('This is not valid');
             return;
         }
-        return;
         this.roleService
             .addRole(this.newRoleForm.value)
             .subscribe(({ isLoading, error, value }) => {
+                this.loading = false;
                 console.log(value.data);
             });
     }

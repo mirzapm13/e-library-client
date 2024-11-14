@@ -25,13 +25,18 @@ export class MenuMainComponent implements OnInit {
 
     menus: any = [];
 
+    loading = false;
+
     ngOnInit(): void {
+        this.loading = true;
+
         this.menusService
             .getMenus()
             .subscribe(({ isLoading, error, value }) => {
                 if (error) return;
                 if (!value) return;
                 this.menus = value.data;
+                this.loading = false;
             });
     }
 

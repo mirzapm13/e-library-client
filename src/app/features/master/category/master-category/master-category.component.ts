@@ -22,14 +22,18 @@ export class MasterCategoryComponent implements OnInit {
 
     categories: any[];
 
+    loading = false;
+
     ngOnInit(): void {
+        this.loading = true;
+
         this.categoryService
             .getCategories()
             .subscribe(({ isLoading, error, value }) => {
-                if (isLoading) return;
                 if (error) return;
                 // console.log(value.data);
                 this.categories = value.data;
+                this.loading = false;
             });
     }
 

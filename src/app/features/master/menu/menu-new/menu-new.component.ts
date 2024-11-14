@@ -17,6 +17,7 @@ import { IconService } from 'src/app/demo/service/icon.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { ChipsModule } from 'primeng/chips';
 
 @Component({
     selector: 'app-menu-new',
@@ -30,6 +31,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
         ReactiveFormsModule,
         InputSwitchModule,
         TreeSelectModule,
+        ChipsModule,
     ],
     templateUrl: './menu-new.component.html',
     styleUrl: './menu-new.component.scss',
@@ -40,7 +42,6 @@ export class MenuNewComponent implements OnInit {
 
     constructor(
         private menuService: MenuService,
-        private roleService: RolesService,
         private fb: FormBuilder,
         private location: Location,
         private iconService: IconService
@@ -52,31 +53,25 @@ export class MenuNewComponent implements OnInit {
             parent_id: [null],
             order: ['', Validators.required],
             status: [true, Validators.required],
-
             description: [''],
+            permissions: [[]],
         });
     }
 
     parent: any;
-    roles: any;
-
     icons: any[] = [];
-
     filteredIcons: any[] = [];
-
     selectedIcon: any;
-
     menuOptions;
     menus = [];
 
+    loading = false;
     ngOnInit(): void {
+        this.loading = true;
+
         this.menuService.getMenus().subscribe(({ isLoading, error, value }) => {
             if (error) return;
             if (isLoading) return;
-            // this.parent = value.data.map((item) => ({
-            //     label: item.name,
-            //     value: item.id,
-            // }));
 
             this.menus = value.data.map((item) => ({
                 ...item,
@@ -90,6 +85,8 @@ export class MenuNewComponent implements OnInit {
                 (data) => ({ ...data }),
                 'children'
             );
+
+            this.loading = false;
         });
 
         this.iconService.getIcons().subscribe((data) => {
@@ -107,17 +104,6 @@ export class MenuNewComponent implements OnInit {
             this.icons = icons;
         });
     }
-    onFilter(event: Event): void {
-        const searchText = (event.target as HTMLInputElement).value;
-
-        if (!searchText) {
-            this.filteredIcons = this.icons;
-        } else {
-            this.filteredIcons = this.icons.filter((it) => {
-                return it.icon.tags[0].includes(searchText);
-            });
-        }
-    }
 
     onSubmit() {
         if (!this.newMenuForm.valid) {
@@ -126,13 +112,19 @@ export class MenuNewComponent implements OnInit {
         }
 
         let payload = this.newMenuForm.value;
-        payload = { ...payload, parent_id: payload.parent_id.id };
         console.log(payload);
-        return;
+        payload = { ...payload, parent_id: payload?.parent_id?.id };
+
+        // return;
         this.menuService
             .addMenu(this.newMenuForm.value)
             .subscribe(({ isLoading, error, value }) => {
+                this.loading = true;
+                if (isLoading) return;
+                if (error) return;
+
                 console.log(value);
+                this.loading = false;
             });
     }
 

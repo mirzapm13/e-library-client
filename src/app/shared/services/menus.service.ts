@@ -104,16 +104,16 @@ export class MenuService {
     getMenus(): Observable<HttpRequestState<any>> {
         return this.http.get<any>('/menus').pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     getMenuById(id): Observable<HttpRequestState<any>> {
         return this.http.get<any>(`/menus/${id}`).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 

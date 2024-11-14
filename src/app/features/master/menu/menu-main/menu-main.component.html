@@ -1,7 +1,7 @@
 <div class="card">
     <h5>Master Data - Menu</h5>
 
-    <ng-container *ngIf="menus">
+    <ng-container>
         <div class="flex flex-column gap-4">
             <div class="flex justify-content-end gap-2">
                 <p-button
@@ -12,63 +12,74 @@
                 />
             </div>
 
-            <p-table
-                [value]="menus"
-                [paginator]="true"
-                [rows]="5"
-                [tableStyle]="{ 'min-width': '50rem' }"
-                [rowsPerPageOptions]="[5, 10, 20]"
-                [rowTrackBy]="trackByFunction"
+            <div
+                class="flex justify-content-center"
+                *ngIf="loading; else tableView"
             >
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Name</th>
-                        <th>Path</th>
-                        <th>Parent</th>
-                        <th class="text-center">Order</th>
-                        <th>Icon</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </ng-template>
+                <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+            </div>
 
-                <ng-template pTemplate="body" let-menu let-i="rowIndex">
-                    <tr>
-                        <td>{{ menu.name }}</td>
-                        <td>{{ menu.path }}</td>
-                        <td>{{ menu.parentId }}</td>
-                        <td class="text-center">{{ menu.order }}</td>
-                        <td>{{ menu.icon }}</td>
-                        <td class="text-center">
-                            <ng-container *ngIf="!!menu.status; else inactive">
+            <ng-template #tableView>
+                <p-table
+                    [value]="menus"
+                    [paginator]="true"
+                    [rows]="5"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    [rowsPerPageOptions]="[5, 10, 20]"
+                    [rowTrackBy]="trackByFunction"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Name</th>
+                            <th>Path</th>
+                            <th>Parent</th>
+                            <th class="text-center">Order</th>
+                            <th>Icon</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-menu let-i="rowIndex">
+                        <tr>
+                            <td>{{ menu.name }}</td>
+                            <td>{{ menu.path }}</td>
+                            <td>{{ menu.parentId }}</td>
+                            <td class="text-center">{{ menu.order }}</td>
+                            <td>{{ menu.icon }}</td>
+                            <td class="text-center">
+                                <ng-container
+                                    *ngIf="!!menu.status; else inactive"
+                                >
+                                    <p-button
+                                        label="Active"
+                                        size="small"
+                                        severity="success"
+                                        class="menu-status"
+                                    />
+                                </ng-container>
+                                <ng-template #inactive>
+                                    <p-button
+                                        label="Inactive"
+                                        size="small"
+                                        severity="danger"
+                                        class="menu-status"
+                                    />
+                                </ng-template>
+                            </td>
+                            <td class="text-center">
                                 <p-button
-                                    label="Active"
+                                    icon="pi pi-user-edit"
                                     size="small"
-                                    severity="success"
-                                    class="menu-status"
+                                    label="Edit"
+                                    severity="secondary"
+                                    (onClick)="goToEditMenu(menu.id)"
                                 />
-                            </ng-container>
-                            <ng-template #inactive>
-                                <p-button
-                                    label="Inactive"
-                                    size="small"
-                                    severity="danger"
-                                    class="menu-status"
-                                />
-                            </ng-template>
-                        </td>
-                        <td class="text-center">
-                            <p-button
-                                icon="pi pi-user-edit"
-                                size="small"
-                                label="Edit"
-                                severity="secondary"
-                                (onClick)="goToEditMenu(menu.id)"
-                            />
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-template>
         </div>
     </ng-container>
 </div>
