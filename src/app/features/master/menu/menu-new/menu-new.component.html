@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="field grid">
+        <!-- <div class="field grid">
             <label class="col-2" for="description">Description</label>
             <div class="col-12 md:col-10">
                 <textarea
@@ -41,7 +41,7 @@
                     formControlName="description"
                 ></textarea>
             </div>
-        </div>
+        </div> -->
 
         <div class="field grid">
             <label class="col-2" for="path">Path</label>
@@ -64,7 +64,9 @@
                     styleClass="w-full"
                     [options]="icons"
                     formControlName="icon"
+                    optionLabel="label"
                     [filter]="true"
+                    filterBy="label"
                 >
                     <ng-template let-item pTemplate="icon">
                         <div class="flex align-center gap-3">
@@ -81,10 +83,18 @@
         <div class="field grid">
             <label class="col-2" for="parent">Parent</label>
             <div class="col-12 md:col-10">
-                <p-dropdown
+                <!-- <p-dropdown
                     styleClass="w-full"
                     [options]="parent"
                     formControlName="parent_id"
+                /> -->
+                <p-treeSelect
+                    formControlName="parent_id"
+                    [filter]="true"
+                    class="block w-full"
+                    [options]="menuOptions"
+                    name="category"
+                    value="id"
                 />
             </div>
         </div>

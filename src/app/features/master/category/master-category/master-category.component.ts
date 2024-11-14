@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { map } from 'rxjs';
@@ -25,13 +25,19 @@ export class MasterCategoryComponent implements OnInit {
     ngOnInit(): void {
         this.categoryService
             .getCategories()
-            .pipe(map((data) => addParentName(data)))
-            .subscribe((data) => {
-                this.categories = data;
+            .subscribe(({ isLoading, error, value }) => {
+                if (isLoading) return;
+                if (error) return;
+                // console.log(value.data);
+                this.categories = value.data;
             });
     }
 
     goToNewCategory() {
         this.router.navigateByUrl('/master-data/category/new');
+    }
+
+    goToEditCategory(id) {
+        this.router.navigateByUrl(`/master-data/category/edit/${id}`);
     }
 }

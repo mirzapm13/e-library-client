@@ -19,7 +19,6 @@
                 [tableStyle]="{ 'min-width': '50rem' }"
                 [rowsPerPageOptions]="[5, 10, 20]"
             >
-                <!-- [rowTrackBy]="trackByFunction" -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Nama</th>
@@ -32,7 +31,7 @@
                 <ng-template pTemplate="body" let-category let-i="rowIndex">
                     <tr>
                         <td>{{ category.name }}</td>
-                        <td>{{ category.parentName }}</td>
+                        <td>{{ category.parentId }}</td>
                         <td class="text-center">
                             <ng-container
                                 *ngIf="!!category.status; else inactive"
@@ -59,6 +58,7 @@
                                 size="small"
                                 label="Edit"
                                 severity="secondary"
+                                (onClick)="goToEditCategory(category.id)"
                             />
                         </td>
                     </tr>

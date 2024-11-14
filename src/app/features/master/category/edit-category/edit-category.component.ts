@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -7,6 +7,7 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,7 +18,7 @@ import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
 @Component({
-    selector: 'app-new-category',
+    selector: 'app-edit-category',
     standalone: true,
     imports: [
         CommonModule,
@@ -29,18 +30,20 @@ import { recursiveMap } from 'src/app/shared/utils/recursive-map';
         ReactiveFormsModule,
         MultiSelectModule,
     ],
-    templateUrl: './new-category.component.html',
-    styleUrl: './new-category.component.scss',
+    templateUrl: './edit-category.component.html',
+    styleUrl: './edit-category.component.scss',
 })
-export class NewCategoryComponent implements OnInit {
-    newCategoryForm: FormGroup;
+export class EditCategoryComponent {
+    editCategoryForm: FormGroup;
+    id;
 
     constructor(
         private location: Location,
         private categoryService: CategoryService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private route: ActivatedRoute
     ) {
-        this.newCategoryForm = this.fb.group({
+        this.editCategoryForm = this.fb.group({
             name: [null, Validators.required],
             status: [false, Validators.required],
             description: [null],
@@ -48,17 +51,20 @@ export class NewCategoryComponent implements OnInit {
         });
     }
     categories = [];
-    categoryOptions = [];
+    defaultCategory;
+    categoryOptions;
 
     ngOnInit(): void {
+        this.id = this.route.snapshot.paramMap.get('id');
+
         this.categoryService
             .getCategories()
             .subscribe(({ isLoading, error, value }) => {
-                if (isLoading) return;
                 if (error) return;
                 this.categories = value.data.map((item) => ({
                     ...item,
                     label: item.name,
+                    key: item.id,
                 }));
 
                 this.categoryOptions = groupByParent(this.categories);
@@ -68,6 +74,22 @@ export class NewCategoryComponent implements OnInit {
                     'children'
                 );
             });
+
+        this.categoryService
+            .getCategoryById(this.id)
+            .subscribe(({ isLoading, error, value }) => {
+                if (error) return;
+
+                this.defaultCategory = this.categories.filter((item) => {
+                    return item.id == value.data.parentId;
+                })[0];
+
+                let patchData = {
+                    ...value.data,
+                    parent_id: this.defaultCategory,
+                };
+                this.editCategoryForm.patchValue(patchData);
+            });
     }
 
     clickBack() {
@@ -75,10 +97,10 @@ export class NewCategoryComponent implements OnInit {
     }
 
     onSubmit() {
-        let payload = this.newCategoryForm.value;
+        let payload = this.editCategoryForm.value;
         payload = { ...payload, parent_id: payload.parent_id.id };
         console.log(payload);
-        if (!this.newCategoryForm.valid) {
+        if (!this.editCategoryForm.valid) {
             console.log('not valid');
             return;
         }

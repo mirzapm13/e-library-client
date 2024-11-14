@@ -26,7 +26,7 @@ export class UserService {
     }
 
     fetchUserData(): Observable<any> {
-        return this.http.get<any>(`/user-data`).pipe(
+        return this.http.post<any>(`/auth/callback`, {}).pipe(
             tap((data: any) => this.userDataSubject.next(data)),
             catchError((err) => {
                 return throwError(err);

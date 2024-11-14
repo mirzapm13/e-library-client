@@ -12,8 +12,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TreeSelectModule } from 'primeng/treeselect';
 import { IconService } from 'src/app/demo/service/icon.service';
 import { MenuService } from 'src/app/shared/services/menus.service';
+import { groupByParent } from 'src/app/shared/utils/group-by-parent';
+import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
 @Component({
     selector: 'app-menu-edit',
@@ -26,6 +29,7 @@ import { MenuService } from 'src/app/shared/services/menus.service';
         ButtonModule,
         ReactiveFormsModule,
         InputSwitchModule,
+        TreeSelectModule,
     ],
     templateUrl: './menu-edit.component.html',
     styleUrl: './menu-edit.component.scss',
@@ -60,20 +64,47 @@ export class MenuEditComponent {
 
     selectedIcon: any;
 
-    menu: {};
+    menus = [];
+    menuOptions = [];
     id: string;
+    defaultMenu;
 
     ngOnInit(): void {
         this.id = this.route.snapshot.paramMap.get('id');
+
+        this.menuService.getMenus().subscribe(({ isLoading, error, value }) => {
+            if (error) return;
+            this.menus = value.data.map((item) => ({
+                ...item,
+                label: item.name,
+                key: item.id,
+            }));
+
+            this.menuOptions = groupByParent(this.menus);
+            this.menuOptions = recursiveMap(
+                this.menuOptions,
+                (data) => ({ ...data }),
+                'children'
+            );
+        });
+
         this.menuService
             .getMenuById(this.id)
             .subscribe(({ isLoading, error, value }) => {
                 if (error) return;
                 if (isLoading) return;
 
-                this.editMenuForm.patchValue(value.data);
+                // this.editMenuForm.patchValue(value.data);
 
-                console.log(value);
+                this.defaultMenu = this.menus.filter((item) => {
+                    return item.id == value.data.parentId;
+                })[0];
+
+                let patchData = {
+                    ...value.data,
+                    parent_id: this.defaultMenu,
+                };
+                this.editMenuForm.patchValue(patchData);
             });
 
         this.iconService.getIcons().subscribe((data) => {
@@ -105,14 +136,16 @@ export class MenuEditComponent {
     }
 
     onSubmit() {
+        let payload = this.editMenuForm.value;
+        payload = { ...payload, parent_id: payload.parent_id.id };
         if (!this.editMenuForm.valid) {
             console.log('not valid');
             return;
         }
-        console.log(this.editMenuForm.value);
-        // return;
+        console.log(payload);
+        return;
         this.menuService
-            .editMenu(this.id, this.editMenuForm.value)
+            .editMenu(this.id, payload)
             .subscribe(({ isLoading, error, value }) => {
                 console.log(value.message);
             });

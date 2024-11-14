@@ -25,23 +25,24 @@ export class AuthGuard implements CanActivate {
             switchMap((auth) => {
                 console.log(auth.accessToken);
                 if (auth.isAuthenticated) {
-                    return of(true);
-                    // return this.userService.fetchUserData().pipe(
-                    //     map(() => true),
-                    //     catchError((err) => {
-                    //         console.error(err);
-                    //         this.router.navigateByUrl('/auth/login');
-                    //         return of(false);
-                    //     })
-                    // );
+                    // return of(true);
+                    return this.userService.fetchUserData().pipe(
+                        map((data) => {
+                            console.log(data);
+                            return true;
+                        }),
+                        catchError((err) => {
+                            console.error(err);
+                            this.router.navigateByUrl('/auth/login');
+                            return of(false);
+                        })
+                    );
                 } else {
                     this.router.navigateByUrl('/auth/login');
                     return of(false);
                 }
             })
         );
-
-        // return true;
     }
 
     // canActivateChild(route: ActivatedRouteSnapshot) {

@@ -20,6 +20,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.NewCategoryComponent
                     ),
             },
+            {
+                path: 'edit/:id',
+                data: { breadcrumb: 'Edit Category' },
+                loadComponent: () =>
+                    import('./edit-category/edit-category.component').then(
+                        (m) => m.EditCategoryComponent
+                    ),
+            },
         ]),
     ],
     exports: [RouterModule],

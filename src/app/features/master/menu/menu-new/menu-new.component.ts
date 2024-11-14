@@ -14,6 +14,9 @@ import { CommonModule, Location } from '@angular/common';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { RolesService } from 'src/app/shared/services/role.service';
 import { IconService } from 'src/app/demo/service/icon.service';
+import { groupByParent } from 'src/app/shared/utils/group-by-parent';
+import { recursiveMap } from 'src/app/shared/utils/recursive-map';
+import { TreeSelectModule } from 'primeng/treeselect';
 
 @Component({
     selector: 'app-menu-new',
@@ -26,6 +29,7 @@ import { IconService } from 'src/app/demo/service/icon.service';
         ButtonModule,
         ReactiveFormsModule,
         InputSwitchModule,
+        TreeSelectModule,
     ],
     templateUrl: './menu-new.component.html',
     styleUrl: './menu-new.component.scss',
@@ -62,26 +66,30 @@ export class MenuNewComponent implements OnInit {
 
     selectedIcon: any;
 
-    onFilter(event: Event): void {
-        const searchText = (event.target as HTMLInputElement).value;
-
-        if (!searchText) {
-            this.filteredIcons = this.icons;
-        } else {
-            this.filteredIcons = this.icons.filter((it) => {
-                return it.icon.tags[0].includes(searchText);
-            });
-        }
-    }
+    menuOptions;
+    menus = [];
 
     ngOnInit(): void {
         this.menuService.getMenus().subscribe(({ isLoading, error, value }) => {
             if (error) return;
             if (isLoading) return;
-            this.parent = value.data.map((item) => ({
+            // this.parent = value.data.map((item) => ({
+            //     label: item.name,
+            //     value: item.id,
+            // }));
+
+            this.menus = value.data.map((item) => ({
+                ...item,
                 label: item.name,
-                value: item.id,
+                key: item.id,
             }));
+
+            this.menuOptions = groupByParent(this.menus);
+            this.menuOptions = recursiveMap(
+                this.menuOptions,
+                (data) => ({ ...data }),
+                'children'
+            );
         });
 
         this.iconService.getIcons().subscribe((data) => {
@@ -99,14 +107,28 @@ export class MenuNewComponent implements OnInit {
             this.icons = icons;
         });
     }
+    onFilter(event: Event): void {
+        const searchText = (event.target as HTMLInputElement).value;
+
+        if (!searchText) {
+            this.filteredIcons = this.icons;
+        } else {
+            this.filteredIcons = this.icons.filter((it) => {
+                return it.icon.tags[0].includes(searchText);
+            });
+        }
+    }
 
     onSubmit() {
         if (!this.newMenuForm.valid) {
             console.log('not valid');
             return;
         }
-        // console.log(this.newMenuForm.value);
-        // return;
+
+        let payload = this.newMenuForm.value;
+        payload = { ...payload, parent_id: payload.parent_id.id };
+        console.log(payload);
+        return;
         this.menuService
             .addMenu(this.newMenuForm.value)
             .subscribe(({ isLoading, error, value }) => {
