@@ -70,12 +70,15 @@ export class EditCategoryComponent {
                     key: item.id,
                 }));
 
-                this.categoryOptions = groupByParent(this.categories);
-                this.categoryOptions = recursiveMap(
-                    this.categoryOptions,
-                    (data) => ({ ...data }),
+                this.categoryOptions = groupByParent(
+                    this.categories,
                     'children'
                 );
+                // this.categoryOptions = recursiveMap(
+                //     this.categoryOptions,
+                //     (data) => ({ ...data }),
+                //     'children'
+                // );
             });
 
         this.categoryService

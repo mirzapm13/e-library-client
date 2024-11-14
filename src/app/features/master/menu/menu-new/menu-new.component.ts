@@ -18,6 +18,7 @@ import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { ChipsModule } from 'primeng/chips';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-menu-new',
@@ -44,7 +45,8 @@ export class MenuNewComponent implements OnInit {
         private menuService: MenuService,
         private fb: FormBuilder,
         private location: Location,
-        private iconService: IconService
+        private iconService: IconService,
+        private messageService: MessageService
     ) {
         this.newMenuForm = this.fb.group({
             name: ['', Validators.required],
@@ -79,12 +81,12 @@ export class MenuNewComponent implements OnInit {
                 key: item.id,
             }));
 
-            this.menuOptions = groupByParent(this.menus);
-            this.menuOptions = recursiveMap(
-                this.menuOptions,
-                (data) => ({ ...data }),
-                'children'
-            );
+            this.menuOptions = groupByParent(this.menus, 'children');
+            // this.menuOptions = recursiveMap(
+            //     this.menuOptions,
+            //     (data) => ({ ...data }),
+            //     'children'
+            // );
 
             this.loading = false;
         });
@@ -130,5 +132,13 @@ export class MenuNewComponent implements OnInit {
 
     clickBack() {
         this.location.back();
+    }
+
+    show() {
+        this.messageService.add({
+            key: 'main',
+            severity: 'info',
+            detail: 'Ready',
+        });
     }
 }

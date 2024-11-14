@@ -9,10 +9,12 @@ import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { AuthConfigModule } from './auth/auth-config.module';
 import { AbstractSecurityStorage } from 'angular-auth-oidc-client';
 import { MyStorageService } from './auth/auth-custom-storage';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [AppRoutingModule, AppLayoutModule, AuthConfigModule],
+    imports: [AppRoutingModule, AppLayoutModule, AuthConfigModule, ToastModule],
     providers: [
         provideHttpClient(
             withInterceptors([
@@ -22,6 +24,7 @@ import { MyStorageService } from './auth/auth-custom-storage';
             ])
         ),
         { provide: AbstractSecurityStorage, useClass: MyStorageService },
+        MessageService,
     ],
     bootstrap: [AppComponent],
 })

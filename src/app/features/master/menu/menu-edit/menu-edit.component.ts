@@ -85,12 +85,12 @@ export class MenuEditComponent {
                 key: item.id,
             }));
 
-            this.menuOptions = groupByParent(this.menus);
-            this.menuOptions = recursiveMap(
-                this.menuOptions,
-                (data) => ({ ...data }),
-                'children'
-            );
+            this.menuOptions = groupByParent(this.menus, 'children');
+            // this.menuOptions = recursiveMap(
+            //     this.menuOptions,
+            //     (data) => ({ ...data }),
+            //     'children'
+            // );
         });
 
         this.menuService

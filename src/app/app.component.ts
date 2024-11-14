@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfig, LayoutService } from './layout/service/app.layout.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-root',

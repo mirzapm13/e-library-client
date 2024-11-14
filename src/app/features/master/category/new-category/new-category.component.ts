@@ -64,12 +64,15 @@ export class NewCategoryComponent implements OnInit {
                     label: item.name,
                 }));
 
-                this.categoryOptions = groupByParent(this.categories);
-                this.categoryOptions = recursiveMap(
-                    this.categoryOptions,
-                    (data) => ({ ...data }),
+                this.categoryOptions = groupByParent(
+                    this.categories,
                     'children'
                 );
+                // this.categoryOptions = recursiveMap(
+                //     this.categoryOptions,
+                //     (data) => ({ ...data }),
+                //     'children'
+                // );
             });
 
         this.loading = false;
