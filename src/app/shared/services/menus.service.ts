@@ -109,6 +109,14 @@ export class MenuService {
         );
     }
 
+    getMenuByCurrentRole(): Observable<HttpRequestState<any>> {
+        return this.http.get<any>('/menus/role-menu').pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
     getMenuById(id): Observable<HttpRequestState<any>> {
         return this.http.get<any>(`/menus/${id}`).pipe(
             map((value) => ({ isLoading: false, value })),
@@ -117,16 +125,11 @@ export class MenuService {
         );
     }
 
-    getMenuMaster(): Observable<any> {
-        return of(menus);
-        return this.http.get('/menu-settings').pipe();
-    }
-
     addMenu(data): Observable<HttpRequestState<any>> {
-        return this.http.post<any>('/menus', data).pipe(
+        return this.http.post<any>('/menusasda', data).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
@@ -136,5 +139,18 @@ export class MenuService {
             catchError((error) => of({ isLoading: false, error })),
             startWith({ isLoading: true })
         );
+    }
+
+    getMenuByRoleId(id): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/menus/role-menu/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    getMenuMaster(): Observable<any> {
+        return of(menus);
+        return this.http.get('/menu-settings').pipe();
     }
 }

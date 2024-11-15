@@ -43,7 +43,7 @@ export class DocumentMainComponent implements OnInit {
         private router: Router
     ) {}
 
-    categories: ICategoryState;
+    categories = [];
 
     docSrc: string;
     currentDateTime = new Date();
@@ -60,27 +60,18 @@ export class DocumentMainComponent implements OnInit {
         });
 
         this.categoryService
-            .getCategories()
-            .pipe(
-                map((data) => {
-                    const grouped = groupByParent(data);
-                    const mapped = recursiveMap(
-                        grouped,
-                        (item) => {
-                            return {
-                                label: item.name,
-                                id: item.id,
-                                ...(item.items && { items: item.items }),
-                            };
-                        },
-                        'items'
-                    );
-                    console.log(mapped);
-                    return mapped;
-                })
-            )
-            .subscribe((data) => {
-                this.categories = data;
+            .getCategoryByCurrentRole()
+            .subscribe(({ error, value }) => {
+                console.log(value.data);
+                const mapped = value.data.map((item) => {
+                    return {
+                        ...item,
+                        label: item.name,
+                        id: item.id,
+                    };
+                });
+                const grouped = groupByParent(mapped, 'items', 'parent_id');
+                this.categories = grouped;
             });
     }
 

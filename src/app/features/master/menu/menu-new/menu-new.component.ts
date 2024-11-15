@@ -12,13 +12,13 @@ import {
 import { MenuService } from 'src/app/shared/services/menus.service';
 import { CommonModule, Location } from '@angular/common';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { RolesService } from 'src/app/shared/services/role.service';
 import { IconService } from 'src/app/demo/service/icon.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { ChipsModule } from 'primeng/chips';
-import { MessageService } from 'primeng/api';
+import { NotifyService } from 'src/app/shared/services/notify.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-menu-new',
@@ -46,7 +46,8 @@ export class MenuNewComponent implements OnInit {
         private fb: FormBuilder,
         private location: Location,
         private iconService: IconService,
-        private messageService: MessageService
+        private notify: NotifyService,
+        private router: Router
     ) {
         this.newMenuForm = this.fb.group({
             name: ['', Validators.required],
@@ -77,11 +78,16 @@ export class MenuNewComponent implements OnInit {
 
             this.menus = value.data.map((item) => ({
                 ...item,
+                parent_id: item.parent_id,
                 label: item.name,
                 key: item.id,
             }));
 
-            this.menuOptions = groupByParent(this.menus, 'children');
+            this.menuOptions = groupByParent(
+                this.menus,
+                'children',
+                'parent_id'
+            );
             // this.menuOptions = recursiveMap(
             //     this.menuOptions,
             //     (data) => ({ ...data }),
@@ -109,36 +115,31 @@ export class MenuNewComponent implements OnInit {
 
     onSubmit() {
         if (!this.newMenuForm.valid) {
-            console.log('not valid');
+            this.notify.alert('error', 'Check the required fields');
             return;
         }
 
         let payload = this.newMenuForm.value;
         console.log(payload);
-        payload = { ...payload, parent_id: payload?.parent_id?.id };
+        payload = { ...payload, parent_id: payload?.parent_id.id };
 
-        // return;
         this.menuService
-            .addMenu(this.newMenuForm.value)
+            .addMenu(payload)
             .subscribe(({ isLoading, error, value }) => {
                 this.loading = true;
-                if (isLoading) return;
-                if (error) return;
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
 
-                console.log(value);
+                this.notify.alert('success', value.message);
+                this.router.navigateByUrl('/master-data/menu');
                 this.loading = false;
             });
     }
 
     clickBack() {
         this.location.back();
-    }
-
-    show() {
-        this.messageService.add({
-            key: 'main',
-            severity: 'info',
-            detail: 'Ready',
-        });
     }
 }

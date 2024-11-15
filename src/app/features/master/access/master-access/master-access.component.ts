@@ -35,6 +35,10 @@ export class MasterAccessComponent implements OnInit {
         return item.id; // O index
     };
 
+    goToMenuAccess(id) {
+        this.router.navigateByUrl(`/master-data/access/menu/${id}`);
+    }
+
     goToCategoryAccess(id) {
         this.router.navigateByUrl(`/master-data/access/category/${id}`);
     }

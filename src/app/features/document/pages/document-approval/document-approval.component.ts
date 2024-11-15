@@ -56,26 +56,18 @@ export class DocumentApprovalComponent {
         });
 
         this.categoryService
-            .getCategories()
-            .pipe(
-                map((data) => {
-                    const grouped = groupByParent(data);
-                    const mapped = recursiveMap(
-                        grouped,
-                        (item) => {
-                            return {
-                                label: item.name,
-                                id: item.id,
-                                ...(item.items && { children: item.items }),
-                            };
-                        },
-                        'items'
-                    );
-                    return mapped;
-                })
-            )
-            .subscribe((data) => {
-                this.categories = data;
+            .getCategoryByCurrentRole()
+            .subscribe(({ error, value }) => {
+                console.log(value.data);
+                const mapped = value.data.map((item) => {
+                    return {
+                        ...item,
+                        label: item.name,
+                        id: item.id,
+                    };
+                });
+                const grouped = groupByParent(mapped, 'items', 'parent_id');
+                this.categories = grouped;
             });
     }
 

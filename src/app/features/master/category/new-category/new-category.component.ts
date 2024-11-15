@@ -7,14 +7,15 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { CategoryService } from 'src/app/shared/services/category.service';
+import { NotifyService } from 'src/app/shared/services/notify.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
-import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
 @Component({
     selector: 'app-new-category',
@@ -38,7 +39,9 @@ export class NewCategoryComponent implements OnInit {
     constructor(
         private location: Location,
         private categoryService: CategoryService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private notify: NotifyService,
+        private router: Router
     ) {
         this.newCategoryForm = this.fb.group({
             name: [null, Validators.required],
@@ -98,7 +101,14 @@ export class NewCategoryComponent implements OnInit {
         this.categoryService
             .addCategory(payload)
             .subscribe(({ isLoading, error, value }) => {
-                console.log(value);
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
+
+                this.notify.alert('success', value.message);
+                this.router.navigateByUrl('/master-data/category');
                 this.loading = false;
             });
     }

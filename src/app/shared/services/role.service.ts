@@ -69,4 +69,20 @@ export class RolesService {
             // startWith({ isLoading: true })
         );
     }
+
+    assignRoleCategory(payload): Observable<HttpRequestState<any>> {
+        return this.http.post<any>(`/roles/assign-category`, payload).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    assignRoleMenu(payload): Observable<HttpRequestState<any>> {
+        return this.http.post<any>(`/roles/assign-menu`, payload).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
 }

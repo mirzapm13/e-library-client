@@ -33,7 +33,9 @@
                             <th>Role</th>
                             <th>Description</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Role Management</th>
+                            <th class="text-center">Edit Menu</th>
+                            <th class="text-center">Edit Category</th>
+                            <th class="text-center">Edit Role</th>
                         </tr>
                     </ng-template>
 
@@ -65,6 +67,24 @@
                                         class="menu-status"
                                     />
                                 </ng-template>
+                            </td>
+                            <td class="text-center">
+                                <p-button
+                                    icon="pi pi-user-edit"
+                                    size="small"
+                                    label="Edit"
+                                    severity="secondary"
+                                    (onClick)="goToMenuAccess(role.id)"
+                                />
+                            </td>
+                            <td class="text-center">
+                                <p-button
+                                    icon="pi pi-user-edit"
+                                    size="small"
+                                    label="Edit"
+                                    severity="secondary"
+                                    (onClick)="goToCategoryAccess(role.id)"
+                                />
                             </td>
                             <td class="text-center">
                                 <p-button

@@ -7,12 +7,13 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { NotifyService } from 'src/app/shared/services/notify.service';
 import { RolesService } from 'src/app/shared/services/role.service';
 
 @Component({
@@ -39,7 +40,8 @@ export class EditAccessComponent implements OnInit {
         private fb: FormBuilder,
         private location: Location,
         private roleService: RolesService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private notify: NotifyService
     ) {
         this.editRoleForm = this.fb.group({
             name: [null, Validators.required],
@@ -68,15 +70,21 @@ export class EditAccessComponent implements OnInit {
     onSubmit() {
         this.loading = true;
         if (!this.editRoleForm.valid) {
-            console.log('This is not valid');
+            this.notify.alert('error', 'Check the required fields');
             return;
         }
         // return;
         this.roleService
             .editRole(this.id, this.editRoleForm.value)
-            .subscribe(({ isLoading, error, value }) => {
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
+
+                this.notify.alert('success', value.message);
                 this.loading = false;
-                console.log(value.data);
             });
     }
 }

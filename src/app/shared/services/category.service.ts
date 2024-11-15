@@ -98,7 +98,23 @@ export class CategoryService {
     }
 
     editCategory(id, data): Observable<HttpRequestState<any>> {
-        return this.http.post<any>(`/categories/${id}`, data).pipe(
+        return this.http.put<any>(`/categories/${id}`, data).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    getCategoryByRoleId(id): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/categories/role-category/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    getCategoryByCurrentRole(): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/categories/role-category`).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })

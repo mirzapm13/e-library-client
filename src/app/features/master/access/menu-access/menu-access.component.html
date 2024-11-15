@@ -10,7 +10,7 @@
     <form class="flex flex-column gap-2 mt-5">
         <div class="field grid">
             <p-treeTable
-                [value]="categoryOptions"
+                [value]="menuOptions"
                 [columns]="cols"
                 selectionMode="checkbox"
                 [(selection)]="selectedNodes"
@@ -50,11 +50,11 @@
         <div class="flex justify-content-end mt-8">
             <p-button
                 (onClick)="onSubmit()"
-                type="submit"
+                type="button"
                 label="Submit"
             ></p-button>
         </div>
     </form>
 
-    <!-- <p-button (onClick)="showNodes()" label="Click" /> -->
+    <p-button (onClick)="showNodes()" label="Click" />
 </div>

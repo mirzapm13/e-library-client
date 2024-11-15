@@ -31,7 +31,7 @@ export class MasterCategoryComponent implements OnInit {
             .getCategories()
             .subscribe(({ isLoading, error, value }) => {
                 if (error) return;
-                // console.log(value.data);
+                console.log(value.data);
                 this.categories = value.data;
                 this.loading = false;
             });

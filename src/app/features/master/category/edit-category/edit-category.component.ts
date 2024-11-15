@@ -14,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { CategoryService } from 'src/app/shared/services/category.service';
+import { NotifyService } from 'src/app/shared/services/notify.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
@@ -41,7 +42,8 @@ export class EditCategoryComponent {
         private location: Location,
         private categoryService: CategoryService,
         private fb: FormBuilder,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private notify: NotifyService
     ) {
         this.editCategoryForm = this.fb.group({
             name: [null, Validators.required],
@@ -79,25 +81,24 @@ export class EditCategoryComponent {
                 //     (data) => ({ ...data }),
                 //     'children'
                 // );
-            });
+                this.categoryService
+                    .getCategoryById(this.id)
+                    .subscribe(({ isLoading, error, value }) => {
+                        if (error) return;
 
-        this.categoryService
-            .getCategoryById(this.id)
-            .subscribe(({ isLoading, error, value }) => {
-                if (error) return;
+                        this.defaultParent = this.categories.filter((item) => {
+                            return item.id == value.data.parentId;
+                        })[0];
 
-                this.defaultParent = this.categories.filter((item) => {
-                    return item.id == value.data.parentId;
-                })[0];
+                        let patchData = {
+                            ...value.data,
+                            parent_id: this.defaultParent,
+                        };
+                        console.log(patchData);
+                        this.editCategoryForm.patchValue(patchData);
 
-                let patchData = {
-                    ...value.data,
-                    parent_id: this.defaultParent,
-                };
-                console.log(patchData);
-                this.editCategoryForm.patchValue(patchData);
-
-                this.loading = false;
+                        this.loading = false;
+                    });
             });
     }
 
@@ -109,7 +110,7 @@ export class EditCategoryComponent {
         this.loading = true;
 
         let payload = this.editCategoryForm.value;
-        payload = { ...payload, parent_id: payload.parent_id.id };
+        payload = { ...payload, parent_id: payload.parent_id?.id };
         console.log(payload);
         if (!this.editCategoryForm.valid) {
             console.log('not valid');
@@ -119,7 +120,14 @@ export class EditCategoryComponent {
         this.categoryService
             .editCategory(this.id, payload)
             .subscribe(({ isLoading, error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
+
                 console.log(value);
+                this.notify.alert('success', value.message);
                 this.loading = false;
             });
     }

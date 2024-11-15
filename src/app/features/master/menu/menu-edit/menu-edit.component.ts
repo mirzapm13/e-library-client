@@ -6,7 +6,7 @@ import {
     FormBuilder,
     Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -15,6 +15,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { IconService } from 'src/app/demo/service/icon.service';
 import { MenuService } from 'src/app/shared/services/menus.service';
+import { NotifyService } from 'src/app/shared/services/notify.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
@@ -42,7 +43,8 @@ export class MenuEditComponent {
         private fb: FormBuilder,
         private location: Location,
         private iconService: IconService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private notify: NotifyService
     ) {
         this.editMenuForm = this.fb.group({
             name: ['', Validators.required],
@@ -77,39 +79,37 @@ export class MenuEditComponent {
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.menuService.getMenus().subscribe(({ isLoading, error, value }) => {
-            if (isLoading) return;
             if (error) return;
             this.menus = value.data.map((item) => ({
                 ...item,
                 label: item.name,
                 key: item.id,
+                parent_id: item.parent_id,
             }));
 
-            this.menuOptions = groupByParent(this.menus, 'children');
-            // this.menuOptions = recursiveMap(
-            //     this.menuOptions,
-            //     (data) => ({ ...data }),
-            //     'children'
-            // );
+            this.menuOptions = groupByParent(
+                this.menus,
+                'children',
+                'parent_id'
+            );
+
+            this.menuService
+                .getMenuById(this.id)
+                .subscribe(({ isLoading, error, value }) => {
+                    if (error) return;
+
+                    this.defaultMenu = this.menus.filter((item) => {
+                        return item.id == value.data.parentId;
+                    })[0];
+
+                    let patchData = {
+                        ...value.data,
+                        parent_id: this.defaultMenu,
+                    };
+                    this.editMenuForm.patchValue(patchData);
+                    this.loading = false;
+                });
         });
-
-        this.menuService
-            .getMenuById(this.id)
-            .subscribe(({ isLoading, error, value }) => {
-                if (error) return;
-                if (isLoading) return;
-
-                this.defaultMenu = this.menus.filter((item) => {
-                    return item.id == value.data.parentId;
-                })[0];
-
-                let patchData = {
-                    ...value.data,
-                    parent_id: this.defaultMenu,
-                };
-                this.editMenuForm.patchValue(patchData);
-                this.loading = false;
-            });
 
         this.iconService.getIcons().subscribe((data) => {
             data = data.filter((value) => {
@@ -145,14 +145,21 @@ export class MenuEditComponent {
         payload = { ...payload, parent_id: payload.parent_id?.id };
 
         if (!this.editMenuForm.valid) {
-            console.log('not valid');
+            this.notify.alert('error', 'Check the required fields');
             return;
         }
         // return;
         this.menuService
             .editMenu(this.id, payload)
             .subscribe(({ isLoading, error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
+
                 console.log(value.message);
+                this.notify.alert('success', value.message);
                 this.loading = false;
             });
     }

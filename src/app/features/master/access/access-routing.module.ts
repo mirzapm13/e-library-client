@@ -29,6 +29,14 @@ import { RouterModule } from '@angular/router';
                     ),
             },
             {
+                path: 'menu/:id',
+                data: { breadcrumb: 'Access Menu' },
+                loadComponent: () =>
+                    import('./menu-access/menu-access.component').then(
+                        (m) => m.MenuAccessComponent
+                    ),
+            },
+            {
                 path: 'role/:id',
                 data: { breadcrumb: 'Role Management' },
                 loadComponent: () =>

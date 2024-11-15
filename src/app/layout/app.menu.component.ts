@@ -12,10 +12,7 @@ import { map } from 'rxjs';
     templateUrl: './app.menu.component.html',
 })
 export class AppMenuComponent implements OnInit {
-    constructor(
-        private menuService: MenuService,
-        private userService: UserService
-    ) {}
+    constructor(private menuService: MenuService) {}
 
     model: any[] = [];
     menuMap: any[] = [];
@@ -497,20 +494,45 @@ export class AppMenuComponent implements OnInit {
     ];
 
     ngOnInit() {
+        // this.menuService
+        //     .getMenuMaster()
+        //     .pipe(
+        //         map((data) => {
+        //             const grouped = groupByParent(data);
+        //             const mapped = recursiveMap(grouped, (item) => {
+        //                 return {
+        //                     label: item.name,
+        //                     routerLink: [item.path],
+        //                     icon: item.icon,
+        //                     ...(item.items && { items: item.childs }),
+        //                 };
+        //             });
+        //             return mapped;
+        //         })
+        //     )
+        //     .subscribe((item) => {
+        //         this.model = [
+        //             {
+        //                 label: 'Galeri 24 E-Library',
+        //                 items: item,
+        //             },
+        //             // ...this.primeNgMenu,
+        //         ];
+        //     });
+
         this.menuService
-            .getMenuMaster()
+            .getMenuByCurrentRole()
             .pipe(
-                map((data) => {
-                    const grouped = groupByParent(data);
-                    const mapped = recursiveMap(grouped, (item) => {
-                        return {
-                            label: item.name,
-                            routerLink: [item.path],
-                            icon: item.icon,
-                            ...(item.items && { items: item.childs }),
-                        };
-                    });
-                    return mapped;
+                map(({ error, value }) => {
+                    const mapped = value.data.map((item) => ({
+                        ...item,
+                        label: item.name,
+                        routerLink: [item.path],
+                        icon: item.icon,
+                    }));
+
+                    const grouped = groupByParent(mapped, 'items', 'parent_id');
+                    return grouped;
                 })
             )
             .subscribe((item) => {
