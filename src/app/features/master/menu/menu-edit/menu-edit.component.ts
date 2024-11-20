@@ -16,6 +16,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { IconService } from 'src/app/demo/service/icon.service';
 import { MenuService } from 'src/app/shared/services/menus.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
+import { RolesService } from 'src/app/shared/services/role.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 
@@ -44,7 +45,8 @@ export class MenuEditComponent {
         private location: Location,
         private iconService: IconService,
         private route: ActivatedRoute,
-        private notify: NotifyService
+        private notify: NotifyService,
+        private roleService: RolesService
     ) {
         this.editMenuForm = this.fb.group({
             name: ['', Validators.required],
@@ -53,6 +55,7 @@ export class MenuEditComponent {
             parent_id: [null],
             order: ['', Validators.required],
             status: [true, Validators.required],
+            permissions: [[]],
             // description: [''],
         });
     }
@@ -69,7 +72,8 @@ export class MenuEditComponent {
     menus = [];
     menuOptions = [];
     id: string;
-    defaultMenu;
+    defaultParent;
+    permissionOptions = [];
 
     loading = false;
 
@@ -98,16 +102,26 @@ export class MenuEditComponent {
                 .subscribe(({ isLoading, error, value }) => {
                     if (error) return;
 
-                    this.defaultMenu = this.menus.filter((item) => {
+                    // console.log(value.data);
+
+                    this.defaultParent = this.menus.filter((item) => {
                         return item.id == value.data.parentId;
                     })[0];
 
                     let patchData = {
                         ...value.data,
-                        parent_id: this.defaultMenu,
+                        parent_id: this.defaultParent,
                     };
-                    this.editMenuForm.patchValue(patchData);
-                    this.loading = false;
+
+                    this.roleService
+                        .getPermissions()
+                        .subscribe(({ error, value }) => {
+                            if (error) return;
+                            this.permissionOptions = value.data;
+
+                            this.editMenuForm.patchValue(patchData);
+                            this.loading = false;
+                        });
                 });
         });
 
@@ -158,7 +172,6 @@ export class MenuEditComponent {
                     return;
                 }
 
-                console.log(value.message);
                 this.notify.alert('success', value.message);
                 this.loading = false;
             });

@@ -5,6 +5,7 @@
         <div class="flex flex-column gap-4">
             <div class="flex justify-content-end gap-2">
                 <p-button
+                    *ngIf="userPermissions.includes('create-menu')"
                     icon="pi pi-plus"
                     label="New"
                     severity="primary"
@@ -44,7 +45,7 @@
                         <tr>
                             <td>{{ menu.name }}</td>
                             <td>{{ menu.path }}</td>
-                            <td>{{ menu.parents[0]?.name }}</td>
+                            <td>{{ joinParents(menu.parents) }}</td>
                             <td class="text-center">{{ menu.order }}</td>
                             <td>{{ menu.icon }}</td>
                             <td class="text-center">
@@ -68,13 +69,37 @@
                                 </ng-template>
                             </td>
                             <td class="text-center">
-                                <p-button
-                                    icon="pi pi-user-edit"
-                                    size="small"
-                                    label="Edit"
-                                    severity="secondary"
-                                    (onClick)="goToEditMenu(menu.id)"
-                                />
+                                <div
+                                    class="flex align-items-center gap-2 justify-content-center"
+                                >
+                                    <p-button
+                                        *ngIf="
+                                            userPermissions.includes(
+                                                'update-menu'
+                                            )
+                                        "
+                                        icon="pi pi-user-edit"
+                                        size="small"
+                                        label="Edit"
+                                        severity="secondary"
+                                        (onClick)="goToEditMenu(menu.id)"
+                                    />
+
+                                    <p-button
+                                        *ngIf="
+                                            userPermissions.includes(
+                                                'delete-menu'
+                                            )
+                                        "
+                                        icon="pi pi-trash"
+                                        size="small"
+                                        label="Delete"
+                                        severity="danger"
+                                        (onClick)="
+                                            deleteMenu(menu.id, menu.name)
+                                        "
+                                    />
+                                </div>
                             </td>
                         </tr>
                     </ng-template>

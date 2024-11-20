@@ -50,11 +50,11 @@ export class DocumentApprovalComponent {
     ngOnInit(): void {
         this.docSrc = 'assets/docs/sample.pdf';
 
-        this.documentService.getDocuments().subscribe((data) => {
-            console.log(data);
-            this.documents = data;
+        this.documentService.getDocuments().subscribe(({ error, value }) => {
+            if (error) return;
+            // console.log(data);
+            this.documents = value.data;
         });
-
         this.categoryService
             .getCategoryByCurrentRole()
             .subscribe(({ error, value }) => {

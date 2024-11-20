@@ -10,11 +10,18 @@ import { AuthConfigModule } from './auth/auth-config.module';
 import { AbstractSecurityStorage } from 'angular-auth-oidc-client';
 import { MyStorageService } from './auth/auth-custom-storage';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [AppRoutingModule, AppLayoutModule, AuthConfigModule, ToastModule],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule,
+        AuthConfigModule,
+        ToastModule,
+        ConfirmDialogModule,
+    ],
     providers: [
         provideHttpClient(
             withInterceptors([
@@ -25,6 +32,7 @@ import { MessageService } from 'primeng/api';
         ),
         { provide: AbstractSecurityStorage, useClass: MyStorageService },
         MessageService,
+        ConfirmationService,
     ],
     bootstrap: [AppComponent],
 })

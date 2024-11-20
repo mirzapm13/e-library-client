@@ -29,7 +29,7 @@ import { RouterModule } from '@angular/router';
                     ).then((m) => m.DocumentUploadComponent),
             },
             {
-                path: 'Document/:id',
+                path: 'document/:id',
                 data: { breadcrumb: 'Document Details' },
                 loadComponent: () =>
                     import(

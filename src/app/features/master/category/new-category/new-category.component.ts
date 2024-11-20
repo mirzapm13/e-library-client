@@ -89,7 +89,7 @@ export class NewCategoryComponent implements OnInit {
         this.loading = true;
 
         let payload = this.newCategoryForm.value;
-        payload = { ...payload, parent_id: payload.parent_id.id };
+        payload = { ...payload, parent_id: payload.parent_id?.id };
         console.log(payload);
 
         if (!this.newCategoryForm.valid) {

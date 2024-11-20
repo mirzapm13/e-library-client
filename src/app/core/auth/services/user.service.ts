@@ -8,6 +8,7 @@ import {
     tap,
     throwError,
 } from 'rxjs';
+import { HttpRequestState } from 'src/app/shared/http-request-state';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -25,9 +26,11 @@ export class UserService {
         this.userDataSubject.next(userData);
     }
 
-    fetchUserData(): Observable<any> {
+    fetchUserData(): Observable<HttpRequestState<any>> {
         return this.http.post<any>(`/auth/callback`, {}).pipe(
-            tap((data: any) => this.userDataSubject.next(data)),
+            tap((data: any) => this.userDataSubject.next(data?.data)),
+            map((value) => ({ isLoading: false, value })),
+            // catchError((error) => of({ isLoading: false, error })),
             catchError((err) => {
                 return throwError(err);
             })

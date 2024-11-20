@@ -8,7 +8,23 @@
             />
         </div> -->
         <div class="p-3">
+            <p-tabView>
+                <p-tabPanel header="All" (onclick)="log()" />
+                <p-tabPanel header="Release" (onclick)="log()" />
+                <p-tabPanel header="Bookmark" />
+                <p-tabPanel header="Waiting for Approval" />
+                <p-tabPanel header="Archive" />
+            </p-tabView>
+        </div>
+        <div class="p-3">
             <p-menubar [model]="categories" />
+        </div>
+        <div>
+            <p>
+                {{ selectedChild?.id | json }}
+                {{ selectedChild?.hierarchy | json }}
+                {{ selectedChild?.name | json }}
+            </p>
         </div>
         <div class="MainContainer__Search flex mb-5">
             <div class="col-3">
@@ -76,12 +92,12 @@
                             <div class="DocumentCard__More">
                                 <p class="mb-2">Expired : {{ doc.expired }}</p>
                                 <div class="DocumentCard__Details__Tags">
-                                    <p
+                                    <!-- <p
                                         class="text-sm"
                                         *ngFor="let tag of doc.tags"
                                     >
                                         {{ tag }}
-                                    </p>
+                                    </p> -->
                                 </div>
                                 <div class="DocumentCard__More__Buttons">
                                     <p-button

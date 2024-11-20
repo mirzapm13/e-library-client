@@ -136,13 +136,21 @@ export class MenuService {
     editMenu(id, data): Observable<HttpRequestState<any>> {
         return this.http.put<any>(`/menus/${id}`, data).pipe(
             map((value) => ({ isLoading: false, value })),
-            catchError((error) => of({ isLoading: false, error })),
-            startWith({ isLoading: true })
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
     getMenuByRoleId(id): Observable<HttpRequestState<any>> {
         return this.http.get<any>(`/menus/role-menu/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    deleteMenu(id): Observable<HttpRequestState<any>> {
+        return this.http.delete<any>(`/menus/${id}`).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })

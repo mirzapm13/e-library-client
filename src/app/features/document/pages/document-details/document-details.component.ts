@@ -2,18 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { ButtonModule } from 'primeng/button';
 import { download } from 'src/app/shared/utils/download-file';
-import { SafePipe } from '../../../../shared/pipes/safe-url-pipe';
+// import { SafePipe } from '../../../../shared/pipes/safe-url-pipe';
 import { DocumentService } from 'src/app/shared/services/document.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-document-details',
     standalone: true,
-    imports: [ButtonModule, SafePipe, CommonModule, TableModule, DialogModule],
+    imports: [
+        ButtonModule,
+        // SafePipe,
+        CommonModule,
+        TableModule,
+        DialogModule,
+        PdfViewerModule,
+    ],
     templateUrl: './document-details.component.html',
     styleUrl: './document-details.component.scss',
 })
@@ -21,49 +30,76 @@ export class DocumentDetailsComponent implements OnInit {
     constructor(
         private documentService: DocumentService,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private sanitizer: DomSanitizer
     ) {}
 
     isOpen = false;
     currentDoc: any;
     currentDateTime = new Date();
-    approvals = [
-        {
-            id: '1',
-            name: 'Kadep DevOps',
-            status: 'approved',
-        },
-        {
-            id: '3',
-            name: 'Kadep HR',
-            status: 'waiting',
-        },
-    ];
+    fallback = 'assets/docs/sample.pdf';
+    approvals = [];
+
+    id;
+
+    pdfUrl: SafeResourceUrl | null = null;
+    loading: boolean = false;
+
+    fileReader;
+
+    pdfBlob;
 
     ngOnInit(): void {
-        // this.docSrc = 'assets/docs/sample.pdf';
-        this.route.paramMap
-            .pipe(
-                switchMap((params) => {
-                    const id = params.get('id');
-                    return this.documentService.getDocument(params.get('id'));
-                })
-            )
-            .subscribe((data) => {
-                console.log(data);
-                this.currentDoc = data;
+        this.loading = true;
+        this.id = this.route.snapshot.paramMap.get('id');
+
+        this.documentService
+            .getDocumentById(this.id)
+            .subscribe(({ error, value }) => {
+                if (error) return;
+
+                this.currentDoc = value.data;
+                let payload = { filename: value.data.filename };
+
+                this.documentService.downloadFile(payload).subscribe({
+                    next: (pdfBlob) => {
+                        // Create a Blob URL and sanitize it
+                        // const url = URL.createObjectURL(pdfBlob);
+                        // this.pdfUrl =
+                        //     this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+                        this.pdfBlob = pdfBlob;
+
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            this.pdfUrl = reader.result; // Set the PDF data as an ArrayBuffer
+                            this.loading = false;
+                        };
+
+                        reader.readAsArrayBuffer(pdfBlob);
+
+                        this.loading = false;
+                    },
+                    error: (err) => {
+                        console.error('Failed to load PDF', err);
+                        this.loading = false;
+                    },
+                });
             });
     }
 
     async downloadPdf() {
-        // Fetch an existing PDF document
-        const url = this.currentDoc.docSrc;
-        const existingPdfBytes = await fetch(url).then((res) =>
-            res.arrayBuffer()
-        );
+        let arrBuff = await this.pdfBlob
+            .arrayBuffer()
+            .then((arrayBuffer) => {
+                return arrayBuffer;
+            })
+            .catch((error) => {
+                console.error('Failed to convert Blob to ArrayBuffer:', error);
+            });
 
         // Load a PDFDocument from the existing PDF bytes
-        const pdfDoc = await PDFDocument.load(existingPdfBytes);
+        const pdfDoc = await PDFDocument.load(arrBuff);
 
         const page = pdfDoc.getPage(0);
         const { width, height } = page.getSize();
@@ -99,7 +135,6 @@ export class DocumentDetailsComponent implements OnInit {
     }
 
     clickBack() {
-        console.log('clicked');
-        this.router.navigateByUrl('/library/dokumen');
+        this.router.navigateByUrl('/library/document');
     }
 }

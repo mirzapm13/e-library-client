@@ -15,6 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TreeModule } from 'primeng/tree';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { TreeTableModule } from 'primeng/treetable';
+import { UserService } from 'src/app/core/auth/services/user.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { RolesService } from 'src/app/shared/services/role.service';
@@ -50,11 +51,13 @@ export class CategoryAccessComponent implements OnInit {
 
     selectedNodes = [];
     id;
+    partiallySelectedIds = []; // Holds IDs of partially selected nodes
+    roleName;
 
     constructor(
-        private router: Router,
         private fb: FormBuilder,
         private categoryService: CategoryService,
+        private router: Router,
         private route: ActivatedRoute,
         private roleService: RolesService,
         private notify: NotifyService
@@ -71,7 +74,6 @@ export class CategoryAccessComponent implements OnInit {
         this.categoryService
             .getCategoryByRoleId(this.id)
             .subscribe(({ error, value }) => {
-                console.log(value.data);
                 this.categories = value.data.map((item) => ({
                     ...item,
                     key: item.id,
@@ -90,26 +92,15 @@ export class CategoryAccessComponent implements OnInit {
                         key: item.id,
                         data: item,
                     }));
+
+                this.roleService
+                    .getRoleById(this.id)
+                    .subscribe(({ isLoading, error, value }) => {
+                        if (error) return;
+                        this.roleName = value.data.name;
+                        this.loading = false;
+                    });
             });
-
-        // this.categoryService
-        //     .getCategories()
-        //     .subscribe(({ isLoading, error, value }) => {
-        //         if (error) return;
-
-        //         this.categories = value.data.map((item) => ({
-        //             ...item,
-        //             key: item.id,
-        //             data: item,
-        //         }));
-
-        //         this.categoryOptions = groupByParent(
-        //             this.categories,
-        //             'children'
-        //         );
-        //     });
-
-        this.loading = false;
     }
 
     clickBack() {
@@ -117,11 +108,24 @@ export class CategoryAccessComponent implements OnInit {
     }
 
     showNodes() {
-        console.log(this.selectedNodes);
+        let mappedNodes = this.selectedNodes.map((item) => item.id);
+        this.partiallySelectedIds = this.getPartialSelectedIds(
+            this.categoryOptions
+        );
+
+        mappedNodes = [...mappedNodes, ...this.partiallySelectedIds];
+        // console.log(mappedNodes);
     }
 
     onSubmit() {
         let mappedNodes = this.selectedNodes.map((item) => item.id);
+        this.partiallySelectedIds = this.getPartialSelectedIds(
+            this.categoryOptions
+        );
+
+        mappedNodes = [...mappedNodes, ...this.partiallySelectedIds];
+
+        mappedNodes = [...new Set(mappedNodes)];
 
         let payload = {
             role_id: this.id,
@@ -140,5 +144,47 @@ export class CategoryAccessComponent implements OnInit {
                 this.notify.alert('success', value.message);
                 this.loading = false;
             });
+    }
+
+    nodeSelect(event) {
+        const selectedNode = event.node;
+
+        // Traverse up the tree and select all parent nodes
+        this.selectParentNodes(selectedNode);
+    }
+
+    selectParentNodes(node: any) {
+        if (node.parent) {
+            const parent = node.parent;
+
+            // Add the parent to selection if not already selected
+            if (!this.selectedNodes.includes(parent)) {
+                this.selectedNodes.push(parent);
+            }
+
+            // Recursively process the parent of the current parent
+            this.selectParentNodes(parent);
+        }
+    }
+
+    getPartialSelectedIds(nodes: any[]): number[] {
+        const partialIds: number[] = [];
+
+        // Recursive helper function
+        function collectPartials(node: any) {
+            if (node.partialSelected) {
+                partialIds.push(node.data.id); // Add node ID if partially selected
+            }
+
+            // Traverse children if present
+            if (node.children && node.children.length) {
+                node.children.forEach(collectPartials);
+            }
+        }
+
+        // Traverse all root nodes
+        nodes.forEach(collectPartials);
+
+        return partialIds;
     }
 }

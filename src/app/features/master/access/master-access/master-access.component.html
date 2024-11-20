@@ -9,6 +9,7 @@
                     label="New"
                     severity="primary"
                     (click)="goToNewRole()"
+                    *ngIf="userPermissions.includes('create-role')"
                 />
             </div>
 
@@ -70,6 +71,9 @@
                             </td>
                             <td class="text-center">
                                 <p-button
+                                    *ngIf="
+                                        userPermissions.includes('update-role')
+                                    "
                                     icon="pi pi-user-edit"
                                     size="small"
                                     label="Edit"
@@ -79,6 +83,9 @@
                             </td>
                             <td class="text-center">
                                 <p-button
+                                    *ngIf="
+                                        userPermissions.includes('update-role')
+                                    "
                                     icon="pi pi-user-edit"
                                     size="small"
                                     label="Edit"
@@ -88,6 +95,9 @@
                             </td>
                             <td class="text-center">
                                 <p-button
+                                    *ngIf="
+                                        userPermissions.includes('update-role')
+                                    "
                                     icon="pi pi-user-edit"
                                     size="small"
                                     label="Edit"

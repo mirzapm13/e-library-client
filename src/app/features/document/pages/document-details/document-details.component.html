@@ -10,18 +10,13 @@
     </div>
     <div class="Container">
         <div class="Container__Document">
-            <iframe
-                class="mb-4"
-                title="test-frame"
-                [src]="
-                    currentDoc?.url &&
-                    (currentDoc.url + '#toolbar=0' | safe : 'resourceUrl')
-                "
-                type="application/pdf"
-                height="800"
-                width="100%"
-            >
-            </iframe>
+            <pdf-viewer
+                *ngIf="pdfUrl"
+                [src]="pdfUrl"
+                [render-text]="true"
+                [original-size]="true"
+                style="width: 100%; height: 800px"
+            ></pdf-viewer>
             <div class="flex justify-content-end">
                 <p-button
                     icon="pi pi-download"
@@ -34,13 +29,13 @@
 
         <div class="Container__Details">
             <div class="Top">
-                <h3 class="mb-0">{{ currentDoc.name }}</h3>
+                <h3 class="mb-0">{{ currentDoc?.name }}</h3>
 
                 <h3 class="m-0 mb-1" style="font-weight: 700; color: #69707a">
-                    {{ currentDoc.short_desc }}
+                    {{ currentDoc?.short_desc }}
                 </h3>
                 <p class="m-0 mb-5 text-lg">
-                    {{ currentDoc.parents }}
+                    {{ currentDoc?.parents }}
                 </p>
 
                 <div class="Container__Details__Icons">
@@ -53,15 +48,15 @@
                 </div>
 
                 <p class="text-lg mt-5">
-                    Expired at : {{ currentDoc.expired }}
+                    Expired at : {{ currentDoc?.expired }}
                 </p>
 
                 <div class="Top__Tags flex">
-                    <p *ngFor="let tag of currentDoc.tags">{{ tag }}</p>
+                    <!-- <p *ngFor="let tag of currentDoc?.tags">{{ tag }}</p> -->
                 </div>
 
                 <h5 class="mb-1">Description</h5>
-                <p>{{ currentDoc.long_desc }}</p>
+                <p>{{ currentDoc?.long_desc }}</p>
             </div>
             <!-- 
             <div class="Bottom">
@@ -128,7 +123,7 @@
 >
     <p class="p-text-primary block mb-5 text-xl">
         Ingin update approval dokumen untuk :
-        <span style="font-weight: 700">{{ currentDoc.name }}?</span>
+        <span style="font-weight: 700">{{ currentDoc?.name }}?</span>
     </p>
     <div class="flex justify-content-end gap-2">
         <p-button label="Cancel" severity="danger" (onClick)="isOpen = false" />

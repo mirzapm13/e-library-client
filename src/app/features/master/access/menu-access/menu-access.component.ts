@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { TreeTableModule } from 'primeng/treetable';
 import { MenuService } from 'src/app/shared/services/menus.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
@@ -11,7 +13,13 @@ import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 @Component({
     selector: 'app-menu-access',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TreeTableModule],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        TreeTableModule,
+        FormsModule,
+        InputTextModule,
+    ],
     templateUrl: './menu-access.component.html',
     styleUrl: './menu-access.component.scss',
 })
@@ -24,6 +32,8 @@ export class MenuAccessComponent implements OnInit {
         { field: 'label', header: 'Menu' },
         { field: 'access', header: 'Access' },
     ];
+
+    roleName;
 
     constructor(
         private menuService: MenuService,
@@ -41,25 +51,18 @@ export class MenuAccessComponent implements OnInit {
         this.menuService
             .getMenuByRoleId(this.id)
             .subscribe(({ error, value }) => {
-                console.log(value.data);
-
-                this.menus = value.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                    data: item,
-                    expanded: true,
-                }));
-
+                this.menus = value.data;
                 this.menuOptions = groupByParent(this.menus, 'children');
 
-                this.selectedNodes = value.data
-                    .filter((item) => item.active)
-                    .map((item) => ({
-                        ...item,
-                        key: item.id,
-                        data: item,
-                    }));
-                this.loading = false;
+                // console.log(this.menuOptions);
+
+                this.roleService
+                    .getRoleById(this.id)
+                    .subscribe(({ isLoading, error, value }) => {
+                        if (error) return;
+                        this.roleName = value.data.name;
+                        this.loading = false;
+                    });
             });
     }
 
@@ -71,14 +74,26 @@ export class MenuAccessComponent implements OnInit {
         console.log(this.selectedNodes);
     }
 
+    activeItems = [];
+
     onSubmit() {
-        let mappedNodes = this.selectedNodes.map((item) => item.id);
+        // const checkboxes = document.querySelectorAll(
+        //     'input[type="checkbox"][name="menu-access"]:checked'
+        // );
+        // const values = Array.from(checkboxes).map(
+        //     (checkbox: HTMLInputElement) => checkbox.value
+        // );
+
+        this.loading = true;
+
+        this.processLoop(this.menuOptions);
 
         let payload = {
             role_id: this.id,
-            menu_ids: mappedNodes,
+            menus: this.activeItems,
         };
 
+        this.activeItems = [];
         this.roleService
             .assignRoleMenu(payload)
             .subscribe(({ error, value }) => {
@@ -91,5 +106,24 @@ export class MenuAccessComponent implements OnInit {
                 this.notify.alert('success', value.message);
                 this.loading = false;
             });
+    }
+
+    processItem(item) {
+        if (item.active) {
+            let menu = {
+                id: item.id,
+                permissions: item.permissions
+                    .filter((perm) => perm.active)
+                    .map((perm) => perm.name),
+            };
+
+            this.activeItems.push(menu);
+
+            if (item.children) this.processLoop(item.children);
+        }
+    }
+
+    processLoop(data) {
+        data.forEach((item) => this.processItem(item));
     }
 }

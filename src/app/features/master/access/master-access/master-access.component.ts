@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { UserService } from 'src/app/core/auth/services/user.service';
 import { RolesService } from 'src/app/shared/services/role.service';
-import { UsersService } from 'src/app/shared/services/users.service';
+import { User, UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
     selector: 'app-master-role',
@@ -14,17 +15,26 @@ import { UsersService } from 'src/app/shared/services/users.service';
     styleUrl: './master-access.component.scss',
 })
 export class MasterAccessComponent implements OnInit {
-    constructor(private roleService: RolesService, private router: Router) {}
+    constructor(
+        private roleService: RolesService,
+        private router: Router,
+        private userService: UserService
+    ) {}
 
     roles: any[] = [];
 
     loading = true;
+
+    userPermissions;
+
     ngOnInit(): void {
         this.roleService.getRoles().subscribe(({ isLoading, error, value }) => {
             this.roles = value.data;
 
             this.loading = false;
         });
+
+        this.userPermissions = this.userService.getUserData().permissions;
     }
 
     goToNewRole() {

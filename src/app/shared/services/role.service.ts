@@ -85,4 +85,12 @@ export class RolesService {
             // startWith({ isLoading: true })
         );
     }
+
+    getPermissions(): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/roles/permissions`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
 }

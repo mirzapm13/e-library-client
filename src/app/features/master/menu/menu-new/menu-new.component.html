@@ -121,18 +121,17 @@
                 </div>
             </div>
 
-            <!-- <div class="field grid">
+            <div class="field grid">
                 <label class="col-2" for="status">Permissions</label>
                 <div class="col-12 md:col-10">
-                    <p-chips
-                        class="w-full"
-                        styleClass="TagInput"
-                        [style]="{ width: '100%' }"
-                        [inputStyle]="{ width: '100%' }"
+                    <p-multiSelect
+                        class="block w-full"
+                        styleClass="w-full"
+                        [options]="permissionOptions"
                         formControlName="permissions"
                     />
                 </div>
-            </div> -->
+            </div>
 
             <div class="flex justify-content-end mt-8">
                 <p-button type="submit" label="Submit"></p-button>

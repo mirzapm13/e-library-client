@@ -1,0 +1,2050 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "id": "3cc3826f-b2a7-4279-8391-9842bc1bad31",
+            "username": "admin",
+            "firstName": "sso-dev",
+            "lastName": "Administrator",
+            "email": "admin@email.com",
+            "emailVerified": true,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-23T08:34:03.21226229Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717486841611,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "23ad7881-37fe-4d3f-918d-04879637867e",
+            "username": "akmal",
+            "firstName": "akmal",
+            "lastName": "jamil",
+            "email": "akmaljamil75@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-25T03:19:01.598857462Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717497613012,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 1718188814,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "a8fe6d1f-e3b5-4bcf-bf0d-b7d566c6c025",
+            "username": "andromega-admin",
+            "firstName": "Admin",
+            "lastName": "Andromega",
+            "email": "muchammadgalihs@gmail.com",
+            "emailVerified": true,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-22T07:54:30.483821471Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1721615927115,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "99fcb266-3d8e-4b11-bcf9-b707bfc44ad5",
+            "username": "ardini",
+            "firstName": "Ardini",
+            "lastName": "Fitria",
+            "email": "ardini.fitria@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-24T07:34:13.167671783Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ],
+                "jabatan": [
+                    "tes"
+                ]
+            },
+            "createdTimestamp": 1717490207906,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "990f347f-7d0f-4d25-a694-b4ba0a59cae9",
+            "username": "auditor",
+            "firstName": "Auditor",
+            "lastName": "Pusat",
+            "email": "auditor@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-09-05T05:21:31.280174855Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717495749630,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "c5bffc67-80ff-4d74-b02d-8eeac42012e1",
+            "username": "auditor_pusat",
+            "firstName": "auditor",
+            "lastName": "Kanpusat",
+            "email": "auditorpusat@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-06-19T05:19:43.202152652Z"
+                ]
+            },
+            "createdTimestamp": 1717645497557,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "cd7cb2ec-b59b-4173-9c07-ce867d607db3",
+            "username": "auditor_regional",
+            "firstName": "Auditor ",
+            "lastName": "Regional",
+            "email": "auditorregional@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-08-07T08:59:02.047175057Z"
+                ],
+                "unit-kerja": [
+                    "54014"
+                ]
+            },
+            "createdTimestamp": 1717495895853,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "d4937fed-4d5b-4bcc-b5ab-1b3a6dff4415",
+            "username": "distropangkalpinang",
+            "firstName": "Distro",
+            "lastName": "Pangkal Piinang",
+            "email": "distropangkal@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-09T03:23:32.15202074Z"
+                ],
+                "unit-kerja": [
+                    "55083"
+                ]
+            },
+            "createdTimestamp": 1728444135915,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "70ee5374-6a4e-4725-b5ab-1fb971efb479",
+            "username": "g24000",
+            "firstName": "RM",
+            "lastName": "REGIONAL 2",
+            "email": "rm@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-04T08:28:24.415263304Z"
+                ],
+                "unit-kerja": [
+                    "54015"
+                ]
+            },
+            "createdTimestamp": 1728030320959,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "619057db-f854-4edd-bc60-5375c9296fd4",
+            "username": "g24002",
+            "firstName": "Assegaf L.",
+            "lastName": "Faizal",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717490644008,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "1e2bfe99-af74-44c9-b6b7-b42c10ffc300",
+            "username": "g24016",
+            "firstName": "Muchammad",
+            "lastName": "Galih",
+            "email": "muchammad.saputra@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-07-17T04:49:20.779653521Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717488724728,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "f175bcd0-dd74-448e-a8df-89f38a382910",
+            "username": "g24051",
+            "firstName": "Regional",
+            "lastName": "Manager",
+            "email": "regionalmanager@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "54014"
+                ],
+                "ciam_last_login": [
+                    "2024-10-25T06:48:30.03815224Z"
+                ]
+            },
+            "createdTimestamp": 1717576244684,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "e2fa8214-c048-4e44-99bd-b3ef869f5a8f",
+            "username": "hasby",
+            "firstName": "Muhammad",
+            "lastName": "Hasby",
+            "email": "muhammad.hasby@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-15T09:03:11.709525811Z"
+                ]
+            },
+            "createdTimestamp": 1717490360620,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "4bf06edf-ab61-4be3-a018-755fcf7c5323",
+            "username": "k24003",
+            "firstName": "Kadep ",
+            "lastName": "Tresuri",
+            "email": "kadeptresuri@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-06-24T09:19:26.099427954Z"
+                ]
+            },
+            "createdTimestamp": 1717495231727,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "f357f797-9ade-47ac-9841-3098e8f5d100",
+            "username": "k24004",
+            "firstName": "MR JAKARTA",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "54014"
+                ]
+            },
+            "createdTimestamp": 1717646037651,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "25982f85-03f8-40a8-a4f6-b98e7713702f",
+            "username": "k24020",
+            "firstName": "MR MEDAN",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "54002"
+                ]
+            },
+            "createdTimestamp": 1717642689324,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "695b2306-130f-48d7-b0ca-1d9a35450f8e",
+            "username": "k24093",
+            "firstName": "MANDIS ",
+            "lastName": "MEDAN UTAMA",
+            "email": "a@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-10T08:43:43.300537955Z"
+                ],
+                "unit-kerja": [
+                    "55001"
+                ],
+                "jabatan": [
+                    "mandis"
+                ]
+            },
+            "createdTimestamp": 1726645833344,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "ac3d8c22-bfe6-474b-837a-b66bb4b5697c",
+            "username": "k24095",
+            "firstName": "Mandis",
+            "lastName": "Digital",
+            "email": "mandisdigital@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55056"
+                ],
+                "ciam_last_login": [
+                    "2024-07-08T04:10:10.11132846Z"
+                ]
+            },
+            "createdTimestamp": 1717646702388,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "5bbd60b3-5115-4e06-999e-50a1649435f1",
+            "username": "k24098",
+            "firstName": "ARM Medan",
+            "lastName": "tes",
+            "email": "k24098@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-17T03:46:52.262510898Z"
+                ],
+                "unit-kerja": [
+                    "54002"
+                ],
+                "jabatan": [
+                    "tes"
+                ]
+            },
+            "createdTimestamp": 1717647377211,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "588da4c5-53e1-4087-84ea-b48ceba23d40",
+            "username": "k24123",
+            "firstName": "staff",
+            "lastName": "penjualan",
+            "email": "staffpenjualan@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-10T02:07:02.564356617Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1720687259680,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "d0ea2da4-0aac-46a7-b4b8-8e8dbfa97f1b",
+            "username": "k24124",
+            "firstName": "Kepala Departemen",
+            "lastName": "Penjualan",
+            "email": "kadeppenjualan@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-23T06:21:28.224437145Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1721096167013,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "74c4872d-c2e7-4900-9a69-efc31b49c1d4",
+            "username": "k24125",
+            "firstName": "Kepala Divisi Komersial",
+            "lastName": "Pengembangan Bisnis",
+            "email": "kadivkormesial@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-09T04:26:52.630928429Z"
+                ]
+            },
+            "createdTimestamp": 1721096262519,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "a6d471d1-51b9-4838-bd6b-fb65fa3c4bbf",
+            "username": "k24131",
+            "firstName": "amalia",
+            "lastName": "tamara",
+            "email": "amalia.tamara@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-09-05T08:11:11.171717674Z"
+                ],
+                "jabatan": [
+                    "it"
+                ]
+            },
+            "createdTimestamp": 1717643379708,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "1e13fe45-4e33-41e1-8099-dfc69be65c2e",
+            "username": "k24153",
+            "firstName": "Mandis",
+            "lastName": "Salemba",
+            "email": "mandissalemba@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ],
+                "ciam_last_login": [
+                    "2024-10-25T06:42:41.030514916Z"
+                ],
+                "jabatan": [
+                    "Mandis"
+                ]
+            },
+            "createdTimestamp": 1717569135471,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "c62a94bd-e6cb-4e89-b8b2-7f0e26491bb8",
+            "username": "k24168",
+            "firstName": "kadep",
+            "lastName": "akuntansi",
+            "email": "kadepakuntansi@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-08-14T08:36:29.334622257Z"
+                ]
+            },
+            "createdTimestamp": 1717493749391,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "faef3e1a-c47c-4190-8b28-7bf1a94378b6",
+            "username": "k24182d",
+            "firstName": "Opik",
+            "lastName": "Hidayat",
+            "email": "opik.hidayat@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "43d883f6-190e-4a4a-9c14-386d5950d128",
+            "username": "k24182e",
+            "firstName": "Opik",
+            "lastName": "Hidayat",
+            "email": "opik.hidayat@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1726799610827,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [
+                "UPDATE_PASSWORD"
+            ],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "6b3711e9-a3d6-479e-9328-3f17655beb27",
+            "username": "k24194",
+            "firstName": "RM MEDAN",
+            "lastName": "Medan",
+            "email": "salsabila@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "54002"
+                ],
+                "ciam_last_login": [
+                    "2024-10-21T03:20:04.408635379Z"
+                ]
+            },
+            "createdTimestamp": 1717647282559,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "8fe2726c-543f-4a91-8a97-348aca6837a8",
+            "username": "k24236",
+            "firstName": "Kadep",
+            "lastName": "Digital",
+            "email": "kadep.digital@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-09-24T08:19:35.04738391Z"
+                ],
+                "unit-kerja": [
+                    "54013"
+                ]
+            },
+            "createdTimestamp": 1717646781926,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "18e15ff9-2014-4159-a9f0-f59699a92ef9",
+            "username": "k24247",
+            "firstName": "ARM",
+            "lastName": "Jakarta",
+            "email": "armjkt@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "54014"
+                ],
+                "ciam_last_login": [
+                    "2024-10-17T04:20:36.654203287Z"
+                ]
+            },
+            "createdTimestamp": 1717645917267,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "f41ac28b-10c7-4b4f-8f30-f7fe1a8f8447",
+            "username": "k24248",
+            "firstName": "Kasir",
+            "lastName": "Cibinong",
+            "email": "kasircibinong@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-03T07:48:16.976927555Z"
+                ],
+                "unit-kerja": [
+                    "55030"
+                ]
+            },
+            "createdTimestamp": 1718777064574,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "627cd5e2-744b-4601-a92b-f734f5c971e5",
+            "username": "k24262",
+            "firstName": "Syifa",
+            "lastName": "Tauhid",
+            "email": "syifatahuid@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-08-20T07:52:22.075137087Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ],
+                "jabatan": [
+                    "staff"
+                ]
+            },
+            "createdTimestamp": 1724139164473,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "835326ee-1ca9-4eeb-b98e-448611d01813",
+            "username": "k24268",
+            "firstName": "MANDIS",
+            "lastName": "TERANDAM",
+            "email": "mandis.armelia@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-09T08:29:39.01852984Z"
+                ],
+                "unit-kerja": [
+                    "55006"
+                ]
+            },
+            "createdTimestamp": 1717644077065,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "bde60023-e78b-4283-a904-31c9633dd169",
+            "username": "k24281",
+            "firstName": "Kasir",
+            "lastName": "Terandam",
+            "email": "salsabila.armelia@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55006"
+                ],
+                "ciam_last_login": [
+                    "2024-10-14T02:28:38.139910642Z"
+                ]
+            },
+            "createdTimestamp": 1717570575946,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "1b4209c8-2d8f-40e7-afc3-bfcbebc7fa10",
+            "username": "k24296",
+            "firstName": "ADETYA ",
+            "lastName": "REZKY",
+            "email": "kasirdigital@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-23T06:58:06.393643416Z"
+                ],
+                "unit-kerja": [
+                    "55056"
+                ]
+            },
+            "createdTimestamp": 1717573755752,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "cea03996-f8f6-41d3-8bb9-61dcb4ff11fc",
+            "username": "k24311",
+            "firstName": "A. FAIZAL ",
+            "lastName": "MUZAKKI",
+            "email": "faizal@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-25T07:13:23.10712448Z"
+                ],
+                "unit-kerja": [
+                    "55029"
+                ],
+                "jabatan": [
+                    "kasir"
+                ]
+            },
+            "createdTimestamp": 1717568952868,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "fbda2fe5-dbe5-453a-97e3-6405fc8dcaa8",
+            "username": "k24328",
+            "firstName": "Staff Akuntansi",
+            "lastName": "Pusat",
+            "email": "salsabilaarmelia@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-09-18T08:13:07.839056297Z"
+                ]
+            },
+            "createdTimestamp": 1717494697817,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "1e455d06-73ac-4bc8-9718-8de42f8a798b",
+            "username": "k24350",
+            "firstName": "EKO",
+            "lastName": "SYAHPUTRA",
+            "email": "eko@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-15T03:41:40.245104251Z"
+                ],
+                "unit-kerja": [
+                    "55001"
+                ]
+            },
+            "createdTimestamp": 1720768526494,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "5d80db06-d856-4544-b73c-fd36071b5d88",
+            "username": "k24382",
+            "firstName": "Staff ",
+            "lastName": "Tresuri",
+            "email": "stafftresuri@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-09-18T08:22:09.403664084Z"
+                ]
+            },
+            "createdTimestamp": 1717495425380,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "a25f6bee-a75e-4742-9a97-3faee8f1cf82",
+            "username": "k24386",
+            "firstName": "VICKY",
+            "lastName": "ARIGA",
+            "email": "vickyariiga22@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-09-24T09:52:54.644779927Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717642297600,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "9e212375-72a6-49f6-a442-48afcc684695",
+            "username": "k24386a",
+            "firstName": "KASIR DUA",
+            "lastName": "SALEMBA",
+            "email": "kasirdua@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-25T04:22:15.392343123Z"
+                ],
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1723782345482,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "59a13a21-8267-4a26-9b03-f7382af74159",
+            "username": "k24415",
+            "firstName": "ketuatim",
+            "lastName": "jamil",
+            "email": "argoo@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-09T04:36:37.00140051Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ],
+                "jabatan": [
+                    "staff"
+                ]
+            },
+            "createdTimestamp": 1724140521917,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "e3082e41-301a-48f6-8ad1-c67f205c97bc",
+            "username": "k24462",
+            "firstName": "Marketing ",
+            "lastName": "Regional Pusat",
+            "email": "akmaljamil88@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "korporasi": [
+                    "00"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-03T07:15:49.39307574Z"
+                ]
+            },
+            "createdTimestamp": 1717495560439,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "3d10602c-1449-4ea9-907c-85abb32a2a04",
+            "username": "k24464",
+            "firstName": "Lenando",
+            "lastName": "Respati",
+            "email": "lenando.buana@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-06-20T04:11:13.022390262Z"
+                ],
+                "jabatan": [
+                    "Staff"
+                ]
+            },
+            "createdTimestamp": 1717553181108,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "0be4be88-61f7-442a-9489-90d36730b1a8",
+            "username": "kadep_pemasaran",
+            "firstName": "Kadep",
+            "lastName": "Pemasaran",
+            "email": "kadep@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-09-24T04:25:30.13193568Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717491513614,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "5bba7f40-12fc-41cb-9488-2d788ade4cd1",
+            "username": "kadeppenjualan",
+            "firstName": "Kepala Departemen ",
+            "lastName": "Penjualan",
+            "email": "kadeppenjualan@g.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-09-24T04:24:07.114326922Z"
+                ]
+            },
+            "createdTimestamp": 1717495658323,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "6d87583b-667a-4acc-84b8-0639ed385240",
+            "username": "kadep_purchasing",
+            "firstName": "Kadep",
+            "lastName": "Purchasing",
+            "email": "kadep@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-23T02:20:43.753235721Z"
+                ]
+            },
+            "createdTimestamp": 1717491012317,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "82a10591-4a43-4421-bb94-3134649f2205",
+            "username": "kadeprisiko",
+            "firstName": "Kadep",
+            "lastName": "Risiko",
+            "email": "kadeprisiko@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-14T09:04:46.745531349Z"
+                ]
+            },
+            "createdTimestamp": 1717491356625,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "c0caf174-b033-4e33-9b2c-74f116eefc30",
+            "username": "kadepstock",
+            "firstName": "Kadep",
+            "lastName": "Stock",
+            "email": "kadepstock@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-23T02:19:45.966736004Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717491282442,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "b672a396-e756-4d14-b4fc-626c5cd18fe2",
+            "username": "kadiv_keuangan",
+            "firstName": "Kadiv",
+            "lastName": "Keuangan",
+            "email": "kadivkeuangan@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-07-24T07:43:51.736019081Z"
+                ]
+            },
+            "createdTimestamp": 1717491616110,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "f9868e13-a042-4e42-a3eb-1883f332ff02",
+            "username": "kadiv_pemasaran",
+            "firstName": "Kadiv",
+            "lastName": "Pemasaran",
+            "email": "salsabil_kadiv@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-07-15T10:00:57.114608942Z"
+                ]
+            },
+            "createdTimestamp": 1717491578486,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "1cabee9f-2258-41e0-969a-915eee6dafbf",
+            "username": "koordinatormr",
+            "firstName": "Koordinator",
+            "lastName": "MR",
+            "email": "koormr.armelia@galeri24.co.id",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-08-08T07:16:02.545281384Z"
+                ]
+            },
+            "createdTimestamp": 1717491664744,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "19780bc7-10c7-454b-ac18-7ca83446c3fd",
+            "username": "koormitraemas",
+            "firstName": "Koordinator Mitra",
+            "lastName": "Emas",
+            "email": "koormitraemas@jj.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-08-07T08:57:13.684555687Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1718168110946,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "746d334d-9e23-425d-9599-8a9318690373",
+            "username": "marketreg_jakarta",
+            "firstName": "marketreg",
+            "lastName": "jakarta",
+            "email": "marketreg_jakarta@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-04T08:15:18.853408511Z"
+                ],
+                "unit-kerja": [
+                    "54014"
+                ]
+            },
+            "createdTimestamp": 1727234800322,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "7e63acc8-842c-4732-9c57-fb05f7ba5943",
+            "username": "me123455",
+            "firstName": "Mitra Emas",
+            "lastName": "Pertama",
+            "email": "me123455@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1721890899934,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "aad1dd04-cfec-47b0-81b9-5d36b346ea17",
+            "username": "me123456",
+            "firstName": "siapa",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1722242085627,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "508adb9a-ff39-455e-80f2-0d2ea79e3696",
+            "username": "me123457",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1722242087606,
+            "enabled": false,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "6e41819c-2aa1-4c2d-875a-fa64dc07841f",
+            "username": "me550062406002567",
+            "firstName": "Mitra Emas",
+            "lastName": "Terandam",
+            "email": "salsabila.armelia@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55006"
+                ],
+                "jabatan": [
+                    "Mitra Emas"
+                ]
+            },
+            "createdTimestamp": 1721203051781,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "009a301f-1e99-4ccf-8697-7824c2051cf8",
+            "username": "me550292405001",
+            "firstName": "mitra emas",
+            "lastName": "agen kramat",
+            "email": "mitraemas.kramat@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ],
+                "jabatan": [
+                    "agen distro"
+                ]
+            },
+            "createdTimestamp": 1717993005632,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "bc95aebd-5885-4730-b686-bc66a10d4919",
+            "username": "me550292407001",
+            "firstName": "BIMO",
+            "lastName": "SATRIO",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1726739651107,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "381edccf-071c-4385-98f3-d28a5ea81d39",
+            "username": "me550292407002",
+            "firstName": "SRI",
+            "lastName": "HANDAYANI",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1726739654679,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "017cd83e-8233-4aef-8baa-ca67021ec2f1",
+            "username": "me550292407003",
+            "firstName": "YOSMINALDI",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55029"
+                ]
+            },
+            "createdTimestamp": 1726739658020,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "29c9bed5-50ba-4883-94ef-6113a921a997",
+            "username": "me550562405001",
+            "firstName": "MITRA EMAS DIGITAL",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "55056"
+                ]
+            },
+            "createdTimestamp": 1718074390511,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "30026076-8bd2-4cd5-8783-e2b5af166a53",
+            "username": "mitraemas",
+            "firstName": "Mitra",
+            "lastName": "Emas",
+            "email": "mitraemas@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-09-07T01:48:52.039721088Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1720751499381,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "90d4687c-d58d-44d9-9ae6-8c5853d1e08a",
+            "username": "passion",
+            "firstName": "Aplikasi",
+            "lastName": "Passion",
+            "email": "muchammad.saputra@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-08-05T10:58:16.163647818Z"
+                ],
+                "unit-kerja": [
+                    "00004"
+                ],
+                "jabatan": [
+                    "passion-apps"
+                ]
+            },
+            "createdTimestamp": 1722855059413,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "c08aeaa7-ec2b-4d8b-b4ba-9f0e7aac6cbd",
+            "username": "pic01",
+            "firstName": "PIC",
+            "lastName": "Custom",
+            "email": "pic@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-18T02:18:07.624204441Z"
+                ]
+            },
+            "createdTimestamp": 1717491790743,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "4cdd67b2-912a-4c3c-a090-550ba3dae35e",
+            "username": "staffpurchasing",
+            "firstName": "Staff",
+            "lastName": "Purchasing",
+            "email": "abc@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-21T06:45:57.070508546Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717490942952,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "26e94a90-1f2e-47bd-b5e4-73036ea53073",
+            "username": "staffrisiko",
+            "firstName": "Staff",
+            "lastName": "Risiko",
+            "email": "staffriisko@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-17T02:21:26.852587882Z"
+                ],
+                "jabatan": [
+                    "staff"
+                ]
+            },
+            "createdTimestamp": 1717491422176,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "b6a30e03-43ed-4920-b6f1-9d5e47b4971d",
+            "username": "staffstock",
+            "firstName": "Staff",
+            "lastName": "Stock",
+            "email": "stock@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-21T01:48:34.526092433Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1717491143310,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "dcf37b4c-4f02-4bb3-924c-ce37a2e00193",
+            "username": "tauhid",
+            "firstName": "syifa",
+            "lastName": "tauhid",
+            "email": "tauhid@gmail.com",
+            "emailVerified": false,
+            "attributes": {
+                "ciam_last_login": [
+                    "2024-10-25T04:18:58.51186367Z"
+                ],
+                "unit-kerja": [
+                    "00005"
+                ]
+            },
+            "createdTimestamp": 1724811368040,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        },
+        {
+            "id": "d95a62fe-b671-44f8-a9e4-3d3990df3d0d",
+            "username": "view-clients",
+            "firstName": "Admin",
+            "lastName": "Lihat",
+            "email": "muchammad.saputra@galeri24.co.id",
+            "emailVerified": true,
+            "attributes": {
+                "unit-kerja": [
+                    "00005"
+                ],
+                "ciam_last_login": [
+                    "2024-10-25T07:05:39.280958361Z"
+                ]
+            },
+            "createdTimestamp": 1729671247650,
+            "enabled": true,
+            "totp": false,
+            "disableableCredentialTypes": [],
+            "requiredActions": [],
+            "notBefore": 0,
+            "access": {
+                "manageGroupMembership": true,
+                "view": true,
+                "mapRoles": true,
+                "impersonate": true,
+                "manage": true
+            }
+        }
+    ],
+    "message": "Success"
+}

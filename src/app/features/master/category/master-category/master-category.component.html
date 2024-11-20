@@ -9,6 +9,7 @@
                     label="New"
                     severity="primary"
                     (click)="goToNewCategory()"
+                    *ngIf="userPermissions.includes('create-category')"
                 />
             </div>
 
@@ -32,6 +33,8 @@
                             <th>Nama</th>
                             <th>Parent</th>
                             <!-- <th class="text-center">Status</th> -->
+                            <th class="text-center">Approver List</th>
+
                             <th class="text-center">Action</th>
                         </tr>
                     </ng-template>
@@ -39,7 +42,7 @@
                     <ng-template pTemplate="body" let-category let-i="rowIndex">
                         <tr>
                             <td>{{ category.name }}</td>
-                            <td>{{ category.parentId }}</td>
+                            <td>{{ joinParents(category.parents) }}</td>
                             <!-- <td class="text-center">
                                 <ng-container
                                     *ngIf="!!category.status; else inactive"
@@ -62,12 +65,55 @@
                             </td> -->
                             <td class="text-center">
                                 <p-button
+                                    *ngIf="
+                                        userPermissions.includes(
+                                            'update-category'
+                                        )
+                                    "
                                     icon="pi pi-user-edit"
                                     size="small"
                                     label="Edit"
                                     severity="secondary"
-                                    (onClick)="goToEditCategory(category.id)"
+                                    (onClick)="goToApprovers(category.id)"
                                 />
+                            </td>
+                            <td class="text-center">
+                                <div
+                                    class="flex align-items-center gap-2 justify-content-center"
+                                >
+                                    <p-button
+                                        *ngIf="
+                                            userPermissions.includes(
+                                                'update-category'
+                                            )
+                                        "
+                                        icon="pi pi-user-edit"
+                                        size="small"
+                                        label="Edit"
+                                        severity="secondary"
+                                        (onClick)="
+                                            goToEditCategory(category.id)
+                                        "
+                                    />
+
+                                    <p-button
+                                        *ngIf="
+                                            userPermissions.includes(
+                                                'update-category'
+                                            )
+                                        "
+                                        icon="pi pi-trash"
+                                        size="small"
+                                        label="Delete"
+                                        severity="danger"
+                                        (onClick)="
+                                            deleteCategory(
+                                                category.id,
+                                                category.name
+                                            )
+                                        "
+                                    />
+                                </div>
                             </td>
                         </tr>
                     </ng-template>

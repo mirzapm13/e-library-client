@@ -121,6 +121,22 @@ export class CategoryService {
         );
     }
 
+    assignCategoryUser(payload): Observable<HttpRequestState<any>> {
+        return this.http.post<any>(`/categories/assign-user`, payload).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    deleteCategory(id): Observable<HttpRequestState<any>> {
+        return this.http.delete<any>(`/categories/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
     // private categoryState = new BehaviorSubject<any | undefined>(undefined);
 
     // state$: Observable<ICategoryState | undefined> =

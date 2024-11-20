@@ -19,6 +19,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { ChipsModule } from 'primeng/chips';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { Router } from '@angular/router';
+import { RolesService } from 'src/app/shared/services/role.service';
 
 @Component({
     selector: 'app-menu-new',
@@ -43,6 +44,7 @@ export class MenuNewComponent implements OnInit {
 
     constructor(
         private menuService: MenuService,
+        private roleService: RolesService,
         private fb: FormBuilder,
         private location: Location,
         private iconService: IconService,
@@ -67,6 +69,7 @@ export class MenuNewComponent implements OnInit {
     selectedIcon: any;
     menuOptions;
     menus = [];
+    permissionOptions = [];
 
     loading = false;
     ngOnInit(): void {
@@ -88,13 +91,12 @@ export class MenuNewComponent implements OnInit {
                 'children',
                 'parent_id'
             );
-            // this.menuOptions = recursiveMap(
-            //     this.menuOptions,
-            //     (data) => ({ ...data }),
-            //     'children'
-            // );
 
-            this.loading = false;
+            this.roleService.getPermissions().subscribe(({ error, value }) => {
+                if (error) return;
+                this.permissionOptions = value.data;
+                this.loading = false;
+            });
         });
 
         this.iconService.getIcons().subscribe((data) => {
@@ -120,7 +122,6 @@ export class MenuNewComponent implements OnInit {
         }
 
         let payload = this.newMenuForm.value;
-        console.log(payload);
         payload = { ...payload, parent_id: payload?.parent_id.id };
 
         this.menuService
