@@ -65,7 +65,7 @@ export class DocumentUploadComponent implements OnInit {
     ) {
         this.uploadForm = this.fb.group({
             file: [],
-            doc_number: [''],
+            document_no: [''],
             title: [''],
             description: [''],
             selectedCategory: [''],
@@ -113,7 +113,7 @@ export class DocumentUploadComponent implements OnInit {
     onSubmit() {
         this.loading = true;
 
-        console.log(this.uploadForm.value);
+        // console.log(this.uploadForm.value);
 
         const fileFormData = new FormData();
         fileFormData.append('file', this.uploadForm.value.file);
@@ -124,6 +124,7 @@ export class DocumentUploadComponent implements OnInit {
         payload = {
             ...payload,
             expired_at: this.formatDate(payload.expiredAt),
+            tags: payload.tags?.join(', '),
             ...(payload.selectedCategory && {
                 category_id: payload.selectedCategory.id,
             }),
@@ -149,6 +150,8 @@ export class DocumentUploadComponent implements OnInit {
                 delete payload['selectedCategory'];
 
                 console.log(payload);
+
+                // return;
 
                 this.documentService
                     .addDocument(payload)

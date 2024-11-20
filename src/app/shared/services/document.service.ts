@@ -121,6 +121,7 @@ export class DocumentService {
     downloadFile(payload) {
         return this.http.post('/storage/download', payload, {
             responseType: 'blob',
+            // withCredentials: true,
         });
         // .pipe(
         //     map((value) => ({ isLoading: false, value })),
