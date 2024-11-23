@@ -15,7 +15,9 @@
         (ngSubmit)="onSubmit()"
     >
         <div class="field grid">
-            <label class="col-2" for="file">Choose File</label>
+            <label class="col-2" for="file"
+                >Choose File <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <!-- <p-fileUpload
                     mode="basic"
@@ -38,7 +40,9 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="name">Document Number</label>
+            <label class="col-2" for="name"
+                >Document Number <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <input
                     pInputText
@@ -52,7 +56,9 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="name">Title</label>
+            <label class="col-2" for="name"
+                >Title <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <input
                     pInputText
@@ -81,7 +87,9 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Category</label>
+            <label class="col-2" for="status"
+                >Category <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <p-treeSelect
                     formControlName="selectedCategory"
@@ -95,7 +103,9 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Criteria</label>
+            <label class="col-2" for="status"
+                >Criteria <span class="text-red-500">*</span></label
+            >
             <div class="flex gap-5 col-12 md:col-10">
                 <div class="flex align-items-center">
                     <p-radioButton
@@ -157,7 +167,7 @@
         </div> -->
 
         <div class="field grid">
-            <label class="col-2" for="status">Release Document</label>
+            <label class="col-2" for="status">Release Document </label>
             <div class="flex gap-5 col-12 md:col-10">
                 <p-checkbox
                     formControlName="release"
@@ -168,7 +178,9 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Expired Date</label>
+            <label class="col-2" for="status"
+                >Expired Date <span class="text-red-500">*</span></label
+            >
             <div class="flex gap-5 col-12 md:col-10">
                 <p-calendar
                     class="CalendarInput"

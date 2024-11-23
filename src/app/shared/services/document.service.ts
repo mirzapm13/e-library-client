@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { HttpRequestState } from '../http-request-state';
@@ -89,8 +89,24 @@ const documents = [
 export class DocumentService {
     constructor(private readonly http: HttpClient) {}
 
-    getDocuments(): Observable<HttpRequestState<any>> {
-        return this.http.get<any>('/documents').pipe(
+    getDocuments(filters: any = {}): Observable<HttpRequestState<any>> {
+        let params = new HttpParams();
+
+        Object.keys(filters).forEach((key) => {
+            if (filters[key] != null) {
+                params = params.set(key, filters[key]);
+            }
+        });
+
+        let docType;
+
+        if (params.get('status') == 'all' || !params.get('status')) {
+            docType = '';
+        } else {
+            docType = params.get('status');
+        }
+
+        return this.http.get<any>(`/documents/${docType}`).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })
@@ -120,8 +136,7 @@ export class DocumentService {
 
     downloadFile(payload) {
         return this.http.post('/storage/download', payload, {
-            responseType: 'blob',
-            // withCredentials: true,
+            responseType: 'blob', // Ensures the response is treated as a binary blob
         });
         // .pipe(
         //     map((value) => ({ isLoading: false, value })),
@@ -132,6 +147,14 @@ export class DocumentService {
 
     addDocument(payload): Observable<HttpRequestState<any>> {
         return this.http.post<any>('/documents', payload).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    approveDocument(id, payload): Observable<HttpRequestState<any>> {
+        return this.http.post<any>(`/documents/approval/${id}`, payload).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })

@@ -10,56 +10,137 @@
     </div>
     <div class="Container">
         <div class="Container__Document">
-            <pdf-viewer
-                *ngIf="pdfUrl"
-                [src]="pdfUrl"
-                [render-text]="true"
-                [original-size]="true"
-                style="width: 100%; height: 800px"
-            ></pdf-viewer>
-            <div class="flex justify-content-end">
-                <p-button
-                    icon="pi pi-download"
-                    label="Download PDF"
-                    severity="secondary"
-                    (onClick)="downloadPdf()"
-                />
+            <div
+                class="flex justify-content-center"
+                *ngIf="docLoading; else docView"
+            >
+                <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
             </div>
+
+            <ng-template #docView>
+                <pdf-viewer
+                    *ngIf="pdfUrl"
+                    [src]="pdfUrl"
+                    [render-text]="true"
+                    [original-size]="false"
+                    style="width: 100%; height: 800px"
+                ></pdf-viewer>
+                <div class="flex justify-content-end">
+                    <p-button
+                        icon="pi pi-download"
+                        label="Download PDF"
+                        severity="secondary"
+                        (onClick)="downloadPdf()"
+                    />
+                </div>
+            </ng-template>
         </div>
 
         <div class="Container__Details">
-            <div class="Top">
-                <h3 class="mb-0">{{ currentDoc?.documentNo }}</h3>
-
-                <h3 class="m-0 mb-1" style="font-weight: 700; color: #69707a">
-                    {{ currentDoc?.title }}
-                </h3>
-                <p class="m-0 mb-5 text-lg">
-                    {{ currentDoc?.parents }}
-                </p>
-
-                <div class="Container__Details__Icons">
-                    <i class="pi pi-user"></i>
-                    <span>Username</span>
-                </div>
-                <div class="Container__Details__Icons">
-                    <i class="pi pi-clock"></i>
-                    <span>{{ formatDate(currentDoc?.createdAt) }}</span>
-                </div>
-
-                <p class="text-lg mt-5">
-                    Expired at : {{ currentDoc?.expiredAt }}
-                </p>
-
-                <div class="Top__Tags flex">
-                    <p *ngFor="let tag of currentDoc?.tags?.split(', ')">
-                        {{ tag }}
-                    </p>
-                </div>
-
-                <h5 class="mb-1">Description</h5>
-                <p>{{ currentDoc?.description }}</p>
+            <div
+                class="flex justify-content-center"
+                *ngIf="detailLoading; else detailView"
+            >
+                <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
             </div>
+
+            <ng-template #detailView>
+                <div class="Top">
+                    <h3 class="mb-0">{{ currentDoc?.documentNo }}</h3>
+
+                    <h3
+                        class="m-0 mb-1"
+                        style="font-weight: 700; color: #69707a"
+                    >
+                        {{ currentDoc?.title }}
+                    </h3>
+                    <p class="m-0 mb-5 text-lg">
+                        Category: {{ currentDoc?.category?.name }}
+                    </p>
+
+                    <div class="Container__Details__Icons">
+                        <i class="pi pi-user"></i>
+                        <span>{{ currentDoc?.uploader?.name }}</span>
+                    </div>
+                    <div class="Container__Details__Icons">
+                        <i class="pi pi-clock"></i>
+                        <span>{{
+                            currentDoc?.createdAt
+                                | date : "yyyy-MM-dd , hh:mm:ss"
+                        }}</span>
+                    </div>
+
+                    <p class="text-lg mt-5">
+                        Expired at : {{ currentDoc?.expiredAt }}
+                    </p>
+
+                    <div class="Top__Tags flex">
+                        <p *ngFor="let tag of currentDoc?.tags?.split(', ')">
+                            {{ tag }}
+                        </p>
+                    </div>
+
+                    <h5 class="mb-1">Description</h5>
+                    <p>{{ currentDoc?.description }}</p>
+                </div>
+
+                <div class="Bottom">
+                    <h3 class="mb-2">Approval Status</h3>
+                    <!-- <p class="text-lg mb-4">Requested By : User</p> -->
+                    <div class="Bottom__Table">
+                        <p-table
+                            [value]="currentDoc?.approvers"
+                            scrollDirection="both"
+                            [scrollable]="true"
+                            scrollHeight="400px"
+                            styleClass="mt-3"
+                            responsiveLayout="scroll"
+                        >
+                            <ng-template pTemplate="header">
+                                <tr style="background-color: #fcb43e17">
+                                    <th></th>
+                                    <th style="width: 200px">Name</th>
+                                    <!-- <th style="width: 200px">Date</th> -->
+                                    <th style="width: 200px">Status</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template
+                                pTemplate="body"
+                                let-customer
+                                let-i="rowIndex"
+                            >
+                                <tr>
+                                    <td style="width: 20px">
+                                        {{ i + 1 }}
+                                    </td>
+                                    <td style="width: 200px" class="font-bold">
+                                        {{ customer.name }}
+                                    </td>
+                                    <td style="width: 200px">
+                                        <span
+                                            [class]="
+                                                'pills status-' +
+                                                customer.status
+                                            "
+                                            >{{ customer.status }}</span
+                                        >
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+
+                <div class="flex justify-content-end mt-auto">
+                    <p-button
+                        icon="pi pi-check"
+                        label="Approve Document"
+                        severity="success"
+                        (onClick)="approveDocument()"
+                    />
+                </div>
+            </ng-template>
+
             <!-- 
             <div class="Bottom">
                 <h3 class="mb-2">Approval Status</h3>

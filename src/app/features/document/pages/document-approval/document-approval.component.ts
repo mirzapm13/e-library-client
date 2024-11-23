@@ -1,22 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PDFDocument, rgb } from 'pdf-lib';
 import { TreeNode } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { TreeSelectModule } from 'primeng/treeselect';
-import { map } from 'rxjs';
 import {
     CategoryService,
     ICategoryState,
 } from 'src/app/shared/services/category.service';
 import { DocumentService } from 'src/app/shared/services/document.service';
-import { download } from 'src/app/shared/utils/download-file';
-import { groupByParent } from 'src/app/shared/utils/group-by-parent';
-import { recursiveMap } from 'src/app/shared/utils/recursive-map';
+
+import { groupByParentHierarchy } from 'src/app/shared/utils/group-by-parent-hierarchy';
 
 @Component({
     selector: 'app-document-approval',
@@ -41,24 +38,28 @@ export class DocumentApprovalComponent {
 
     categories: ICategoryState;
 
-    docSrc: string;
     currentDateTime = new Date();
     selectedCategory: TreeNode[];
 
     documents = [];
 
-    ngOnInit(): void {
-        this.docSrc = 'assets/docs/sample.pdf';
+    selectedChild;
 
-        this.documentService.getDocuments().subscribe(({ error, value }) => {
-            if (error) return;
-            // console.log(data);
-            this.documents = value.data;
-        });
+    docLoading = false;
+
+    ngOnInit(): void {
+        this.docLoading = true;
+        this.documentService
+            .getDocuments({ status: 'approver' })
+            .subscribe(({ error, value }) => {
+                if (error) return;
+                this.documents = value.data;
+                this.docLoading = false;
+            });
+
         this.categoryService
             .getCategoryByCurrentRole()
             .subscribe(({ error, value }) => {
-                console.log(value.data);
                 const mapped = value.data.map((item) => {
                     return {
                         ...item,
@@ -66,7 +67,18 @@ export class DocumentApprovalComponent {
                         id: item.id,
                     };
                 });
-                const grouped = groupByParent(mapped, 'items', 'parent_id');
+                const grouped = groupByParentHierarchy(
+                    mapped,
+                    'items',
+                    'parent_id',
+                    'name',
+                    (obj) => {
+                        if (!obj.deepest) return;
+                        this.selectedChild = obj;
+                        // this.filters.category = obj.id;
+                        // this.applyFilter();
+                    }
+                );
                 this.categories = grouped;
             });
     }
@@ -75,46 +87,23 @@ export class DocumentApprovalComponent {
         console.log(data);
     }
 
-    async downloadPdf() {
-        // Fetch an existing PDF document
-        const url = this.docSrc;
-        const existingPdfBytes = await fetch(url).then((res) =>
-            res.arrayBuffer()
-        );
-
-        // Load a PDFDocument from the existing PDF bytes
-        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-        const page = pdfDoc.getPage(0);
-        const { width, height } = page.getSize();
-
-        page.drawText(
-            `Dokumen ini di download oleh User\n` +
-                `Tanggal ${this.currentDateTime.toLocaleDateString(
-                    'id-ID'
-                )}\n` +
-                `Pukul ${this.currentDateTime.toLocaleTimeString('id-ID')}`,
-            {
-                x: width - 250,
-                y: 40,
-                size: 12,
-                color: rgb(0, 0, 0),
-                lineHeight: 15,
-            }
-        );
-
-        // Serialize the PDFDocument to bytes (a Uint8Array)
-        const pdfBytes = await pdfDoc.save();
-
-        // Trigger the browser to download the PDF document
-        download(
-            pdfBytes,
-            'pdf-lib_modification_example.pdf',
-            'application/pdf'
-        );
+    goToDocument(id) {
+        this.router.navigateByUrl(`/library/document/${id}`);
     }
 
-    goToDocument(id) {
-        this.router.navigateByUrl(`/library/approval/${id}`);
+    categoryIndicator() {
+        let indicator = [
+            ...(this.selectedChild?.hierarchy
+                ? this.selectedChild.hierarchy
+                : []),
+        ];
+
+        if (this.selectedChild?.name) indicator.push(this.selectedChild.name);
+
+        if (indicator.length) {
+            return indicator.join(' > ');
+        } else {
+            return 'All Category';
+        }
     }
 }

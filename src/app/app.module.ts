@@ -25,9 +25,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     providers: [
         provideHttpClient(
             withInterceptors([
-                apiInterceptor,
                 errorInterceptor,
                 tokenInterceptor,
+                apiInterceptor,
             ])
         ),
         { provide: AbstractSecurityStorage, useClass: MyStorageService },

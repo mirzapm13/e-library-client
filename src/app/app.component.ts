@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
             theme: 'galeri24-alt', // default component theme for PrimeNG
             menuTheme: 'light', // theme of the menu, valid values are "light" and "dark"
             topbarTheme: 'light', // theme of the topbar, valid values are "light" and "dark"
-            scale: 14, // size of the body font size to scale the whole application
+            scale: 16, // size of the body font size to scale the whole application
         };
 
         this.layoutService.config.set(config);

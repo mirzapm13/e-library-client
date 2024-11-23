@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { SafePipe } from 'src/app/shared/pipes/safe-url-pipe';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { TabViewModule } from 'primeng/tabview';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { DataViewModule } from 'primeng/dataview';
-import { TreeNode } from 'primeng/api';
+import { MenuItem, TreeNode } from 'primeng/api';
 import { DocumentService } from 'src/app/shared/services/document.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { TreeSelectModule } from 'primeng/treeselect';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { groupByParentHierarchy } from 'src/app/shared/utils/group-by-parent-hierarchy';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-document-main',
@@ -26,38 +27,66 @@ import { groupByParentHierarchy } from 'src/app/shared/utils/group-by-parent-hie
         InputTextModule,
         TreeSelectModule,
         MenubarModule,
+        TabMenuModule,
     ],
 })
 export class DocumentMainComponent implements OnInit {
     constructor(
         private categoryService: CategoryService,
         private documentService: DocumentService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {}
 
     categories = [];
 
     docSrc: string;
-    currentDateTime = new Date();
     selectedCategory: TreeNode[];
 
     documents = [];
 
     selectedChild;
 
-    ngOnInit(): void {
-        this.docSrc = 'assets/docs/sample.pdf';
+    tabItems: MenuItem[] | undefined = [
+        { label: 'All', icon: 'pi pi-list', value: 'all' },
+        { label: 'Release', icon: 'pi pi-file', value: 'release' },
+        { label: 'Bookmark', icon: 'pi pi-bookmark', value: 'bookmark' },
+        {
+            label: 'Waiting for approval',
+            icon: 'pi pi-clock',
+            value: 'waiting',
+        },
+        { label: 'Archive', icon: 'pi pi-history', value: 'archive' },
+    ];
 
-        this.documentService.getDocuments().subscribe(({ error, value }) => {
-            if (error) return;
-            // console.log(data);
-            this.documents = value.data;
-        });
+    activeTab: MenuItem | undefined;
+
+    filters: any = {
+        status: '',
+        category: '',
+    };
+
+    private subscriptions: Subscription = new Subscription();
+
+    docLoading = false;
+
+    ngOnInit(): void {
+        const paramsSubscription = this.route.queryParams
+            .pipe(debounceTime(300)) // Optional: debounce for performance
+            .subscribe((params: Params) => {
+                this.activeTab =
+                    this.tabItems.filter(
+                        (item) => item['value'] == params['status']
+                    )[0] || this.tabItems[0];
+                this.updateFiltersFromParams(params);
+                this.fetchData();
+            });
+
+        this.subscriptions.add(paramsSubscription);
 
         this.categoryService
             .getCategoryByCurrentRole()
             .subscribe(({ error, value }) => {
-                console.log(value.data);
                 const mapped = value.data.map((item) => {
                     return {
                         ...item,
@@ -71,15 +100,14 @@ export class DocumentMainComponent implements OnInit {
                     'parent_id',
                     'name',
                     (obj) => {
+                        if (!obj.deepest) return;
                         this.selectedChild = obj;
+                        // this.filters.category = obj.id;
+                        // this.applyFilter();
                     }
                 );
                 this.categories = grouped;
             });
-    }
-
-    onTabChange(data) {
-        console.log(data);
     }
 
     goToDocument(id) {
@@ -90,15 +118,83 @@ export class DocumentMainComponent implements OnInit {
         this.router.navigateByUrl(`/library/upload`);
     }
 
-    clickMenu(item) {
-        console.log(item);
+    onActiveItemChange(event: MenuItem) {
+        this.activeTab = event;
+        this.filters.status = event['value'];
+        // this.filters.category = '';
+        this.selectedChild = undefined;
+        this.applyFilter();
     }
 
-    onfocus(evt) {
-        console.log(evt);
+    fetchData(): void {
+        this.docLoading = true;
+        this.documentService
+            .getDocuments(this.filters)
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.docLoading = false;
+                    return;
+                }
+                console.log(value.data);
+                this.documents = value.data;
+                this.docLoading = false;
+            });
     }
 
-    log() {
-        console.log('tset');
+    updateFiltersFromParams(params: Params): void {
+        this.filters = {
+            category: params['category'] || '',
+            status: params['status'] || '',
+        };
+    }
+
+    applyFilter(): void {
+        const queryParams: Params = {};
+
+        if (this.filters.status) {
+            queryParams['status'] = this.filters.status;
+        } else {
+            queryParams['status'] = undefined;
+        }
+        if (this.filters.category) {
+            queryParams['category'] = this.filters.category;
+        } else {
+            queryParams['category'] = undefined;
+        }
+
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: queryParams,
+            queryParamsHandling: 'merge',
+        });
+    }
+
+    clearFilters(): void {
+        this.filters = {
+            status: '',
+            category: '',
+        };
+
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {},
+            queryParamsHandling: 'merge',
+        });
+    }
+
+    categoryIndicator() {
+        let indicator = [
+            ...(this.selectedChild?.hierarchy
+                ? this.selectedChild.hierarchy
+                : []),
+        ];
+
+        if (this.selectedChild?.name) indicator.push(this.selectedChild.name);
+
+        if (indicator.length) {
+            return indicator.join(' > ');
+        } else {
+            return 'All Category';
+        }
     }
 }

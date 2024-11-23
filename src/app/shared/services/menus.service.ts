@@ -33,7 +33,7 @@ const menus = [
     {
         id: '3',
         name: 'Dokumen',
-        path: '/library/dokumen',
+        path: '/library/document',
         order: 1,
         icon: 'pi pi-fw pi-file-o',
         status: 1,
@@ -126,7 +126,7 @@ export class MenuService {
     }
 
     addMenu(data): Observable<HttpRequestState<any>> {
-        return this.http.post<any>('/menusasda', data).pipe(
+        return this.http.post<any>('/menus', data).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })

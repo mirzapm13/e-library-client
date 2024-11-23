@@ -39,13 +39,17 @@ export class DashboardMainComponent implements OnInit {
 
     ngOnInit() {
         this.bookmarkService.getBookmarks().subscribe((data) => {
-            console.log(data);
             this.bookmarks = data;
         });
 
-        this.documentService.getDocuments().subscribe((data) => {
-            this.documents = data;
-        });
+        this.documentService
+            .getDocuments({ status: 'release' })
+            .subscribe(({ error, value }) => {
+                console.log(value.data);
+                if (error) return;
+
+                this.documents = value.data;
+            });
     }
 
     getToken() {

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
     FormArray,
@@ -61,7 +61,8 @@ export class DocumentUploadComponent implements OnInit {
         private fb: FormBuilder,
         private usersService: UsersService,
         private documentService: DocumentService,
-        private notify: NotifyService
+        private notify: NotifyService,
+        private location: Location
     ) {
         this.uploadForm = this.fb.group({
             file: [],
@@ -95,7 +96,7 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     clickBack() {
-        this.router.navigateByUrl('/library/dokumen');
+        this.location.back();
     }
 
     formatDate(date) {
@@ -173,26 +174,26 @@ export class DocumentUploadComponent implements OnInit {
             });
     }
 
-    //==== dynamic form
-
-    createItem(): FormGroup {
-        return this.fb.group({
-            item: [],
-        });
-    }
-
-    addNameField(): void {
-        this.approvals.push(this.createItem());
-    }
-
-    get approvals(): FormArray {
-        return this.uploadForm.get('approvals') as FormArray;
-    }
-
     onFilePicked(event) {
         console.log(event);
         const file = (event.target as HTMLInputElement).files[0]; // Here we use only the first file (single file)
         this.uploadForm.patchValue({ file: file });
         // this.selectedFile = this.selectedFile;
     }
+
+    //==== dynamic form
+
+    // createItem(): FormGroup {
+    //     return this.fb.group({
+    //         item: [],
+    //     });
+    // }
+
+    // addNameField(): void {
+    //     this.approvals.push(this.createItem());
+    // }
+
+    // get approvals(): FormArray {
+    //     return this.uploadForm.get('approvals') as FormArray;
+    // }
 }
