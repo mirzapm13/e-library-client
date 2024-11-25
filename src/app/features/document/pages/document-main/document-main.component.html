@@ -40,6 +40,7 @@
                     (onClick)="applyFilter()"
                 />
                 <p-button
+                    *ngIf="currentUser.permissions.includes('upload-document')"
                     icon="pi pi-plus"
                     label="Upload Dokumen"
                     (onClick)="goToUpload()"

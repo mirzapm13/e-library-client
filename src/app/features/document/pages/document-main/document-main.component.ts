@@ -13,6 +13,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { groupByParentHierarchy } from 'src/app/shared/utils/group-by-parent-hierarchy';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { debounceTime, Subscription } from 'rxjs';
+import { UserService } from 'src/app/core/auth/services/user.service';
 
 @Component({
     selector: 'app-document-main',
@@ -35,7 +36,8 @@ export class DocumentMainComponent implements OnInit {
         private categoryService: CategoryService,
         private documentService: DocumentService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private userService: UserService
     ) {}
 
     categories = [];
@@ -70,7 +72,11 @@ export class DocumentMainComponent implements OnInit {
 
     docLoading = false;
 
+    currentUser;
+
     ngOnInit(): void {
+        this.currentUser = this.userService.getUserData();
+
         const paramsSubscription = this.route.queryParams
             .pipe(debounceTime(300)) // Optional: debounce for performance
             .subscribe((params: Params) => {
@@ -102,8 +108,8 @@ export class DocumentMainComponent implements OnInit {
                     (obj) => {
                         if (!obj.deepest) return;
                         this.selectedChild = obj;
-                        // this.filters.category = obj.id;
-                        // this.applyFilter();
+                        this.filters.category = obj.id;
+                        this.applyFilter();
                     }
                 );
                 this.categories = grouped;
@@ -121,7 +127,7 @@ export class DocumentMainComponent implements OnInit {
     onActiveItemChange(event: MenuItem) {
         this.activeTab = event;
         this.filters.status = event['value'];
-        // this.filters.category = '';
+        this.filters.category = '';
         this.selectedChild = undefined;
         this.applyFilter();
     }

@@ -13,6 +13,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ConfirmService } from 'src/app/shared/services/confirmation.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
+import { UserService } from 'src/app/core/auth/services/user.service';
 
 @Component({
     selector: 'app-document-details',
@@ -35,7 +36,8 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         private sanitizer: DomSanitizer,
         private location: Location,
         private confirmService: ConfirmService,
-        private notify: NotifyService
+        private notify: NotifyService,
+        private userService: UserService
     ) {}
 
     isOpen = false;
@@ -57,14 +59,21 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
     detailLoading = false;
     docLoading = false;
 
+    currentUser;
+    currentApprove = false;
+
     ngOnInit(): void {
         this.detailLoading = true;
         this.docLoading = true;
         this.id = this.route.snapshot.paramMap.get('id');
 
+        this.currentUser = this.userService.getUserData();
+        console.log(this.currentUser);
+
         this.documentService
             .getDocumentById(this.id)
             .subscribe(({ error, value }) => {
+                console.log(value.data);
                 if (error) return;
 
                 // console.log(value.data);
@@ -73,6 +82,16 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
                 let payload = { filename: value.data.filename };
 
                 this.detailLoading = false;
+
+                if (value.data?.approvers) {
+                    if (
+                        value.data.approvers.some(
+                            (item) => item.email == this.currentUser.user.email
+                        )
+                    ) {
+                        this.currentApprove = true;
+                    }
+                }
 
                 this.documentService.downloadFile(payload).subscribe({
                     next: (pdfBlob) => {
