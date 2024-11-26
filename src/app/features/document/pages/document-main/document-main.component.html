@@ -1,13 +1,6 @@
 <div class="MainContainer">
     <div class="card">
         <div class="p-3">
-            <!-- <p-tabView>
-                <p-tabPanel header="All" (onclick)="log()" />
-                <p-tabPanel header="Release" (onclick)="log()" />
-                <p-tabPanel header="Bookmark" />
-                <p-tabPanel header="Waiting for Approval" />
-                <p-tabPanel header="Archive" />
-            </p-tabView> -->
             <p-tabMenu
                 [model]="tabItems"
                 [activeItem]="activeTab"
@@ -27,6 +20,7 @@
                         class="w-full"
                         pInputText
                         placeholder="Search by Keyword"
+                        [(ngModel)]="filters.keyword"
                     />
                     <i class="pi pi-search"></i>
                 </span>
@@ -47,8 +41,6 @@
                 />
             </div>
         </div>
-
-        <div></div>
 
         <div
             class="flex justify-content-center"
@@ -119,9 +111,14 @@
                                     </div>
                                     <div class="DocumentCard__More__Buttons">
                                         <p-button
-                                            label="Read More"
+                                            [label]="
+                                                expandedId === doc.id
+                                                    ? 'Show Less'
+                                                    : 'Read More'
+                                            "
                                             size="small"
                                             [outlined]="true"
+                                            (click)="toggleShowMore(doc.id)"
                                         />
                                         <p-button
                                             label="View Document"
@@ -131,7 +128,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="DocumentCard__Bottom">
+                            <div
+                                *ngIf="expandedId === doc.id"
+                                class="DocumentCard__Bottom"
+                            >
                                 <h6>Description</h6>
                                 <p>{{ doc.description }}</p>
                             </div>
@@ -139,6 +139,14 @@
                     </div>
                 </ng-template>
             </p-dataView>
+            <div class="card flex justify-content-center">
+                <p-paginator
+                    (onPageChange)="onPageChange($event)"
+                    [first]="first"
+                    [rows]="rows"
+                    [totalRecords]="totalRecords"
+                />
+            </div>
         </ng-template>
     </div>
 </div>

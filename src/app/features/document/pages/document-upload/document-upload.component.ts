@@ -80,19 +80,21 @@ export class DocumentUploadComponent implements OnInit {
     loading = false;
 
     ngOnInit(): void {
-        this.categoryService.getCategories().subscribe(({ error, value }) => {
-            if (error) return;
+        this.categoryService
+            .getCategoryByCurrentRole()
+            .subscribe(({ error, value }) => {
+                if (error) return;
 
-            const mapped = value.data.map((item) => ({
-                ...item,
-                label: item.name,
-                id: item.id,
-            }));
+                const mapped = value.data.map((item) => ({
+                    ...item,
+                    label: item.name,
+                    id: item.id,
+                }));
 
-            const grouped = groupByParent(mapped, 'children', 'parent_id');
+                const grouped = groupByParent(mapped, 'children', 'parent_id');
 
-            this.categories = grouped;
-        });
+                this.categories = grouped;
+            });
     }
 
     clickBack() {

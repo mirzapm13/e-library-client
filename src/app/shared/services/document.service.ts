@@ -106,7 +106,10 @@ export class DocumentService {
             docType = params.get('status');
         }
 
-        return this.http.get<any>(`/documents/${docType}`).pipe(
+        params.delete('status');
+        // params.delete('category');
+
+        return this.http.get<any>(`/documents/${docType}`, { params }).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })

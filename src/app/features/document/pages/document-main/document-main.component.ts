@@ -14,6 +14,7 @@ import { groupByParentHierarchy } from 'src/app/shared/utils/group-by-parent-hie
 import { TabMenuModule } from 'primeng/tabmenu';
 import { debounceTime, Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/auth/services/user.service';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
     selector: 'app-document-main',
@@ -29,6 +30,7 @@ import { UserService } from 'src/app/core/auth/services/user.service';
         TreeSelectModule,
         MenubarModule,
         TabMenuModule,
+        PaginatorModule,
     ],
 })
 export class DocumentMainComponent implements OnInit {
@@ -66,6 +68,9 @@ export class DocumentMainComponent implements OnInit {
     filters: any = {
         status: '',
         category: '',
+        page: 1,
+        keyword: '',
+        // limit: 2,
     };
 
     private subscriptions: Subscription = new Subscription();
@@ -73,6 +78,12 @@ export class DocumentMainComponent implements OnInit {
     docLoading = false;
 
     currentUser;
+
+    first = 0;
+    rows = 0;
+    totalRecords = 0;
+
+    expandedId: number | null = null; // Holds the ID of the expanded document, or null if none is expanded.
 
     ngOnInit(): void {
         this.currentUser = this.userService.getUserData();
@@ -109,11 +120,16 @@ export class DocumentMainComponent implements OnInit {
                         if (!obj.deepest) return;
                         this.selectedChild = obj;
                         this.filters.category = obj.id;
+                        this.filters.keyword = '';
                         this.applyFilter();
                     }
                 );
                 this.categories = grouped;
             });
+    }
+
+    toggleShowMore(docId: number): void {
+        this.expandedId = this.expandedId === docId ? null : docId; // Collapse if the same, expand otherwise.
     }
 
     goToDocument(id) {
@@ -125,10 +141,18 @@ export class DocumentMainComponent implements OnInit {
     }
 
     onActiveItemChange(event: MenuItem) {
+        this.clearFilters();
         this.activeTab = event;
         this.filters.status = event['value'];
-        this.filters.category = '';
-        this.selectedChild = undefined;
+        // this.filters.category = '';
+        // this.selectedChild = undefined;
+        this.applyFilter();
+    }
+
+    onPageChange(evt) {
+        console.log(evt);
+        this.docLoading = true;
+        this.filters.page = evt.page + 1;
         this.applyFilter();
     }
 
@@ -141,8 +165,14 @@ export class DocumentMainComponent implements OnInit {
                     this.docLoading = false;
                     return;
                 }
-                console.log(value.data);
                 this.documents = value.data;
+                const meta = value.meta;
+
+                this.totalRecords = meta['total'];
+                this.first = (meta['currentPage'] - 1) * meta['perPage'];
+
+                this.rows = meta['perPage'];
+
                 this.docLoading = false;
             });
     }
@@ -151,22 +181,27 @@ export class DocumentMainComponent implements OnInit {
         this.filters = {
             category: params['category'] || '',
             status: params['status'] || '',
+            page: params['page'] || 1,
+            keyword: params['keyword'] || '',
+            // limit: params['limit'] || 2,
         };
     }
 
     applyFilter(): void {
         const queryParams: Params = {};
 
-        if (this.filters.status) {
-            queryParams['status'] = this.filters.status;
-        } else {
-            queryParams['status'] = undefined;
-        }
-        if (this.filters.category) {
+        if (this.filters.status) queryParams['status'] = this.filters.status;
+        else queryParams['status'] = undefined;
+
+        if (this.filters.category)
             queryParams['category'] = this.filters.category;
-        } else {
-            queryParams['category'] = undefined;
-        }
+        else queryParams['category'] = undefined;
+
+        if (this.filters.page) queryParams['page'] = this.filters.page;
+        else queryParams['page'] = 1;
+
+        if (this.filters.keyword) queryParams['keyword'] = this.filters.keyword;
+        else queryParams['keyword'] = undefined;
 
         this.router.navigate([], {
             relativeTo: this.route,
@@ -179,6 +214,8 @@ export class DocumentMainComponent implements OnInit {
         this.filters = {
             status: '',
             category: '',
+            page: 1,
+            keyword: '',
         };
 
         this.router.navigate([], {

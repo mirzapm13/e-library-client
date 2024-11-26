@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument, rgb, degrees, StandardFonts } from 'pdf-lib';
 import { ButtonModule } from 'primeng/button';
 import { download } from 'src/app/shared/utils/download-file';
 // import { SafePipe } from '../../../../shared/pipes/safe-url-pipe';
@@ -68,7 +68,6 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.currentUser = this.userService.getUserData();
-        console.log(this.currentUser);
 
         this.documentService
             .getDocumentById(this.id)
@@ -133,33 +132,114 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         // Load a PDFDocument from the existing PDF bytes
         const pdfDoc = await PDFDocument.load(arrBuff);
 
-        const page = pdfDoc.getPage(0);
-        const { width, height } = page.getSize();
+        const pages = pdfDoc.getPages();
 
-        page.drawText(
-            `Dokumen ini di download oleh User\n` +
-                `Tanggal ${this.currentDateTime.toLocaleDateString(
-                    'id-ID'
-                )}\n` +
-                `Pukul ${this.currentDateTime.toLocaleTimeString('id-ID')}`,
-            {
-                x: width - 250,
-                y: 40,
-                size: 12,
-                color: rgb(0, 0, 0),
-                lineHeight: 15,
-            }
+        let textSize = 32;
+
+        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const textHeight = helveticaFont.heightAtSize(textSize);
+
+        const userWidth = helveticaFont.widthOfTextAtSize(
+            `Downloaded by ${this.currentUser.user.name}`,
+            textSize
         );
+
+        const dateWidth = helveticaFont.widthOfTextAtSize(
+            `At ${this.currentDateTime.toLocaleDateString('id-ID')}`,
+            textSize
+        );
+
+        const timeWidth = helveticaFont.widthOfTextAtSize(
+            `${this.currentDateTime.toLocaleTimeString('id-ID')}`,
+            textSize
+        );
+
+        // let xPosition = -20;
+
+        pages.forEach((page) => {
+            // page.drawText(`Downloaded by ${this.currentUser.user.name}`, {
+            //     x: page.getWidth() / 2 - userWidth / 2 + 200 + xPosition,
+            //     y: page.getHeight() / 2 - textHeight / 2 + 350,
+            //     size: textSize,
+            //     font: helveticaFont,
+            //     color: rgb(0.95, 0.1, 0.1),
+            //     opacity: 0.5,
+            //     rotate: degrees(-60),
+            // });
+
+            // page.drawText(
+            //     `At ${this.currentDateTime.toLocaleDateString('id-ID')}`,
+            //     {
+            //         x: page.getWidth() / 2 - dateWidth / 2 + 70 + xPosition,
+            //         y: page.getHeight() / 2 - textHeight / 2 + 170,
+            //         size: textSize,
+            //         font: helveticaFont,
+            //         color: rgb(0.95, 0.1, 0.1),
+            //         opacity: 0.5,
+            //         rotate: degrees(-60),
+            //     }
+            // );
+
+            // page.drawText(
+            //     `${this.currentDateTime.toLocaleTimeString('id-ID')}`,
+            //     {
+            //         x: page.getWidth() / 2 - timeWidth / 2 - 10 + xPosition,
+            //         y: page.getHeight() / 2 - textHeight / 2 + 100,
+            //         size: textSize,
+            //         font: helveticaFont,
+            //         color: rgb(0.95, 0.1, 0.1),
+            //         opacity: 0.5,
+            //         rotate: degrees(-60),
+            //     }
+            // );
+
+            page.drawText(`Downloaded by ${this.currentUser.user.name}`, {
+                x: page.getWidth() / 2 - userWidth / 2,
+                y: page.getHeight() / 2 - textHeight / 2 + 40,
+                size: textSize,
+                font: helveticaFont,
+                color: rgb(0.95, 0.1, 0.1),
+                opacity: 0.5,
+            });
+
+            page.drawText(
+                `At ${this.currentDateTime.toLocaleDateString('id-ID')}`,
+                {
+                    x: page.getWidth() / 2 - dateWidth / 2,
+                    y: page.getHeight() / 2 - textHeight / 2,
+                    size: textSize,
+                    font: helveticaFont,
+                    color: rgb(0.95, 0.1, 0.1),
+                    opacity: 0.5,
+                    // rotate: degrees(-60),
+                }
+            );
+
+            page.drawText(
+                `${this.currentDateTime.toLocaleTimeString('id-ID')}`,
+                {
+                    x: page.getWidth() / 2 - timeWidth / 2,
+                    y: page.getHeight() / 2 - textHeight / 2 - 40,
+                    size: textSize,
+                    font: helveticaFont,
+                    color: rgb(0.95, 0.1, 0.1),
+                    opacity: 0.5,
+                    // rotate: degrees(-60),
+                }
+            );
+        });
 
         // Serialize the PDFDocument to bytes (a Uint8Array)
         const pdfBytes = await pdfDoc.save();
 
+        this.pdfUrl = pdfBytes;
+
         // Trigger the browser to download the PDF document
-        download(
-            pdfBytes,
-            'pdf-lib_modification_example.pdf',
-            'application/pdf'
-        );
+        // download(
+        //     pdfBytes,
+        //     'pdf-lib_modification_example.pdf',
+        //     'application/pdf'
+        // );
     }
 
     showDialog() {
