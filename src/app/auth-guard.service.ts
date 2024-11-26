@@ -23,10 +23,14 @@ export class AuthGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.oidcSecurityService.checkAuth().pipe(
             switchMap((auth) => {
-                console.log(auth.isAuthenticated);
+                console.log(auth.accessToken);
                 if (auth.isAuthenticated) {
+                    // return of(true);
                     return this.userService.fetchUserData().pipe(
-                        map(() => true),
+                        map((data) => {
+                            // console.log(data);
+                            return true;
+                        }),
                         catchError((err) => {
                             console.error(err);
                             this.router.navigateByUrl('/auth/login');
@@ -39,33 +43,7 @@ export class AuthGuard implements CanActivate {
                 }
             })
         );
-
-        // return true;
     }
-
-    // canActivateChild(route: ActivatedRouteSnapshot) {
-    //     this.oidcSecurityService
-    //         .checkAuth()
-    //         .subscribe(
-    //             ({
-    //                 isAuthenticated,
-    //                 userData,
-    //                 accessToken,
-    //                 idToken,
-    //                 configId,
-    //             }) => {
-    //                 this.isAuthenticated = isAuthenticated;
-    //                 console.log(userData);
-    //             }
-    //         );
-
-    //     if (!this.isAuthenticated) {
-    //         this.router.navigate(['/auth/login']);
-    //         return false;
-    //     }
-
-    //     return true;
-    // }
 }
 
 // .subscribe(

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
     FormArray,
@@ -24,6 +24,8 @@ import { CategoryService } from 'src/app/shared/services/category.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
 import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 import { CheckboxModule } from 'primeng/checkbox';
+import { DocumentService } from 'src/app/shared/services/document.service';
+import { NotifyService } from 'src/app/shared/services/notify.service';
 
 @Component({
     selector: 'app-document-upload',
@@ -51,84 +53,149 @@ export class DocumentUploadComponent implements OnInit {
     uploadForm: FormGroup;
     categories: any;
     users: any = [];
+    selectedFile: File | null = null;
 
     constructor(
         private router: Router,
         private categoryService: CategoryService,
         private fb: FormBuilder,
-        private usersService: UsersService
+        private usersService: UsersService,
+        private documentService: DocumentService,
+        private notify: NotifyService,
+        private location: Location
     ) {
         this.uploadForm = this.fb.group({
-            name: [''],
-            short_desc: [''],
-            long_desc: [''],
-            // status: [false],
-            selectedCategory: [],
-            files: [[]],
-            kriteria: [],
-            klasifikasi: [],
-            expired: [],
+            file: [],
+            document_no: [''],
+            title: [''],
+            description: [''],
+            selectedCategory: [''],
+            criteria: [''],
+            release: [false],
+            expiredAt: [''],
             tags: [[]],
-            approvals: this.fb.array([this.createItem()]),
         });
     }
+
+    loading = false;
 
     ngOnInit(): void {
         this.categoryService
-            .getCategories()
-            .pipe(
-                map((data) => {
-                    const grouped = groupByParent(data);
-                    const mapped = recursiveMap(
-                        grouped,
-                        (item) => {
-                            return {
-                                label: item.name,
-                                id: item.id,
-                                ...(item.items && { children: item.items }),
-                            };
-                        },
-                        'children'
-                    );
-                    return mapped;
-                })
-            )
-            .subscribe((data) => {
-                this.categories = data;
-            });
+            .getCategoryByCurrentRole()
+            .subscribe(({ error, value }) => {
+                if (error) return;
 
-        this.usersService.getUsers().subscribe((data) => {
-            if (data.value) {
-                const mapped = data.value.map((item) => {
-                    return { ...item, label: item.nama, value: item.id };
-                });
-                this.users = mapped;
-                console.log(mapped);
-            }
-        });
+                const mapped = value.data.map((item) => ({
+                    ...item,
+                    label: item.name,
+                    id: item.id,
+                }));
+
+                const grouped = groupByParent(mapped, 'children', 'parent_id');
+
+                this.categories = grouped;
+            });
     }
 
     clickBack() {
-        this.router.navigateByUrl('/library/dokumen');
+        this.location.back();
+    }
+
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 
     onSubmit() {
-        console.log(this.uploadForm.value);
+        this.loading = true;
+
+        // console.log(this.uploadForm.value);
+
+        const fileFormData = new FormData();
+        fileFormData.append('file', this.uploadForm.value.file);
+
+        let payload = this.uploadForm.value;
+        delete payload['file'];
+
+        payload = {
+            ...payload,
+            expired_at: this.formatDate(payload.expiredAt),
+            tags: payload.tags?.join(', '),
+            ...(payload.selectedCategory && {
+                category_id: payload.selectedCategory.id,
+            }),
+        };
+
+        // console.log(payload);
+
+        // return;
+
+        this.documentService
+            .uploadFile(fileFormData)
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
+
+                let filename = value.data.filename;
+
+                payload['filename'] = filename;
+                delete payload['expiredAt'];
+                delete payload['selectedCategory'];
+
+                console.log(payload);
+
+                // return;
+
+                this.documentService
+                    .addDocument(payload)
+                    .subscribe(({ error, value }) => {
+                        if (error) {
+                            this.notify.alert('error', error.message);
+                            this.loading = false;
+                            return;
+                        }
+
+                        console.log(value);
+
+                        this.notify.alert('success', value.message);
+                        // this.router.navigateByUrl('/master-data/category');
+                        this.loading = false;
+                    });
+
+                // console.log(data);
+            });
+    }
+
+    onFilePicked(event) {
+        console.log(event);
+        const file = (event.target as HTMLInputElement).files[0]; // Here we use only the first file (single file)
+        this.uploadForm.patchValue({ file: file });
+        // this.selectedFile = this.selectedFile;
     }
 
     //==== dynamic form
 
-    createItem(): FormGroup {
-        return this.fb.group({
-            item: [],
-        });
-    }
+    // createItem(): FormGroup {
+    //     return this.fb.group({
+    //         item: [],
+    //     });
+    // }
 
-    addNameField(): void {
-        this.approvals.push(this.createItem());
-    }
+    // addNameField(): void {
+    //     this.approvals.push(this.createItem());
+    // }
 
-    get approvals(): FormArray {
-        return this.uploadForm.get('approvals') as FormArray;
-    }
+    // get approvals(): FormArray {
+    //     return this.uploadForm.get('approvals') as FormArray;
+    // }
 }

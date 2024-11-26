@@ -64,3 +64,6 @@ Thumbs.db
 # src/assets/demo/styles/code.css
 # src/assets/layout/styles/layout/preloading.css
 # src/assets/layout/styles/theme/designer
+
+.env
+.env.prod

@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
     imports: [
         RouterModule.forChild([
             {
-                path: 'dokumen',
-                data: { breadcrumb: 'Dokumen' },
+                path: 'document',
+                data: { breadcrumb: 'Document' },
                 loadComponent: () =>
                     import(
                         './pages/document-main/document-main.component'
@@ -29,8 +29,8 @@ import { RouterModule } from '@angular/router';
                     ).then((m) => m.DocumentUploadComponent),
             },
             {
-                path: 'dokumen/:id',
-                data: { breadcrumb: 'Detail Dokumen' },
+                path: 'document/:id',
+                data: { breadcrumb: 'Document Details' },
                 loadComponent: () =>
                     import(
                         './pages/document-details/document-details.component'

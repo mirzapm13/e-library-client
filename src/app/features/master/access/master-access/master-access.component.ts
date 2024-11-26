@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { UserService } from 'src/app/core/auth/services/user.service';
 import { RolesService } from 'src/app/shared/services/role.service';
-import { UsersService } from 'src/app/shared/services/users.service';
+import { User, UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
     selector: 'app-master-role',
@@ -17,19 +18,23 @@ export class MasterAccessComponent implements OnInit {
     constructor(
         private roleService: RolesService,
         private router: Router,
-        private usersService: UsersService
+        private userService: UserService
     ) {}
 
     roles: any[] = [];
 
+    loading = true;
+
+    userPermissions;
+
     ngOnInit(): void {
-        this.roleService.getRoles().subscribe((item) => {
-            if (item.value) this.roles = item.value;
-            console.log(item.value);
+        this.roleService.getRoles().subscribe(({ isLoading, error, value }) => {
+            this.roles = value.data;
+
+            this.loading = false;
         });
-        // this.usersService.getUsers().subscribe((item) => {
-        //     console.log(item);
-        // });
+
+        this.userPermissions = this.userService.getUserData().permissions;
     }
 
     goToNewRole() {
@@ -40,11 +45,15 @@ export class MasterAccessComponent implements OnInit {
         return item.id; // O index
     };
 
+    goToMenuAccess(id) {
+        this.router.navigateByUrl(`/master-data/access/menu/${id}`);
+    }
+
     goToCategoryAccess(id) {
         this.router.navigateByUrl(`/master-data/access/category/${id}`);
     }
 
     goToEditAccess(id) {
-        this.router.navigateByUrl(`/master-data/access/role/${id}`);
+        this.router.navigateByUrl(`/master-data/access/edit/${id}`);
     }
 }

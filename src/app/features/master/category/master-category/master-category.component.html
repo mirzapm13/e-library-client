@@ -9,61 +9,116 @@
                     label="New"
                     severity="primary"
                     (click)="goToNewCategory()"
+                    *ngIf="userPermissions.includes('create-category')"
                 />
             </div>
 
-            <p-table
-                [value]="categories"
-                [paginator]="true"
-                [rows]="5"
-                [tableStyle]="{ 'min-width': '50rem' }"
-                [rowsPerPageOptions]="[5, 10, 20]"
+            <div
+                class="flex justify-content-center"
+                *ngIf="loading; else tableView"
             >
-                <!-- [rowTrackBy]="trackByFunction" -->
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Nama</th>
-                        <th>Parent</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </ng-template>
+                <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+            </div>
 
-                <ng-template pTemplate="body" let-category let-i="rowIndex">
-                    <tr>
-                        <td>{{ category.name }}</td>
-                        <td>{{ category.parentName }}</td>
-                        <td class="text-center">
-                            <ng-container
-                                *ngIf="!!category.status; else inactive"
-                            >
+            <ng-template #tableView>
+                <p-table
+                    [value]="categories"
+                    [paginator]="true"
+                    [rows]="5"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    [rowsPerPageOptions]="[5, 10, 20]"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nama</th>
+                            <th>Parent</th>
+                            <!-- <th class="text-center">Status</th> -->
+                            <th class="text-center">Approver List</th>
+
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-category let-i="rowIndex">
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td>{{ joinParents(category.parents) }}</td>
+                            <!-- <td class="text-center">
+                                <ng-container
+                                    *ngIf="!!category.status; else inactive"
+                                >
+                                    <p-button
+                                        label="Active"
+                                        size="small"
+                                        severity="success"
+                                        class="menu-status"
+                                    />
+                                </ng-container>
+                                <ng-template #inactive>
+                                    <p-button
+                                        label="Inactive"
+                                        size="small"
+                                        severity="danger"
+                                        class="menu-status"
+                                    />
+                                </ng-template>
+                            </td> -->
+                            <td class="text-center">
                                 <p-button
-                                    label="Active"
+                                    *ngIf="
+                                        userPermissions.includes(
+                                            'update-category'
+                                        )
+                                    "
+                                    icon="pi pi-user-edit"
                                     size="small"
-                                    severity="success"
-                                    class="menu-status"
+                                    label="Edit"
+                                    severity="secondary"
+                                    (onClick)="goToApprovers(category.id)"
                                 />
-                            </ng-container>
-                            <ng-template #inactive>
-                                <p-button
-                                    label="Inactive"
-                                    size="small"
-                                    severity="danger"
-                                    class="menu-status"
-                                />
-                            </ng-template>
-                        </td>
-                        <td class="text-center">
-                            <p-button
-                                icon="pi pi-user-edit"
-                                size="small"
-                                label="Edit"
-                                severity="secondary"
-                            />
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                            </td>
+                            <td class="text-center">
+                                <div
+                                    class="flex align-items-center gap-2 justify-content-center"
+                                >
+                                    <p-button
+                                        *ngIf="
+                                            userPermissions.includes(
+                                                'update-category'
+                                            )
+                                        "
+                                        icon="pi pi-user-edit"
+                                        size="small"
+                                        label="Edit"
+                                        severity="secondary"
+                                        (onClick)="
+                                            goToEditCategory(category.id)
+                                        "
+                                    />
+
+                                    <p-button
+                                        *ngIf="
+                                            userPermissions.includes(
+                                                'update-category'
+                                            )
+                                        "
+                                        icon="pi pi-trash"
+                                        size="small"
+                                        label="Delete"
+                                        severity="danger"
+                                        (onClick)="
+                                            deleteCategory(
+                                                category.id,
+                                                category.name
+                                            )
+                                        "
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </ng-template>
         </div>
     </ng-container>
 </div>

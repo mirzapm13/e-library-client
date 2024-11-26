@@ -1,5 +1,29 @@
 <div class="card">
     <h5>Under Construction</h5>
+
+    <p-treeTable
+        [value]="treeData"
+        [scrollable]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Type</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+            <tr [ttRow]="rowNode">
+                <td>
+                    <p-treeTableToggler [rowNode]="rowNode" />
+                    {{ rowData.name }}
+                </td>
+                <td>{{ rowData.size }}</td>
+                <td>{{ rowData.type }}</td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
 </div>
 
 <!-- <div class="card">

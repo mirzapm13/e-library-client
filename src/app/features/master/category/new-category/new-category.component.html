@@ -9,76 +9,68 @@
 
     <h5>New Category</h5>
 
-    <form
-        class="flex flex-column gap-2 mt-5"
-        [formGroup]="newCategoryForm"
-        (ngSubmit)="onSubmit()"
-    >
-        <div class="field grid">
-            <label class="col-2" for="name">Name</label>
-            <div class="col-12 md:col-10">
-                <input
-                    pInputText
-                    class="w-full"
-                    type="text"
-                    name="name"
-                    id="name"
-                    formControlName="name"
-                />
-            </div>
-        </div>
+    <div class="flex justify-content-center" *ngIf="loading; else formView">
+        <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+    </div>
 
-        <div class="field grid">
-            <label class="col-2" for="status">Status</label>
-            <div class="col-12 md:col-10">
-                <!-- <input
-                    type="checkbox"
-                    name="status"
-                    id="status"
-                    formControlName="status"
-                /> -->
-                <p-inputSwitch formControlName="status" />
+    <ng-template #formView>
+        <form
+            class="flex flex-column gap-2 mt-5"
+            [formGroup]="newCategoryForm"
+            (ngSubmit)="onSubmit()"
+        >
+            <div class="field grid">
+                <label class="col-2" for="name">Name</label>
+                <div class="col-12 md:col-10">
+                    <input
+                        pInputText
+                        class="w-full"
+                        type="text"
+                        name="name"
+                        id="name"
+                        formControlName="name"
+                    />
+                </div>
             </div>
-        </div>
 
-        <div class="field grid">
-            <label class="col-2" for="status">Parent Category</label>
-            <div class="col-12 md:col-10">
-                <p-treeSelect
-                    formControlName="selectedCategory"
-                    [filter]="true"
-                    class="block w-full"
-                    [options]="categories"
-                    selectionMode="single"
-                    name="category"
-                />
+            <div class="field grid">
+                <label class="col-2" for="status">Status</label>
+                <div class="col-12 md:col-10">
+                    <p-inputSwitch formControlName="status" />
+                </div>
             </div>
-        </div>
 
-        <div class="field grid">
-            <label class="col-2" for="status">Users</label>
-            <div class="col-12 md:col-10">
-                <!-- <p-treeSelect
-                    formControlName="selectedCategory"
-                    [filter]="true"
-                    class="block w-full"
-                    [options]="categories"
-                    selectionMode="single"
-                    name="category"
-                /> -->
-                <p-multiSelect
-                    [options]="users"
-                    formControlName="selectedUsers"
-                    placeholder="Select Users"
-                    class="block w-full"
-                    display="chip"
-                    [panelStyle]="{ width: '100%' }"
-                    [style]="{ width: '100%' }"
-                />
+            <div class="field grid">
+                <label class="col-2" for="description">Description</label>
+                <div class="col-12 md:col-10">
+                    <textarea
+                        pInputText
+                        class="w-full"
+                        type="text"
+                        name="description"
+                        id="description"
+                        rows="5"
+                        formControlName="description"
+                    ></textarea>
+                </div>
             </div>
-        </div>
-        <div class="flex justify-content-end mt-8">
-            <p-button class="" type="submit" label="Submit"></p-button>
-        </div>
-    </form>
+
+            <div class="field grid">
+                <label class="col-2" for="status">Parent Category</label>
+                <div class="col-12 md:col-10">
+                    <p-treeSelect
+                        formControlName="parent_id"
+                        [filter]="true"
+                        class="block w-full"
+                        [options]="categoryOptions"
+                        name="category"
+                    />
+                </div>
+            </div>
+
+            <div class="flex justify-content-end mt-8">
+                <p-button class="" type="submit" label="Submit"></p-button>
+            </div>
+        </form>
+    </ng-template>
 </div>

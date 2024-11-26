@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import {
     BehaviorSubject,
     catchError,
+    map,
     Observable,
     of,
+    startWith,
     switchMap,
     tap,
 } from 'rxjs';
+import { HttpRequestState } from '../http-request-state';
 
 export type ICategoryState = any;
 const category = [
@@ -70,36 +73,100 @@ const category = [
 export class CategoryService {
     constructor(private readonly http: HttpClient) {}
 
-    private categoryState = new BehaviorSubject<any | undefined>(undefined);
-
-    state$: Observable<ICategoryState | undefined> =
-        this.categoryState.asObservable();
-
-    getCategories(): Observable<ICategoryState> {
-        return this.state$.pipe(
-            switchMap((state) => {
-                if (state) {
-                    // If state exists, return it as an Observable
-                    return of(state);
-                } else {
-                    // Otherwise, fetch the state from the server
-                    return this.fetchData().pipe(
-                        tap((fetchedData) =>
-                            this.categoryState.next(fetchedData)
-                        )
-                    );
-                }
-            })
+    getCategories(): Observable<HttpRequestState<any>> {
+        return this.http.get<any>('/categories').pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
 
-    private fetchData(): Observable<ICategoryState> {
-        return of(category);
-        return this.http.get<ICategoryState>('/category').pipe(
-            catchError((error) => {
-                console.error('Error fetching data', error);
-                return of({ data: null }); // Return an empty state in case of error
-            })
+    getCategoryById(id): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/categories/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
         );
     }
+
+    addCategory(data): Observable<HttpRequestState<any>> {
+        return this.http.post<any>('/categories', data).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    editCategory(id, data): Observable<HttpRequestState<any>> {
+        return this.http.put<any>(`/categories/${id}`, data).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    getCategoryByRoleId(id): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/categories/role-category/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    getCategoryByCurrentRole(): Observable<HttpRequestState<any>> {
+        return this.http.get<any>(`/categories/role-category`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    assignCategoryUser(payload): Observable<HttpRequestState<any>> {
+        return this.http.post<any>(`/categories/assign-user`, payload).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    deleteCategory(id): Observable<HttpRequestState<any>> {
+        return this.http.delete<any>(`/categories/${id}`).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    // private categoryState = new BehaviorSubject<any | undefined>(undefined);
+
+    // state$: Observable<ICategoryState | undefined> =
+    //     this.categoryState.asObservable();
+
+    // getCategories(): Observable<ICategoryState> {
+    //     return this.state$.pipe(
+    //         switchMap((state) => {
+    //             if (state) {
+    //                 // If state exists, return it as an Observable
+    //                 return of(state);
+    //             } else {
+    //                 // Otherwise, fetch the state from the server
+    //                 return this.fetchData().pipe(
+    //                     tap((fetchedData) =>
+    //                         this.categoryState.next(fetchedData)
+    //                     )
+    //                 );
+    //             }
+    //         })
+    //     );
+    // }
+
+    // private fetchData(): Observable<ICategoryState> {
+    //     return of(category);
+    //     return this.http.get<ICategoryState>('/category').pipe(
+    //         catchError((error) => {
+    //             console.error('Error fetching data', error);
+    //             return of({ data: null }); // Return an empty state in case of error
+    //         })
+    //     );
+    // }
 }

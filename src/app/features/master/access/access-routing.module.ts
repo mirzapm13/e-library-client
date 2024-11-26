@@ -29,11 +29,27 @@ import { RouterModule } from '@angular/router';
                     ),
             },
             {
+                path: 'menu/:id',
+                data: { breadcrumb: 'Access Menu' },
+                loadComponent: () =>
+                    import('./menu-access/menu-access.component').then(
+                        (m) => m.MenuAccessComponent
+                    ),
+            },
+            {
                 path: 'role/:id',
                 data: { breadcrumb: 'Role Management' },
                 loadComponent: () =>
                     import('./role-access/role-access.component').then(
                         (m) => m.RoleAccessComponent
+                    ),
+            },
+            {
+                path: 'edit/:id',
+                data: { breadcrumb: 'Edit Access' },
+                loadComponent: () =>
+                    import('./edit-access/edit-access.component').then(
+                        (m) => m.EditAccessComponent
                     ),
             },
         ]),

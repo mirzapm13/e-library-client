@@ -3,6 +3,12 @@
     grid-template-columns: minmax(100px, 4fr) minmax(100px, 3fr);
     gap: 40px;
 
+    &__Document {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
     &__Details {
         display: flex;
         flex-direction: column;

@@ -5,12 +5,14 @@ import {
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { RolesService } from 'src/app/shared/services/role.service';
 
 @Component({
     selector: 'app-new-role',
@@ -30,38 +32,34 @@ import { TableModule } from 'primeng/table';
 })
 export class NewAccessComponent {
     newRoleForm: FormGroup;
-    access = {
-        view: true,
-        upload: true,
-        approve: true,
-        edit: true,
-    };
 
-    constructor(private fb: FormBuilder, private location: Location) {
+    constructor(
+        private fb: FormBuilder,
+        private location: Location,
+        private roleService: RolesService
+    ) {
         this.newRoleForm = this.fb.group({
-            // parent: [],
-            // name: [''],
-            // email: [''],
-            // password: [''],
-            // description: [''],
-            // path: [''],
-            // icon: [''],
-            // order: [''],
-            // status: [true],
-            // role: [[]],
-            name: [''],
-            description: [''],
-            status: [false],
-            view: [true],
-            upload: [false],
-            approve: [false],
-            edit: [false],
+            name: [null, Validators.required],
+            description: [null, Validators.required],
         });
     }
+    loading = false;
 
     clickBack() {
         this.location.back();
     }
 
-    onSubmit() {}
+    onSubmit() {
+        this.loading = true;
+        if (!this.newRoleForm.valid) {
+            console.log('This is not valid');
+            return;
+        }
+        this.roleService
+            .addRole(this.newRoleForm.value)
+            .subscribe(({ isLoading, error, value }) => {
+                this.loading = false;
+                console.log(value.data);
+            });
+    }
 }

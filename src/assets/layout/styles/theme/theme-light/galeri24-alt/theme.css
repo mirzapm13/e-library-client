@@ -6193,4 +6193,37 @@ p {
   width: 100%;
 }
 
+[type=file] {
+  background: unset;
+  border-radius: 0.5rem;
+  font-size: unset;
+  line-height: inherit;
+  padding: 0;
+  width: 100%;
+  background-color: rgb(249, 250, 251);
+  border: 1px solid #a27c42 !important;
+}
+
+[type=file]:focus {
+  outline: 1px auto inherit;
+}
+
+input[type=file]::file-selector-button {
+  -webkit-margin-start: -1rem;
+  -webkit-margin-end: 1rem;
+  background: #a27c42;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-inline-end: 1rem;
+  margin-inline-start: -1rem;
+  padding: 0.625rem 1rem 0.625rem 2rem;
+}
+
+input[type=file]::file-selector-button:hover {
+  background: #614a28;
+}
+
 /*# sourceMappingURL=theme.css.map */

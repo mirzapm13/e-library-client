@@ -20,6 +20,14 @@ import { RouterModule } from '@angular/router';
                         (m) => m.MenuNewComponent
                     ),
             },
+            {
+                path: 'edit/:id',
+                data: { breadcrumb: 'Edit Menu' },
+                loadComponent: () =>
+                    import('./menu-edit/menu-edit.component').then(
+                        (m) => m.MenuEditComponent
+                    ),
+            },
         ]),
     ],
     exports: [RouterModule],

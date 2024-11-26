@@ -20,6 +20,22 @@ import { RouterModule } from '@angular/router';
                         (m) => m.NewCategoryComponent
                     ),
             },
+            {
+                path: 'edit/:id',
+                data: { breadcrumb: 'Edit Category' },
+                loadComponent: () =>
+                    import('./edit-category/edit-category.component').then(
+                        (m) => m.EditCategoryComponent
+                    ),
+            },
+            {
+                path: 'approval/:id',
+                data: { breadcrumb: 'Edit Approval Category' },
+                loadComponent: () =>
+                    import(
+                        './approval-category/approval-category.component'
+                    ).then((m) => m.ApprovalCategoryComponent),
+            },
         ]),
     ],
     exports: [RouterModule],

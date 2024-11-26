@@ -1,24 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { PDFDocument, rgb } from 'pdf-lib';
 import { ButtonModule } from 'primeng/button';
-import { download } from 'src/app/shared/utils/download-file';
-import { SafePipe } from 'src/app/shared/pipes/safe-url-pipe';
-import {
-    CategoryService,
-    ICategoryState,
-} from 'src/app/shared/services/category.service';
+import { CategoryService } from 'src/app/shared/services/category.service';
 import { TabViewModule } from 'primeng/tabview';
-import { CommonModule } from '@angular/common';
-import { map } from 'rxjs';
-import { groupByParent } from 'src/app/shared/utils/group-by-parent';
+import { CommonModule, Location } from '@angular/common';
 import { DataViewModule } from 'primeng/dataview';
-import { TreeNode } from 'primeng/api';
+import { MenuItem, TreeNode } from 'primeng/api';
 import { DocumentService } from 'src/app/shared/services/document.service';
 import { InputTextModule } from 'primeng/inputtext';
-import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 import { TreeSelectModule } from 'primeng/treeselect';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
+import { groupByParentHierarchy } from 'src/app/shared/utils/group-by-parent-hierarchy';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { debounceTime, Subscription } from 'rxjs';
+import { UserService } from 'src/app/core/auth/services/user.service';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
     selector: 'app-document-main',
@@ -27,111 +23,221 @@ import { MenubarModule } from 'primeng/menubar';
     standalone: true,
     imports: [
         CommonModule,
-        SafePipe,
         ButtonModule,
         TabViewModule,
         DataViewModule,
         InputTextModule,
         TreeSelectModule,
         MenubarModule,
+        TabMenuModule,
+        PaginatorModule,
     ],
 })
 export class DocumentMainComponent implements OnInit {
     constructor(
         private categoryService: CategoryService,
         private documentService: DocumentService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute,
+        private userService: UserService
     ) {}
 
-    categories: ICategoryState;
+    categories = [];
 
     docSrc: string;
-    currentDateTime = new Date();
     selectedCategory: TreeNode[];
 
     documents = [];
 
-    ngOnInit(): void {
-        this.docSrc = 'assets/docs/sample.pdf';
+    selectedChild;
 
-        this.documentService.getDocuments().subscribe((data) => {
-            console.log(data);
-            this.documents = data;
-        });
+    tabItems: MenuItem[] | undefined = [
+        { label: 'All', icon: 'pi pi-list', value: 'all' },
+        { label: 'Release', icon: 'pi pi-file', value: 'release' },
+        { label: 'Bookmark', icon: 'pi pi-bookmark', value: 'bookmark' },
+        {
+            label: 'Waiting for approval',
+            icon: 'pi pi-clock',
+            value: 'waiting',
+        },
+        { label: 'Archive', icon: 'pi pi-history', value: 'archive' },
+    ];
+
+    activeTab: MenuItem | undefined;
+
+    filters: any = {
+        status: '',
+        category: '',
+        page: 1,
+        keyword: '',
+        // limit: 2,
+    };
+
+    private subscriptions: Subscription = new Subscription();
+
+    docLoading = false;
+
+    currentUser;
+
+    first = 0;
+    rows = 0;
+    totalRecords = 0;
+
+    expandedId: number | null = null; // Holds the ID of the expanded document, or null if none is expanded.
+
+    ngOnInit(): void {
+        this.currentUser = this.userService.getUserData();
+
+        const paramsSubscription = this.route.queryParams
+            .pipe(debounceTime(300)) // Optional: debounce for performance
+            .subscribe((params: Params) => {
+                this.activeTab =
+                    this.tabItems.filter(
+                        (item) => item['value'] == params['status']
+                    )[0] || this.tabItems[0];
+                this.updateFiltersFromParams(params);
+                this.fetchData();
+            });
+
+        this.subscriptions.add(paramsSubscription);
 
         this.categoryService
-            .getCategories()
-            .pipe(
-                map((data) => {
-                    const grouped = groupByParent(data);
-                    const mapped = recursiveMap(
-                        grouped,
-                        (item) => {
-                            return {
-                                label: item.name,
-                                id: item.id,
-                                ...(item.items && { items: item.items }),
-                            };
-                        },
-                        'items'
-                    );
-                    console.log(mapped);
-                    return mapped;
-                })
-            )
-            .subscribe((data) => {
-                this.categories = data;
+            .getCategoryByCurrentRole()
+            .subscribe(({ error, value }) => {
+                const mapped = value.data.map((item) => {
+                    return {
+                        ...item,
+                        label: item.name,
+                        id: item.id,
+                    };
+                });
+                const grouped = groupByParentHierarchy(
+                    mapped,
+                    'items',
+                    'parent_id',
+                    'name',
+                    (obj) => {
+                        if (!obj.deepest) return;
+                        this.selectedChild = obj;
+                        this.filters.category = obj.id;
+                        this.filters.keyword = '';
+                        this.applyFilter();
+                    }
+                );
+                this.categories = grouped;
             });
     }
 
-    onTabChange(data) {
-        console.log(data);
-    }
-
-    async downloadPdf() {
-        // Fetch an existing PDF document
-        const url = this.docSrc;
-        const existingPdfBytes = await fetch(url).then((res) =>
-            res.arrayBuffer()
-        );
-
-        // Load a PDFDocument from the existing PDF bytes
-        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-        const page = pdfDoc.getPage(0);
-        const { width, height } = page.getSize();
-
-        page.drawText(
-            `Dokumen ini di download oleh User\n` +
-                `Tanggal ${this.currentDateTime.toLocaleDateString(
-                    'id-ID'
-                )}\n` +
-                `Pukul ${this.currentDateTime.toLocaleTimeString('id-ID')}`,
-            {
-                x: width - 250,
-                y: 40,
-                size: 12,
-                color: rgb(0, 0, 0),
-                lineHeight: 15,
-            }
-        );
-
-        // Serialize the PDFDocument to bytes (a Uint8Array)
-        const pdfBytes = await pdfDoc.save();
-
-        // Trigger the browser to download the PDF document
-        download(
-            pdfBytes,
-            'pdf-lib_modification_example.pdf',
-            'application/pdf'
-        );
+    toggleShowMore(docId: number): void {
+        this.expandedId = this.expandedId === docId ? null : docId; // Collapse if the same, expand otherwise.
     }
 
     goToDocument(id) {
-        this.router.navigateByUrl(`/library/dokumen/${id}`);
+        this.router.navigateByUrl(`/library/document/${id}`);
     }
 
     goToUpload() {
         this.router.navigateByUrl(`/library/upload`);
+    }
+
+    onActiveItemChange(event: MenuItem) {
+        this.clearFilters();
+        this.activeTab = event;
+        this.filters.status = event['value'];
+        // this.filters.category = '';
+        // this.selectedChild = undefined;
+        this.applyFilter();
+    }
+
+    onPageChange(evt) {
+        console.log(evt);
+        this.docLoading = true;
+        this.filters.page = evt.page + 1;
+        this.applyFilter();
+    }
+
+    fetchData(): void {
+        this.docLoading = true;
+        this.documentService
+            .getDocuments(this.filters)
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.docLoading = false;
+                    return;
+                }
+                this.documents = value.data;
+                const meta = value.meta;
+
+                this.totalRecords = meta['total'];
+                this.first = (meta['currentPage'] - 1) * meta['perPage'];
+
+                this.rows = meta['perPage'];
+
+                this.docLoading = false;
+            });
+    }
+
+    updateFiltersFromParams(params: Params): void {
+        this.filters = {
+            category: params['category'] || '',
+            status: params['status'] || '',
+            page: params['page'] || 1,
+            keyword: params['keyword'] || '',
+            // limit: params['limit'] || 2,
+        };
+    }
+
+    applyFilter(): void {
+        const queryParams: Params = {};
+
+        if (this.filters.status) queryParams['status'] = this.filters.status;
+        else queryParams['status'] = undefined;
+
+        if (this.filters.category)
+            queryParams['category'] = this.filters.category;
+        else queryParams['category'] = undefined;
+
+        if (this.filters.page) queryParams['page'] = this.filters.page;
+        else queryParams['page'] = 1;
+
+        if (this.filters.keyword) queryParams['keyword'] = this.filters.keyword;
+        else queryParams['keyword'] = undefined;
+
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: queryParams,
+            queryParamsHandling: 'merge',
+        });
+    }
+
+    clearFilters(): void {
+        this.filters = {
+            status: '',
+            category: '',
+            page: 1,
+            keyword: '',
+        };
+
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {},
+            queryParamsHandling: 'merge',
+        });
+    }
+
+    categoryIndicator() {
+        let indicator = [
+            ...(this.selectedChild?.hierarchy
+                ? this.selectedChild.hierarchy
+                : []),
+        ];
+
+        if (this.selectedChild?.name) indicator.push(this.selectedChild.name);
+
+        if (indicator.length) {
+            return indicator.join(' > ');
+        } else {
+            return 'All Category';
+        }
     }
 }

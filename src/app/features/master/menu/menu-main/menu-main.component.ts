@@ -6,7 +6,10 @@ import { ButtonModule } from 'primeng/button';
 import { MenuService } from 'src/app/shared/services/menus.service';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormsModule } from '@angular/forms';
-import { addParentName } from 'src/app/shared/utils/add-parent-name';
+import { NotifyService } from 'src/app/shared/services/notify.service';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmService } from 'src/app/shared/services/confirmation.service';
+import { UserService } from 'src/app/core/auth/services/user.service';
 
 @Component({
     selector: 'app-menu-main',
@@ -22,34 +25,80 @@ import { addParentName } from 'src/app/shared/utils/add-parent-name';
     styleUrl: './menu-main.component.scss',
 })
 export class MenuMainComponent implements OnInit {
-    constructor(private menusService: MenuService, private router: Router) {}
+    constructor(
+        private menusService: MenuService,
+        private router: Router,
+        private notify: NotifyService,
+        private confirmService: ConfirmService,
+        private userService: UserService
+    ) {}
 
-    menus: any;
+    userPermissions;
 
-    test: any;
+    menus: any = [];
+
+    loading = false;
 
     ngOnInit(): void {
-        this.menusService.getMenuMaster().subscribe((item) => {
-            const mapped = addParentName(item);
-            this.menus = mapped.map((item) => {
-                return {
-                    nama: item.name,
-                    path: item.path,
-                    parent: item.parentName,
-                    order: item.order,
-                    icon: item.icon,
-                    status: item.status,
-                    parentId: item.parentId,
-                };
-            });
+        this.loading = true;
+
+        this.menusService.getMenus().subscribe(({ error, value }) => {
+            if (error) {
+                this.notify.alert('error', error.message);
+                this.loading = false;
+                return;
+            }
+            this.menus = value.data;
+
+            this.loading = false;
         });
+
+        this.userPermissions = this.userService.getUserData().permissions;
     }
 
     goToNewMenu(): void {
         this.router.navigateByUrl('/master-data/menu/new');
     }
+    goToEditMenu(id): void {
+        this.router.navigateByUrl(`/master-data/menu/edit/${id}`);
+    }
 
     trackByFunction = (_index, item) => {
         return item.id; // O index
     };
+
+    joinParents(item) {
+        return item.map((item) => item.name).join(' > ');
+    }
+
+    deleteCallback(id) {
+        this.loading = true;
+
+        this.menusService.deleteMenu(id).subscribe(({ error, value }) => {
+            if (error) {
+                this.notify.alert('error', error.message);
+                this.loading = false;
+                return;
+            }
+
+            this.notify.alert('success', value.message);
+
+            this.menusService.getMenus().subscribe(({ error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
+                this.menus = value.data;
+                this.loading = false;
+            });
+        });
+    }
+
+    deleteMenu(id, name) {
+        this.confirmService.deleteConfirm(
+            `Are you sure want to delete <b>${name}</b>?`,
+            () => this.deleteCallback(id)
+        );
+    }
 }

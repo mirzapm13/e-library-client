@@ -1,0 +1,27 @@
+.CustomTable {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+
+    th {
+        text-align: left;
+        padding: 1rem 1rem;
+        border: 1px solid #d4d6d9;
+        border-width: 0 0 1px 0;
+        font-weight: 600;
+        color: #343a40;
+        background: #fcfcfc;
+        transition: box-shadow 0.2s;
+    }
+
+    td {
+        text-align: left;
+        border: 1px solid #d8dadd;
+        border-width: 0 0 1px 0;
+        padding-block: 1rem !important;
+
+        input[type="checkbox"] {
+            accent-color: #a27c42;
+        }
+    }
+}

@@ -1,0 +1,147 @@
+<div class="card">
+    <p-button
+        icon="pi pi-chevron-left"
+        label="Back"
+        size="small"
+        [outlined]="true"
+        (onClick)="clickBack()"
+    />
+
+    <div class="flex flex-column gap-2 mt-5">
+        <!-- <div class="field grid">
+            <p-treeTable
+                [value]="menuOptions"
+                [columns]="cols"
+                selectionMode="checkbox"
+                [(selection)]="selectedNodes"
+                dataKey="id"
+            >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{ col.header }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-rowNode
+                    let-rowData="rowData"
+                    let-columns="columns"
+                >
+                    <tr>
+                        <td>
+                            <p-treeTableToggler
+                                [rowNode]="rowNode"
+                            ></p-treeTableToggler>
+
+                            {{ rowData.name }}
+                        </td>
+                        <td>
+                            <p-treeTableCheckbox
+                                [value]="rowNode"
+                            ></p-treeTableCheckbox>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+        </div> -->
+
+        <div class="field grid">
+            <label class="col-2" for="name">Role</label>
+            <div class="col-12 md:col-10">
+                <input
+                    pInputText
+                    class="w-full"
+                    type="text"
+                    name="name"
+                    id="name"
+                    disabled
+                    readonly
+                    [ngModel]="roleName"
+                />
+            </div>
+        </div>
+
+        <div class="field grid">
+            <table class="CustomTable w-full">
+                <thead>
+                    <tr>
+                        <th [width]="100">Name</th>
+                        <th style="text-align: center">Show Menu</th>
+                        <th style="text-align: center">Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of menuOptions">
+                        <ng-container
+                            *ngTemplateOutlet="
+                                tableRow;
+                                context: { $implicit: item, level: 0 }
+                            "
+                        ></ng-container>
+                    </ng-container>
+
+                    <!-- Recursive Row Template -->
+                    <ng-template #tableRow let-item let-level="level">
+                        <tr [attr.data-level]="level" class="menu-row">
+                            <!-- Name Column -->
+                            <td [style.padding-left.px]="20 + level * 20">
+                                {{ item.name }}
+                            </td>
+                            <!-- Access Column -->
+                            <td style="text-align: center">
+                                <input
+                                    name="menu-access"
+                                    type="checkbox"
+                                    [(ngModel)]="item.active"
+                                    [value]="item.id"
+                                />
+                            </td>
+                            <td>
+                                <div class="flex justify-content-between">
+                                    <div
+                                        class="flex flex-column"
+                                        *ngFor="
+                                            let permission of item.permissions
+                                        "
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            class="menu-permission"
+                                            value="permission"
+                                            [(ngModel)]="permission.active"
+                                            [value]="permission.name"
+                                        />
+                                        <p>{{ permission.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <ng-container *ngFor="let child of item.children">
+                            <ng-container
+                                *ngTemplateOutlet="
+                                    tableRow;
+                                    context: {
+                                        $implicit: child,
+                                        level: level + 1
+                                    }
+                                "
+                            ></ng-container>
+                        </ng-container>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flex justify-content-end mt-8">
+            <p-button
+                (onClick)="onSubmit()"
+                type="button"
+                label="Submit"
+            ></p-button>
+        </div>
+    </div>
+
+    <!-- <p-button (onClick)="showNodes()" label="Click" /> -->
+</div>

@@ -7,11 +7,9 @@
         (onClick)="clickBack()"
     />
 
-    <h5>Category Management Access</h5>
-
-    <form [formGroup]="categoryAccessForm" class="flex flex-column gap-2 mt-5">
+    <div class="flex flex-column gap-2 mt-5">
         <div class="field grid">
-            <label class="col-2" for="name">Name</label>
+            <label class="col-2" for="name">Role</label>
             <div class="col-12 md:col-10">
                 <input
                     pInputText
@@ -19,74 +17,67 @@
                     type="text"
                     name="name"
                     id="name"
-                    formControlName="nama"
+                    [ngModel]="roleName"
+                    disabled
+                    readonly
                 />
             </div>
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="name">Position</label>
-            <div class="col-12 md:col-10">
-                <input
-                    pInputText
-                    class="w-full"
-                    type="text"
-                    name="name"
-                    id="name"
-                    formControlName="jabatan"
-                />
-            </div>
-        </div>
-
-        <p-divider />
-
-        <div class="field grid">
-            <label class="col-2" for="categories">Categories</label>
-            <div
-                formArrayName="categories"
-                class="flex flex-column gap-2 md:col-10 px-3 py-0"
+            <p-treeTable
+                [value]="categoryOptions"
+                [columns]="cols"
+                selectionMode="checkbox"
+                [(selection)]="selectedNodes"
+                dataKey="id"
             >
-                <div
-                    *ngFor="
-                        let item of categories.controls;
-                        let i = index;
-                        let isLast = last
-                    "
-                    [formGroupName]="i"
-                    class="flex flex-column gap-3"
+                <!-- (onNodeSelect)="nodeSelect($event)" -->
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{ col.header }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-rowNode
+                    let-rowData="rowData"
+                    let-columns="columns"
                 >
-                    <!-- <p-dropdown
-                        styleClass="w-full"
-                        placeholder="Choose Categories"
-                        formControlName="item"
-                        [options]="categoryOptions"
-                    /> -->
+                    <tr>
+                        <td>
+                            <p-treeTableToggler
+                                [rowNode]="rowNode"
+                            ></p-treeTableToggler>
 
-                    <p-treeSelect
-                        formControlName="item"
-                        [filter]="true"
-                        class="block w-full"
-                        [options]="categoryOptions"
-                        selectionMode="single"
-                        name="category"
-                        [required]="true"
-                        placeholder="Choose Category"
-                    />
-
-                    <p-button
-                        *ngIf="isLast"
-                        type="button"
-                        (click)="addCategoryField()"
-                        label="Add Name"
-                    />
-                </div>
-            </div>
+                            {{ rowData.name }}
+                        </td>
+                        <td>
+                            <p-treeTableCheckbox
+                                [value]="rowNode"
+                            ></p-treeTableCheckbox>
+                            <!-- <input
+                                name="menu-access"
+                                type="checkbox"
+                                [(ngModel)]="rowData.active"
+                                [value]="rowData.id"
+                            /> -->
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
         </div>
-
-        <p-divider />
 
         <div class="flex justify-content-end mt-8">
-            <p-button class="" type="submit" label="Submit"></p-button>
+            <p-button
+                (onClick)="onSubmit()"
+                type="submit"
+                label="Submit"
+            ></p-button>
         </div>
-    </form>
+    </div>
+
+    <p-button (onClick)="showNodes()" label="Click" />
 </div>

@@ -15,16 +15,24 @@
         (ngSubmit)="onSubmit()"
     >
         <div class="field grid">
-            <label class="col-2" for="file">Choose File</label>
+            <label class="col-2" for="file"
+                >Choose File <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
-                <p-fileUpload
-                    #fu
+                <!-- <p-fileUpload
                     mode="basic"
                     chooseLabel="Upload"
                     chooseIcon="pi pi-upload"
-                    name="file[]"
-                    url="https://www.primefaces.org/cdn/api/upload.php"
                     accept="application/pdf"
+                    [customUpload]="true"
+                    (uploadHandler)="onFilePicked($event)"
+                    [multiple]="false"
+                /> -->
+                <input
+                    type="file"
+                    placeholder="Choose File"
+                    accept="application/pdf"
+                    (change)="onFilePicked($event)"
                 />
                 <!-- maxFileSize="1000000"
                     (onUpload)="onUpload($event)" -->
@@ -32,7 +40,9 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="name">Document Number</label>
+            <label class="col-2" for="name"
+                >Document Number <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <input
                     pInputText
@@ -40,13 +50,15 @@
                     type="text"
                     name="name"
                     id="name"
-                    formControlName="name"
+                    formControlName="document_no"
                 />
             </div>
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="name">Title</label>
+            <label class="col-2" for="name"
+                >Title <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <input
                     pInputText
@@ -54,7 +66,7 @@
                     type="text"
                     name="short_desc"
                     id="short_desc"
-                    formControlName="short_desc"
+                    formControlName="title"
                 />
             </div>
         </div>
@@ -69,13 +81,15 @@
                     name="long_desc"
                     id="long_desc"
                     rows="5"
-                    formControlName="long_desc"
+                    formControlName="description"
                 ></textarea>
             </div>
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Category</label>
+            <label class="col-2" for="status"
+                >Category <span class="text-red-500">*</span></label
+            >
             <div class="col-12 md:col-10">
                 <p-treeSelect
                     formControlName="selectedCategory"
@@ -89,13 +103,15 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Criteria</label>
+            <label class="col-2" for="status"
+                >Criteria <span class="text-red-500">*</span></label
+            >
             <div class="flex gap-5 col-12 md:col-10">
                 <div class="flex align-items-center">
                     <p-radioButton
-                        name="kriteria"
-                        value="Public"
-                        formControlName="kriteria"
+                        name="criteria"
+                        value="internal"
+                        formControlName="criteria"
                         inputId="kriteria1"
                     />
                     <label for="kriteria1" class="ml-2"> Internal </label>
@@ -103,9 +119,9 @@
 
                 <div class="flex align-items-center">
                     <p-radioButton
-                        name="kriteria"
-                        value="Rahasia"
-                        formControlName="kriteria"
+                        name="criteria"
+                        value="restricted"
+                        formControlName="criteria"
                         inputId="kriteria2"
                     />
                     <label for="kriteria2" class="ml-2"> Restricted </label>
@@ -113,7 +129,7 @@
             </div>
         </div>
 
-        <div class="field grid">
+        <!-- <div class="field grid">
             <label class="col-2" for="status">Document Clasification</label>
             <div class="flex gap-5 col-12 md:col-10">
                 <div class="flex align-items-center">
@@ -148,13 +164,13 @@
                     <label for="klasifikasi3" class="ml-2"> Staff </label>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="field grid">
-            <label class="col-2" for="status">Release Document</label>
+            <label class="col-2" for="status">Release Document </label>
             <div class="flex gap-5 col-12 md:col-10">
                 <p-checkbox
-                    formControlName="view"
+                    formControlName="release"
                     [binary]="true"
                     inputId="binary"
                 />
@@ -162,16 +178,19 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status">Expired Date</label>
+            <label class="col-2" for="status"
+                >Expired Date <span class="text-red-500">*</span></label
+            >
             <div class="flex gap-5 col-12 md:col-10">
                 <p-calendar
                     class="CalendarInput"
-                    formControlName="expired"
+                    formControlName="expiredAt"
                     [iconDisplay]="'input'"
                     [showIcon]="true"
                     inputId="icondisplay"
                     [style]="{ width: '100%' }"
                     [inputStyle]="{ width: '100%' }"
+                    dateFormat="yy-mm-dd"
                 />
             </div>
         </div>
@@ -190,8 +209,7 @@
             </div>
         </div>
 
-        <p-divider />
-
+        <!-- 
         <div class="field grid">
             <label class="col-2" for="approval">Approver(s)</label>
             <div
@@ -222,9 +240,7 @@
                     />
                 </div>
             </div>
-        </div>
-
-        <p-divider />
+        </div> -->
 
         <div class="flex justify-content-end mt-8">
             <p-button class="" type="submit" label="Submit"></p-button>
