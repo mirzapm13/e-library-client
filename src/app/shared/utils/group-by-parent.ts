@@ -26,6 +26,7 @@ export function groupByParent(arr, childs = 'childs', parent_id = 'parentId') {
     function markDeepest(obj) {
         if (obj[childs].length === 0) {
             obj.deepest = true; // Mark as deepest
+            obj.selectable = true;
             delete obj[childs]; // Remove `[childs]` if it’s an empty array
         } else {
             obj[childs].forEach(markDeepest); // Recursively process child nodes

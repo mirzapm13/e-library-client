@@ -46,7 +46,7 @@ export function groupByParentHierarchy(
         };
 
         if (obj[childs].length === 0) {
-            obj.deepest = true; // Mark as deepest
+            obj.selectable = true; // Mark as deepest
 
             delete obj[childs]; // Remove `[childs]` if it’s an empty array
         } else {

@@ -19,23 +19,25 @@
                 >Choose File <span class="text-red-500">*</span></label
             >
             <div class="col-12 md:col-10">
-                <!-- <p-fileUpload
-                    mode="basic"
-                    chooseLabel="Upload"
-                    chooseIcon="pi pi-upload"
-                    accept="application/pdf"
-                    [customUpload]="true"
-                    (uploadHandler)="onFilePicked($event)"
-                    [multiple]="false"
-                /> -->
                 <input
                     type="file"
                     placeholder="Choose File"
                     accept="application/pdf"
                     (change)="onFilePicked($event)"
+                    formControlName="file"
+                    id="file"
                 />
-                <!-- maxFileSize="1000000"
-                    (onUpload)="onUpload($event)" -->
+                <div
+                    *ngIf="
+                        uploadForm.controls['file']?.invalid &&
+                        uploadForm.controls['file']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="uploadForm.controls['file']?.errors?.['required']"
+                        >File is required.</small
+                    >
+                </div>
             </div>
         </div>
 
@@ -52,6 +54,17 @@
                     id="name"
                     formControlName="document_no"
                 />
+                <div
+                    *ngIf="
+                        uploadForm.controls['document_no']?.invalid &&
+                        uploadForm.controls['document_no']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="uploadForm.controls['document_no']?.errors?.['required']"
+                        >Document Number is required.</small
+                    >
+                </div>
             </div>
         </div>
 
@@ -68,6 +81,18 @@
                     id="short_desc"
                     formControlName="title"
                 />
+
+                <div
+                    *ngIf="
+                        uploadForm.controls['title']?.invalid &&
+                        uploadForm.controls['title']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="uploadForm.controls['title']?.errors?.['required']"
+                        >Title is required.</small
+                    >
+                </div>
             </div>
         </div>
 
@@ -99,6 +124,17 @@
                     selectionMode="single"
                     name="category"
                 />
+                <div
+                    *ngIf="
+                        uploadForm.controls['selectedCategory']?.invalid &&
+                        uploadForm.controls['selectedCategory']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="uploadForm.controls['selectedCategory']?.errors?.['required']"
+                        >Category is required.</small
+                    >
+                </div>
             </div>
         </div>
 
@@ -106,68 +142,44 @@
             <label class="col-2" for="status"
                 >Criteria <span class="text-red-500">*</span></label
             >
-            <div class="flex gap-5 col-12 md:col-10">
-                <div class="flex align-items-center">
-                    <p-radioButton
-                        name="criteria"
-                        value="internal"
-                        formControlName="criteria"
-                        inputId="kriteria1"
-                    />
-                    <label for="kriteria1" class="ml-2"> Internal </label>
+            <div class="gap-5 col-12 md:col-10">
+                <div class="flex gap-5 align-items-center">
+                    <div class="flex align-items-center">
+                        <p-radioButton
+                            name="criteria"
+                            value="internal"
+                            formControlName="criteria"
+                            inputId="kriteria1"
+                        />
+                        <label for="kriteria1" class="ml-2"> Internal </label>
+                    </div>
+
+                    <div class="flex align-items-center">
+                        <p-radioButton
+                            name="criteria"
+                            value="restricted"
+                            formControlName="criteria"
+                            inputId="kriteria2"
+                        />
+                        <label for="kriteria2" class="ml-2"> Restricted </label>
+                    </div>
                 </div>
 
-                <div class="flex align-items-center">
-                    <p-radioButton
-                        name="criteria"
-                        value="restricted"
-                        formControlName="criteria"
-                        inputId="kriteria2"
-                    />
-                    <label for="kriteria2" class="ml-2"> Restricted </label>
+                <div
+                    *ngIf="
+                        uploadForm.controls['criteria']?.invalid &&
+                        uploadForm.controls['criteria']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="uploadForm.controls['criteria']?.errors?.['required']"
+                        >Criteria is required.</small
+                    >
                 </div>
             </div>
         </div>
-
-        <!-- <div class="field grid">
-            <label class="col-2" for="status">Document Clasification</label>
-            <div class="flex gap-5 col-12 md:col-10">
-                <div class="flex align-items-center">
-                    <p-radioButton
-                        name="klasifikasi"
-                        value="Top Management"
-                        formControlName="klasifikasi"
-                        inputId="klasifikasi1"
-                    />
-                    <label for="klasifikasi1" class="ml-2">
-                        Top Management
-                    </label>
-                </div>
-
-                <div class="flex align-items-center">
-                    <p-radioButton
-                        name="klasifikasi"
-                        value="Middle"
-                        formControlName="klasifikasi"
-                        inputId="klasifikasi2"
-                    />
-                    <label for="klasifikasi2" class="ml-2"> Middle </label>
-                </div>
-
-                <div class="flex align-items-center">
-                    <p-radioButton
-                        name="klasifikasi"
-                        value="Staff"
-                        formControlName="klasifikasi"
-                        inputId="klasifikasi3"
-                    />
-                    <label for="klasifikasi3" class="ml-2"> Staff </label>
-                </div>
-            </div>
-        </div> -->
-
         <div class="field grid">
-            <label class="col-2" for="status">Release Document </label>
+            <label class="col-2" for="status">Announce Document </label>
             <div class="flex gap-5 col-12 md:col-10">
                 <p-checkbox
                     formControlName="release"
@@ -178,9 +190,7 @@
         </div>
 
         <div class="field grid">
-            <label class="col-2" for="status"
-                >Expired Date <span class="text-red-500">*</span></label
-            >
+            <label class="col-2" for="status">Expired Date</label>
             <div class="flex gap-5 col-12 md:col-10">
                 <p-calendar
                     class="CalendarInput"
@@ -209,35 +219,44 @@
             </div>
         </div>
 
-        <!-- 
-        <div class="field grid">
-            <label class="col-2" for="approval">Approver(s)</label>
-            <div
-                formArrayName="approvals"
-                class="flex flex-column gap-2 md:col-10 px-3 py-0"
-            >
-                <div
-                    *ngFor="
-                        let item of approvals.controls;
-                        let i = index;
-                        let isLast = last
-                    "
-                    [formGroupName]="i"
-                    class="flex flex-column gap-3"
-                >
-                    <p-dropdown
-                        styleClass="w-full"
-                        placeholder="Choose Approver"
-                        formControlName="item"
-                        [options]="users"
-                    />
-
-                    <p-button
-                        *ngIf="isLast"
-                        type="button"
-                        (click)="addNameField()"
-                        label="Add Name"
-                    />
+        <!-- <div class="field grid">
+            <label class="col-2" for="tag">References</label>
+            <div class="gap-5 col-12 md:col-10">
+                <p-autoComplete
+                    class="w-full"
+                    [style]="{ width: '100%' }"
+                    [inputStyle]="{ width: '100%' }"
+                />
+                <div class="mt-2">
+                    <p-table
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        [rows]="20"
+                        [reorderableColumns]="true"
+                        [value]="references"
+                    >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Document Number</th>
+                                <th>Jenis Referensi</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-doc let-i="rowIndex">
+                            <tr [pReorderableRow]="i">
+                                <td>{{ doc.document_no }}</td>
+                                <td>{{ doc.type }}</td>
+                                <td>{{ doc.active }}</td>
+                                <td>
+                                    <p-button
+                                        label="Delete"
+                                        severity="danger"
+                                        size="small"
+                                    />
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
         </div> -->
