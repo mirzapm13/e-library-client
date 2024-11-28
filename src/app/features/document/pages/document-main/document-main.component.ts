@@ -117,7 +117,8 @@ export class DocumentMainComponent implements OnInit {
                     'parent_id',
                     'name',
                     (obj) => {
-                        if (!obj.deepest) return;
+                        if (!obj.selectable) return;
+                        this.docLoading = true;
                         this.selectedChild = obj;
                         this.filters.category = obj.id;
                         this.filters.keyword = '';
@@ -141,11 +142,13 @@ export class DocumentMainComponent implements OnInit {
     }
 
     onActiveItemChange(event: MenuItem) {
+        this.docLoading = true;
+
         this.clearFilters();
         this.activeTab = event;
         this.filters.status = event['value'];
         // this.filters.category = '';
-        // this.selectedChild = undefined;
+        this.selectedChild = undefined;
         this.applyFilter();
     }
 

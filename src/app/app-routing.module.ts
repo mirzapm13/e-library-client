@@ -7,6 +7,7 @@ import { Breadcrumb } from 'primeng/breadcrumb';
 
 const routerOptions: ExtraOptions = {
     anchorScrolling: 'enabled',
+    // onSameUrlNavigation: 'reload',
 };
 
 const routes: Routes = [

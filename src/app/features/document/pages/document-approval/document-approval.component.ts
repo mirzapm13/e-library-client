@@ -73,7 +73,7 @@ export class DocumentApprovalComponent {
                     'parent_id',
                     'name',
                     (obj) => {
-                        if (!obj.deepest) return;
+                        if (!obj.selectable) return;
                         this.selectedChild = obj;
                         // this.filters.category = obj.id;
                         // this.applyFilter();

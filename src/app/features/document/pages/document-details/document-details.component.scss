@@ -35,7 +35,7 @@
                 column-gap: 16px;
                 row-gap: 10px;
                 margin-top: 10px;
-                margin-bottom: 50px;
+                margin-bottom: 20px;
 
                 p {
                     border-radius: 50px;
@@ -48,6 +48,18 @@
         }
 
         .Bottom {
+        }
+
+        .Reference {
+            .ReferenceTitle {
+                &:hover {
+                    cursor: pointer;
+
+                    p {
+                        text-decoration: underline;
+                    }
+                }
+            }
         }
 
         .Buttons {

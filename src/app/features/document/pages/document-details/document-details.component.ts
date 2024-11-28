@@ -14,6 +14,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ConfirmService } from 'src/app/shared/services/confirmation.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { UserService } from 'src/app/core/auth/services/user.service';
+import { CategoryService } from 'src/app/shared/services/category.service';
 
 @Component({
     selector: 'app-document-details',
@@ -33,11 +34,11 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         private documentService: DocumentService,
         private route: ActivatedRoute,
         private router: Router,
-        private sanitizer: DomSanitizer,
         private location: Location,
         private confirmService: ConfirmService,
         private notify: NotifyService,
-        private userService: UserService
+        private userService: UserService,
+        private categoryService: CategoryService
     ) {}
 
     isOpen = false;
@@ -62,9 +63,35 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
     currentUser;
     currentApprove = false;
 
+    categoryApprover;
+
+    //==== dummy references
+
+    references = [
+        {
+            document_no: 'XX9/001/GHK',
+            type: 'pencabutan',
+            active: false,
+            id: 'd7519b04-c894-4672-b98b-315ab7a87299',
+        },
+        {
+            document_no: 'XX9/002/GHK',
+            type: 'perubahan',
+            active: false,
+            id: 'asdadadad1323',
+        },
+        {
+            document_no: 'XX9/003/GHK',
+            type: 'referensi',
+            active: false,
+            id: 'asdadadad1323',
+        },
+    ];
+
     ngOnInit(): void {
         this.detailLoading = true;
         this.docLoading = true;
+
         this.id = this.route.snapshot.paramMap.get('id');
 
         this.currentUser = this.userService.getUserData();
@@ -72,25 +99,28 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         this.documentService
             .getDocumentById(this.id)
             .subscribe(({ error, value }) => {
-                console.log(value.data);
                 if (error) return;
 
-                // console.log(value.data);
-
                 this.currentDoc = value.data;
+
                 let payload = { filename: value.data.filename };
 
-                this.detailLoading = false;
-
-                if (value.data?.approvers) {
-                    if (
-                        value.data.approvers.some(
-                            (item) => item.email == this.currentUser.user.email
-                        )
-                    ) {
-                        this.currentApprove = true;
-                    }
+                if (
+                    value.data?.approvers.some(
+                        (item) => item.email == this.currentUser.user.email
+                    )
+                ) {
+                    this.currentApprove = true;
                 }
+
+                this.categoryService
+                    .getCategoryById(this.currentDoc.categoryId)
+                    .subscribe(({ error, value }) => {
+                        if (error) return;
+
+                        this.categoryApprover = value.data.users;
+                        this.detailLoading = false;
+                    });
 
                 this.documentService.downloadFile(payload).subscribe({
                     next: (pdfBlob) => {
@@ -250,9 +280,32 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
+    checkApprovalFlow() {
+        let categoryAppArray = this.categoryApprover.map((item) => item.name);
+        let currentDocAppArray = this.currentDoc.approvers.map(
+            (item) => item.name
+        );
+
+        const haveSameContents = (a, b) =>
+            a.length === b.length &&
+            a.every(
+                (v) =>
+                    a.filter((e) => e === v).length ===
+                    b.filter((e) => e === v).length
+            );
+
+        return haveSameContents(categoryAppArray, currentDocAppArray);
+    }
+
     approveDocument() {
+        let text = '';
+        if (!this.checkApprovalFlow()) {
+            text = `<br/> <br/> *The approval flow for this category of the document is already altered. Do you want to proceed?`;
+        }
+
         this.confirmService.approveConfirm(
-            `Are you sure want to confirm document?`,
+            `Are you sure want to approve document <b>${this.currentDoc.documentNo}</b>?` +
+                text,
             () => this.approveCallback(this.id)
         );
     }
@@ -283,6 +336,9 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
                         this.detailLoading = false;
                     });
             });
-        // console.log(id);
+    }
+
+    goToDocument(id) {
+        this.router.navigateByUrl(`/library/document/${id}`);
     }
 }

@@ -22,11 +22,9 @@ export class ConfirmService {
             acceptButtonStyleClass: 'p-button-danger',
             dismissableMask: true,
             accept: () => {
-                // this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
                 acceptCallback();
             },
             reject: () => {
-                // this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
                 rejectCallback();
             },
         });
@@ -47,11 +45,9 @@ export class ConfirmService {
             acceptButtonStyleClass: 'p-button-success',
             dismissableMask: true,
             accept: () => {
-                // this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
                 acceptCallback();
             },
             reject: () => {
-                // this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
                 rejectCallback();
             },
         });
