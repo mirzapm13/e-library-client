@@ -85,6 +85,8 @@ export class CategoryAccessComponent implements OnInit {
                     'children'
                 );
 
+                // console.log(this.categoryOptions);
+
                 this.selectedNodes = value.data
                     .filter((item) => item.active)
                     .map((item) => ({

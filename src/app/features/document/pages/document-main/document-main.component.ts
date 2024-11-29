@@ -15,6 +15,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { debounceTime, Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/auth/services/user.service';
 import { PaginatorModule } from 'primeng/paginator';
+import { removeLevelAndAbove } from 'src/app/shared/utils/remove-level-above';
 
 @Component({
     selector: 'app-document-main',
@@ -55,11 +56,7 @@ export class DocumentMainComponent implements OnInit {
         { label: 'All', icon: 'pi pi-list', value: 'all' },
         { label: 'Release', icon: 'pi pi-file', value: 'release' },
         { label: 'Bookmark', icon: 'pi pi-bookmark', value: 'bookmark' },
-        {
-            label: 'Waiting for approval',
-            icon: 'pi pi-clock',
-            value: 'waiting',
-        },
+
         { label: 'Archive', icon: 'pi pi-history', value: 'archive' },
     ];
 
@@ -67,7 +64,7 @@ export class DocumentMainComponent implements OnInit {
 
     filters: any = {
         status: '',
-        category: '',
+        categoryId: '',
         page: 1,
         keyword: '',
         // limit: 2,
@@ -85,8 +82,18 @@ export class DocumentMainComponent implements OnInit {
 
     expandedId: number | null = null; // Holds the ID of the expanded document, or null if none is expanded.
 
+    removeLevel = 0;
+
     ngOnInit(): void {
         this.currentUser = this.userService.getUserData();
+
+        if (this.currentUser.permissions.includes('upload-document')) {
+            this.tabItems.splice(3, 0, {
+                label: 'Waiting for approval',
+                icon: 'pi pi-clock',
+                value: 'waiting',
+            });
+        }
 
         const paramsSubscription = this.route.queryParams
             .pipe(debounceTime(300)) // Optional: debounce for performance
@@ -111,7 +118,7 @@ export class DocumentMainComponent implements OnInit {
                         id: item.id,
                     };
                 });
-                const grouped = groupByParentHierarchy(
+                let grouped = groupByParentHierarchy(
                     mapped,
                     'items',
                     'parent_id',
@@ -120,11 +127,18 @@ export class DocumentMainComponent implements OnInit {
                         if (!obj.selectable) return;
                         this.docLoading = true;
                         this.selectedChild = obj;
-                        this.filters.category = obj.id;
+                        this.filters.categoryId = obj.id;
                         this.filters.keyword = '';
                         this.applyFilter();
                     }
                 );
+
+                grouped = removeLevelAndAbove(
+                    grouped,
+                    this.removeLevel,
+                    'items'
+                );
+                console.log(grouped);
                 this.categories = grouped;
             });
     }
@@ -182,7 +196,7 @@ export class DocumentMainComponent implements OnInit {
 
     updateFiltersFromParams(params: Params): void {
         this.filters = {
-            category: params['category'] || '',
+            categoryId: params['categoryId'] || '',
             status: params['status'] || '',
             page: params['page'] || 1,
             keyword: params['keyword'] || '',
@@ -196,9 +210,9 @@ export class DocumentMainComponent implements OnInit {
         if (this.filters.status) queryParams['status'] = this.filters.status;
         else queryParams['status'] = undefined;
 
-        if (this.filters.category)
-            queryParams['category'] = this.filters.category;
-        else queryParams['category'] = undefined;
+        if (this.filters.categoryId)
+            queryParams['categoryId'] = this.filters.categoryId;
+        else queryParams['categoryId'] = undefined;
 
         if (this.filters.page) queryParams['page'] = this.filters.page;
         else queryParams['page'] = 1;

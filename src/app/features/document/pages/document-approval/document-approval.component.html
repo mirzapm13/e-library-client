@@ -1,19 +1,12 @@
 <div class="MainContainer">
     <div class="card">
-        <div class="p-3">
-            <!-- <p-tabView>
-                <p-tabPanel header="All" (onclick)="log()" />
-                <p-tabPanel header="Release" (onclick)="log()" />
-                <p-tabPanel header="Bookmark" />
-                <p-tabPanel header="Waiting for Approval" />
-                <p-tabPanel header="Archive" />
-            </p-tabView> -->
-            <!-- <p-tabMenu
+        <!-- <div class="p-3">
+            <p-tabMenu
                 [model]="tabItems"
                 [activeItem]="activeTab"
                 (activeItemChange)="onActiveItemChange($event)"
-            /> -->
-        </div>
+            />
+        </div> -->
 
         <div class="p-3">
             <p-menubar [model]="categories" />
@@ -27,6 +20,7 @@
                         class="w-full"
                         pInputText
                         placeholder="Search by Keyword"
+                        [(ngModel)]="filters.keyword"
                     />
                     <i class="pi pi-search"></i>
                 </span>
@@ -37,12 +31,16 @@
                     severity="secondary"
                     icon="pi pi-search"
                     label="Search"
+                    (onClick)="applyFilter()"
                 />
-                <!-- (onClick)="applyFilter()" -->
+                <p-button
+                    *ngIf="currentUser.permissions.includes('upload-document')"
+                    icon="pi pi-plus"
+                    label="Upload Dokumen"
+                    (onClick)="goToUpload()"
+                />
             </div>
         </div>
-
-        <div></div>
 
         <div
             class="flex justify-content-center"
@@ -87,17 +85,20 @@
                                         <i class="pi pi-user"></i>
                                         <span>{{ doc.uploader }}</span>
                                     </div>
-                                    <!-- <div class="DocumentCard__Details__Icons">
+                                    <div class="DocumentCard__Details__Icons">
                                         <i class="pi pi-clock"></i>
-                                        <span>12 November 2024, 13:47:45</span>
-                                    </div> -->
+                                        <span>{{
+                                            doc.created_at
+                                                | date : "dd-MM-yyyy, HH:mm:ss"
+                                        }}</span>
+                                    </div>
                                 </div>
                                 <div class="DocumentCard__More">
                                     <p class="mb-2">
                                         Expired :
                                         {{
                                             doc?.expired_at
-                                                | date : "yyyy-MM-dd"
+                                                | date : "dd-MM-yyyy"
                                         }}
                                     </p>
                                     <div class="DocumentCard__Details__Tags">
@@ -113,19 +114,32 @@
                                     </div>
                                     <div class="DocumentCard__More__Buttons">
                                         <p-button
-                                            label="Read More"
+                                            [label]="
+                                                expandedId === doc.id
+                                                    ? 'Show Less'
+                                                    : 'Read More'
+                                            "
                                             size="small"
                                             [outlined]="true"
+                                            (click)="toggleShowMore(doc.id)"
                                         />
                                         <p-button
                                             label="View Document"
                                             size="small"
                                             (onClick)="goToDocument(doc.id)"
                                         />
+                                        <!-- <p-button
+                                            icon="pi pi-bookmark"
+                                            size="small"
+                                            [outlined]="true"
+                                        /> -->
                                     </div>
                                 </div>
                             </div>
-                            <div class="DocumentCard__Bottom">
+                            <div
+                                *ngIf="expandedId === doc.id"
+                                class="DocumentCard__Bottom"
+                            >
                                 <h6>Description</h6>
                                 <p>{{ doc.description }}</p>
                             </div>
@@ -133,6 +147,14 @@
                     </div>
                 </ng-template>
             </p-dataView>
+            <div class="flex justify-content-center">
+                <p-paginator
+                    (onPageChange)="onPageChange($event)"
+                    [first]="first"
+                    [rows]="rows"
+                    [totalRecords]="totalRecords"
+                />
+            </div>
         </ng-template>
     </div>
 </div>

@@ -2,10 +2,10 @@
     <div class="col-6">
         <div class="card h-full">
             <div class="CardTitle">
-                <h5>New Document<span class="pi pi-check-square"></span></h5>
+                <h5>New Document<span class="pi pi-file-import"></span></h5>
             </div>
 
-            <p-dataView #dv [value]="documents">
+            <p-dataView #dv [value]="newDocuments">
                 <ng-template pTemplate="list" let-documents>
                     <div class="grid">
                         <div class="DocumentCard" *ngFor="let doc of documents">
@@ -65,7 +65,7 @@
     <div class="col-6">
         <div class="card h-full">
             <div class="CardTitle">
-                <h5>Bookmark <span class="pi pi-bookmark-fill"></span></h5>
+                <h5>Bookmark <span class="pi pi-bookmark"></span></h5>
             </div>
 
             <p-dataView #dv [value]="bookmarks">
@@ -81,7 +81,7 @@
                                     />
                                 </div>
                                 <div class="DocumentCard__Details">
-                                    <h5 class="mb-1">{{ doc.name }}</h5>
+                                    <h5 class="mb-1">{{ doc.document_no }}</h5>
 
                                     <p
                                         class="mb-1"
@@ -91,15 +91,17 @@
                                             text-transform: uppercase;
                                         "
                                     >
-                                        {{ doc.short_desc }}
+                                        {{ doc.title }}
                                     </p>
-                                    <p class="mb-3">{{ doc.parents }}</p>
+                                    <p class="mb-3">{{ doc.category_name }}</p>
                                 </div>
                                 <div class="DocumentCard__More">
                                     <div class="DocumentCard__Details__Tags">
                                         <p
                                             class="text-sm"
-                                            *ngFor="let tag of doc.tags"
+                                            *ngFor="
+                                                let tag of doc.tags.split(', ')
+                                            "
                                         >
                                             {{ tag }}
                                         </p>
@@ -113,6 +115,76 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- <div class="DocumentCard__Bottom">
+                                <h6>Description</h6>
+                                <p>{{ doc.long_desc }}</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card h-full">
+            <div class="CardTitle">
+                <h5>
+                    Documents Need Approval
+                    <span class="pi pi-check-circle"></span>
+                </h5>
+            </div>
+
+            <p-dataView #dv [value]="approve">
+                <ng-template pTemplate="list" let-documents>
+                    <div class="grid">
+                        <div class="DocumentCard" *ngFor="let doc of documents">
+                            <div class="DocumentCard__Top">
+                                <div class="DocumentCard__Icon">
+                                    <img
+                                        src="/assets/layout/images/pdf-file-format.png"
+                                        alt="pdf-logo"
+                                        width="60px"
+                                    />
+                                </div>
+                                <div class="DocumentCard__Details">
+                                    <h5 class="mb-1">{{ doc.document_no }}</h5>
+
+                                    <p
+                                        class="mb-1"
+                                        style="
+                                            font-weight: 700;
+                                            font-size: 1.25rem;
+                                            text-transform: uppercase;
+                                        "
+                                    >
+                                        {{ doc.title }}
+                                    </p>
+                                    <p class="mb-3">{{ doc.category_name }}</p>
+                                </div>
+                                <div class="DocumentCard__More">
+                                    <div class="DocumentCard__Details__Tags">
+                                        <p
+                                            class="text-sm"
+                                            *ngFor="
+                                                let tag of doc.tags.split(', ')
+                                            "
+                                        >
+                                            {{ tag }}
+                                        </p>
+                                    </div>
+                                    <div class="DocumentCard__More__Buttons">
+                                        <p-button
+                                            label="View Document"
+                                            size="small"
+                                            (onClick)="goToDocument(doc.id)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="DocumentCard__Bottom">
+                                <h6>Description</h6>
+                                <p>{{ doc.long_desc }}</p>
+                            </div> -->
                         </div>
                     </div>
                 </ng-template>

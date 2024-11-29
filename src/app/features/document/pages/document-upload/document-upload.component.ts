@@ -19,7 +19,14 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TreeSelectModule } from 'primeng/treeselect';
-import { map } from 'rxjs';
+import {
+    debounceTime,
+    distinctUntilChanged,
+    filter,
+    map,
+    Subject,
+    switchMap,
+} from 'rxjs';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
@@ -29,6 +36,7 @@ import { DocumentService } from 'src/app/shared/services/document.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
+import { values } from 'pdf-lib';
 
 @Component({
     selector: 'app-document-upload',
@@ -60,24 +68,52 @@ export class DocumentUploadComponent implements OnInit {
     users: any = [];
     selectedFile: File | null = null;
 
-    references = [
+    // references = [
+    //     {
+    //         document_no: 'XX9/001/GHK',
+    //         type: 'pencabutan',
+    //         active: 'active',
+    //         id: 'd7519b04-c894-4672-b98b-315ab7a87299',
+    //     },
+    //     {
+    //         document_no: 'XX9/002/GHK',
+    //         type: 'perubahan',
+    //         active: 'inactive',
+    //         id: 'asdadadad1323',
+    //     },
+    //     {
+    //         document_no: 'XX9/003/GHK',
+    //         type: 'referensi',
+    //         active: 'active',
+    //         id: 'asdadadad1323',
+    //     },
+    // ];
+
+    references = [];
+
+    referenceOptions = [
         {
-            document_no: 'XX9/001/GHK',
-            type: 'pencabutan',
-            active: false,
-            id: 'd7519b04-c894-4672-b98b-315ab7a87299',
+            label: 'Pencabutan',
+            value: 'pencabutan',
         },
         {
-            document_no: 'XX9/002/GHK',
-            type: 'perubahan',
-            active: false,
-            id: 'asdadadad1323',
+            label: 'Perubahan',
+            value: 'perubahan',
         },
         {
-            document_no: 'XX9/003/GHK',
-            type: 'referensi',
-            active: false,
-            id: 'asdadadad1323',
+            label: 'Hanya Referensi',
+            value: 'referensi',
+        },
+    ];
+
+    statusOptions = [
+        {
+            label: 'active',
+            value: 'active',
+        },
+        {
+            label: 'inactive',
+            value: 'inactive',
         },
     ];
 
@@ -96,13 +132,17 @@ export class DocumentUploadComponent implements OnInit {
             description: [''],
             selectedCategory: ['', Validators.required],
             criteria: ['', Validators.required],
-            release: [false, Validators.required],
+            announce: [false, Validators.required],
             expiredAt: [''],
             tags: [[]],
         });
     }
 
     loading = false;
+
+    searchKey: any = '';
+    searchResult: string[] = [];
+    searchSub = new Subject<string>();
 
     ngOnInit(): void {
         this.categoryService
@@ -120,6 +160,23 @@ export class DocumentUploadComponent implements OnInit {
                 const grouped = groupByParent(mapped, 'children', 'parent_id');
 
                 this.categories = grouped;
+            });
+
+        this.searchSub
+            .asObservable()
+            .pipe(
+                filter((text) => text.length >= 3),
+                debounceTime(500),
+                distinctUntilChanged(),
+                switchMap((searchterm) =>
+                    this.documentService.getDocuments({
+                        status: '',
+                        keyword: searchterm,
+                    })
+                )
+            )
+            .subscribe(({ error, value }) => {
+                this.searchResult = value.data;
             });
     }
 
@@ -154,6 +211,15 @@ export class DocumentUploadComponent implements OnInit {
         let payload = this.uploadForm.value;
         delete payload['file'];
 
+        this.references.forEach((item) => {
+            if (!item.status) {
+                this.notify.alert('error', 'Reference status is required');
+                this.loading = false;
+
+                return;
+            }
+        });
+
         payload = {
             ...payload,
             expired_at:
@@ -162,11 +228,8 @@ export class DocumentUploadComponent implements OnInit {
             ...(payload.selectedCategory && {
                 category_id: payload.selectedCategory.id,
             }),
+            reference: this.references.map(({ document_no, ...item }) => item),
         };
-
-        console.log(payload);
-
-        return;
 
         this.documentService
             .uploadFile(fileFormData)
@@ -220,5 +283,31 @@ export class DocumentUploadComponent implements OnInit {
                 control.markAsTouched({ onlySelf: true });
             }
         });
+    }
+
+    search(evt) {
+        this.searchSub.next(evt.query);
+    }
+
+    addReference() {
+        if (this.searchKey == '') return;
+        this.references.push({
+            document_no: this.searchKey.document_no,
+            reference_id: this.searchKey.id,
+        });
+        this.searchKey = '';
+        console.log(this.references);
+    }
+
+    deleteReference(idx) {
+        this.references.splice(idx, 1);
+    }
+
+    changeReferenceOption(doc) {
+        if (doc.type == 'pencabutan' || doc.type == 'perubahan') {
+            doc.status = 'inactive';
+        } else if (doc.type == 'referensi') {
+            doc.status = 'active';
+        }
     }
 }

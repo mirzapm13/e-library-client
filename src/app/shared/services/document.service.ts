@@ -126,7 +126,6 @@ export class DocumentService {
 
     getDocument(id): Observable<any> {
         return of(documents[id]);
-        return this.http.get<any>(`/documents/${id}`);
     }
 
     uploadFile(formData): Observable<HttpRequestState<any>> {
@@ -158,6 +157,14 @@ export class DocumentService {
 
     approveDocument(id, payload): Observable<HttpRequestState<any>> {
         return this.http.post<any>(`/documents/approval/${id}`, payload).pipe(
+            map((value) => ({ isLoading: false, value })),
+            catchError((error) => of({ isLoading: false, error }))
+            // startWith({ isLoading: true })
+        );
+    }
+
+    bookmarkDocument(id, payload): Observable<HttpRequestState<any>> {
+        return this.http.post<any>(`/documents/bookmark/${id}`, payload).pipe(
             map((value) => ({ isLoading: false, value })),
             catchError((error) => of({ isLoading: false, error }))
             // startWith({ isLoading: true })

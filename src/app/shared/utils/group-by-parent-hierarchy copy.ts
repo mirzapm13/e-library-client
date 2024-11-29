@@ -8,13 +8,12 @@ export function groupByParentHierarchy(
     // Create a map to store objects by their IDs for quick look-up
     const map = new Map();
 
-    // Initialize all objects with an empty `childs` array, `hierarchy`, and default `level`
+    // Initialize all objects with an empty `items` array and `hierarchy`
     arr.forEach((obj) =>
         map.set(obj.id, {
             ...obj,
             [childs]: [],
             hierarchy: [],
-            level: 0, // Default level, will be updated later
             command: () => {},
         })
     );
@@ -29,7 +28,6 @@ export function groupByParentHierarchy(
             if (parent) {
                 const child = map.get(obj.id);
                 child.hierarchy = [...parent.hierarchy, parent[hierarchyKey]]; // Append parent's hierarchy
-                child.level = parent.level + 1; // Set level based on parent's level
 
                 parent[childs].push(child);
             } else {
@@ -37,9 +35,7 @@ export function groupByParentHierarchy(
             }
         } else {
             // If no parent, this is a root object
-            const rootObj = map.get(obj.id);
-            rootObj.level = 1; // Root level starts at 1
-            root.push(rootObj);
+            root.push(map.get(obj.id));
         }
     });
 
@@ -50,14 +46,15 @@ export function groupByParentHierarchy(
         };
 
         if (obj[childs].length === 0) {
-            obj.selectable = true; // Mark as selectable (deepest)
+            obj.selectable = true; // Mark as deepest
+
             delete obj[childs]; // Remove `[childs]` if it’s an empty array
         } else {
             obj[childs].forEach(markDeepest); // Recursively process child nodes
         }
     }
 
-    // Mark all root objects and their `[childs]` recursively
+    // Mark all root objects and their [childs] recursively
     root.forEach(markDeepest);
 
     return root;

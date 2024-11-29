@@ -57,26 +57,25 @@ export class NewCategoryComponent implements OnInit {
     ngOnInit(): void {
         this.loading = true;
 
-        this.categoryService
-            .getCategories()
-            .subscribe(({ isLoading, error, value }) => {
-                if (isLoading) return;
-                if (error) return;
-                this.categories = value.data.map((item) => ({
-                    ...item,
-                    label: item.name,
-                }));
+        this.categoryService.getCategories().subscribe(({ error, value }) => {
+            if (error) return;
+            console.log(value.data);
+            this.categories = value.data.map((item) => ({
+                ...item,
+                label: item.name,
+            }));
 
-                this.categoryOptions = groupByParent(
-                    this.categories,
-                    'children'
-                );
-                // this.categoryOptions = recursiveMap(
-                //     this.categoryOptions,
-                //     (data) => ({ ...data }),
-                //     'children'
-                // );
-            });
+            this.categoryOptions = groupByParent(
+                this.categories,
+                'children',
+                'parent_id'
+            );
+            // this.categoryOptions = recursiveMap(
+            //     this.categoryOptions,
+            //     (data) => ({ ...data }),
+            //     'children'
+            // );
+        });
 
         this.loading = false;
     }

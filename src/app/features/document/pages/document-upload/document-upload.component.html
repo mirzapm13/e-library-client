@@ -182,7 +182,7 @@
             <label class="col-2" for="status">Announce Document </label>
             <div class="flex gap-5 col-12 md:col-10">
                 <p-checkbox
-                    formControlName="release"
+                    formControlName="announce"
                     [binary]="true"
                     inputId="binary"
                 />
@@ -219,14 +219,30 @@
             </div>
         </div>
 
-        <!-- <div class="field grid">
+        <div class="field grid">
             <label class="col-2" for="tag">References</label>
             <div class="gap-5 col-12 md:col-10">
-                <p-autoComplete
-                    class="w-full"
-                    [style]="{ width: '100%' }"
-                    [inputStyle]="{ width: '100%' }"
-                />
+                <div class="flex gap-2">
+                    <p-autoComplete
+                        class="w-full"
+                        [style]="{ width: '100%' }"
+                        [inputStyle]="{ width: '100%' }"
+                        placeholder="Search By Document Number"
+                        [(ngModel)]="searchKey"
+                        (completeMethod)="search($event)"
+                        [ngModelOptions]="{
+                            standalone: true
+                        }"
+                        [suggestions]="searchResult"
+                        field="document_no"
+                    />
+                    <p-button
+                        label="Add"
+                        icon="pi pi-plus"
+                        (onClick)="addReference()"
+                    />
+                </div>
+
                 <div class="mt-2">
                     <p-table
                         [tableStyle]="{ 'min-width': '50rem' }"
@@ -243,15 +259,39 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-doc let-i="rowIndex">
-                            <tr [pReorderableRow]="i">
+                            <tr>
                                 <td>{{ doc.document_no }}</td>
-                                <td>{{ doc.type }}</td>
-                                <td>{{ doc.active }}</td>
+                                <td>
+                                    <p-dropdown
+                                        [options]="referenceOptions"
+                                        placeholder="Select reference type"
+                                        appendTo="body"
+                                        [(ngModel)]="doc.type"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        (ngModelChange)="
+                                            changeReferenceOption(doc)
+                                        "
+                                    />
+                                </td>
+                                <td>
+                                    <p-dropdown
+                                        [disabled]="
+                                            doc.type == 'pencabutan' ||
+                                            doc.type == 'perubahan'
+                                        "
+                                        [options]="statusOptions"
+                                        placeholder="Select status"
+                                        appendTo="body"
+                                        [(ngModel)]="doc.status"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    />
+                                </td>
                                 <td>
                                     <p-button
                                         label="Delete"
                                         severity="danger"
                                         size="small"
+                                        (onClick)="deleteReference(i)"
                                     />
                                 </td>
                             </tr>
@@ -259,7 +299,7 @@
                     </p-table>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="flex justify-content-end mt-8">
             <p-button class="" type="submit" label="Submit"></p-button>
