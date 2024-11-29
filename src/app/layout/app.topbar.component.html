@@ -22,7 +22,7 @@
                     class="p-button-text p-button-secondary flex-shrink-0"
                 ></button>
             </li> -->
-            <li class="">
+            <!-- <li class="">
                 <button
                     pButton
                     type="button"
@@ -30,6 +30,9 @@
                     class="p-button-text p-button-secondary flex-shrink-0"
                     (click)="onConfigButtonClick()"
                 ></button>
+            </li> -->
+            <li>
+                <p>Welcome, {{ currentUser?.user?.name }}</p>
             </li>
             <li class="topbar-item">
                 <a
@@ -49,12 +52,13 @@
                         class="p-button-text p-button-secondary flex-shrink-0"
                     ></button>
                 </a>
+
                 <ul
                     [class]="
                         'topbar-menu active-topbar-menu p-4 w-15rem   z-5 ng-hidden'
                     "
                 >
-                    <li role="menuitem" class="m-0 mb-3">
+                    <!-- <li role="menuitem" class="m-0 mb-3">
                         <a
                             href="#"
                             class="flex align-items-center hover:text-primary-500 transition-duration-200"
@@ -81,11 +85,11 @@
                             <i class="pi pi-fw pi-cog mr-2"></i>
                             <span>Settings</span>
                         </a>
-                    </li>
+                    </li> -->
+
                     <li role="menuitem" class="m-0">
                         <a
-                            href="#"
-                            class="flex align-items-center hover:text-primary-500 transition-duration-200"
+                            class="flex align-items-center hover:text-primary-500 transition-duration-200 cursor-pointer"
                             pStyleClass="@grandparent"
                             enterFromClass="ng-hidden"
                             enterActiveClass="px-scalein"

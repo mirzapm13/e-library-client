@@ -85,17 +85,20 @@
                                         <i class="pi pi-user"></i>
                                         <span>{{ doc.uploader }}</span>
                                     </div>
-                                    <!-- <div class="DocumentCard__Details__Icons">
+                                    <div class="DocumentCard__Details__Icons">
                                         <i class="pi pi-clock"></i>
-                                        <span>12 November 2024, 13:47:45</span>
-                                    </div> -->
+                                        <span>{{
+                                            doc.created_at
+                                                | date : "dd-MM-yyyy, HH:mm:ss"
+                                        }}</span>
+                                    </div>
                                 </div>
                                 <div class="DocumentCard__More">
                                     <p class="mb-2">
                                         Expired :
                                         {{
                                             doc?.expired_at
-                                                | date : "yyyy-MM-dd"
+                                                | date : "dd-MM-yyyy"
                                         }}
                                     </p>
                                     <div class="DocumentCard__Details__Tags">
@@ -144,7 +147,7 @@
                     </div>
                 </ng-template>
             </p-dataView>
-            <div class="card flex justify-content-center">
+            <div class="flex justify-content-center">
                 <p-paginator
                     (onPageChange)="onPageChange($event)"
                     [first]="first"

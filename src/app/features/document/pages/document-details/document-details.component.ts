@@ -29,7 +29,7 @@ import { CategoryService } from 'src/app/shared/services/category.service';
     templateUrl: './document-details.component.html',
     styleUrl: './document-details.component.scss',
 })
-export class DocumentDetailsComponent implements OnInit, OnDestroy {
+export class DocumentDetailsComponent implements OnDestroy {
     constructor(
         private documentService: DocumentService,
         private route: ActivatedRoute,
@@ -39,7 +39,68 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         private notify: NotifyService,
         private userService: UserService,
         private categoryService: CategoryService
-    ) {}
+    ) {
+        this.route.params.subscribe((item) => {
+            this.detailLoading = true;
+            this.docLoading = true;
+
+            this.id = this.route.snapshot.paramMap.get('id');
+
+            this.currentUser = this.userService.getUserData();
+
+            this.documentService
+                .getDocumentById(this.id)
+                .subscribe(({ error, value }) => {
+                    if (error) {
+                        this.notify.alert('error', error.message);
+                        this.docLoading = false;
+                    }
+
+                    this.currentDoc = value.data;
+
+                    let payload = { filename: value.data.filename };
+
+                    if (
+                        value.data?.approvers.some(
+                            (item) => item.email == this.currentUser.user.email
+                        )
+                    ) {
+                        this.currentApprove = true;
+                    }
+
+                    this.references = value.data.reference;
+
+                    this.categoryService
+                        .getCategoryById(this.currentDoc.categoryId)
+                        .subscribe(({ error, value }) => {
+                            if (error) return;
+
+                            this.categoryApprover = value.data.users;
+                            this.detailLoading = false;
+                        });
+
+                    this.documentService.downloadFile(payload).subscribe({
+                        next: (pdfBlob) => {
+                            this.pdfBlob = pdfBlob;
+
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.pdfUrl = reader.result; // Set the PDF data as an ArrayBuffer
+                                this.docLoading = false;
+                            };
+
+                            reader.readAsArrayBuffer(pdfBlob);
+
+                            this.docLoading = false;
+                        },
+                        error: (err) => {
+                            console.error('Failed to load PDF', err);
+                            this.docLoading = false;
+                        },
+                    });
+                });
+        });
+    }
 
     isOpen = false;
     currentDoc: any;
@@ -65,84 +126,14 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
 
     categoryApprover;
 
+    isBookmarked = false;
+    bookmarkLoading = false;
+
     //==== dummy references
 
-    references = [
-        {
-            document_no: 'XX9/001/GHK',
-            type: 'pencabutan',
-            active: false,
-            id: 'd7519b04-c894-4672-b98b-315ab7a87299',
-        },
-        {
-            document_no: 'XX9/002/GHK',
-            type: 'perubahan',
-            active: false,
-            id: 'asdadadad1323',
-        },
-        {
-            document_no: 'XX9/003/GHK',
-            type: 'referensi',
-            active: false,
-            id: 'asdadadad1323',
-        },
-    ];
+    references = [];
 
-    ngOnInit(): void {
-        this.detailLoading = true;
-        this.docLoading = true;
-
-        this.id = this.route.snapshot.paramMap.get('id');
-
-        this.currentUser = this.userService.getUserData();
-
-        this.documentService
-            .getDocumentById(this.id)
-            .subscribe(({ error, value }) => {
-                if (error) return;
-
-                this.currentDoc = value.data;
-
-                let payload = { filename: value.data.filename };
-
-                if (
-                    value.data?.approvers.some(
-                        (item) => item.email == this.currentUser.user.email
-                    )
-                ) {
-                    this.currentApprove = true;
-                }
-
-                this.categoryService
-                    .getCategoryById(this.currentDoc.categoryId)
-                    .subscribe(({ error, value }) => {
-                        if (error) return;
-
-                        this.categoryApprover = value.data.users;
-                        this.detailLoading = false;
-                    });
-
-                this.documentService.downloadFile(payload).subscribe({
-                    next: (pdfBlob) => {
-                        this.pdfBlob = pdfBlob;
-
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            this.pdfUrl = reader.result; // Set the PDF data as an ArrayBuffer
-                            this.docLoading = false;
-                        };
-
-                        reader.readAsArrayBuffer(pdfBlob);
-
-                        this.docLoading = false;
-                    },
-                    error: (err) => {
-                        console.error('Failed to load PDF', err);
-                        this.docLoading = false;
-                    },
-                });
-            });
-    }
+    // ngOnInit(): void {}
 
     ngOnDestroy(): void {
         this.onDestroy$.next(true);
@@ -304,8 +295,15 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
         }
 
         this.confirmService.approveConfirm(
-            `Are you sure want to approve document <b>${this.currentDoc.documentNo}</b>?` +
+            `Are you sure want to <b class="text-green-500">approve</b> document <b>${this.currentDoc.documentNo}</b>?` +
                 text,
+            () => this.approveCallback(this.id)
+        );
+    }
+
+    rejectDocument() {
+        this.confirmService.approveConfirm(
+            `Are you sure want to <b class="text-red-500">reject</b> document <b>${this.currentDoc.documentNo}</b>?`,
             () => this.approveCallback(this.id)
         );
     }
@@ -338,7 +336,56 @@ export class DocumentDetailsComponent implements OnInit, OnDestroy {
             });
     }
 
+    rejectCallback(id) {
+        this.detailLoading = true;
+
+        this.documentService
+            .approveDocument(id, { status: 'rejected' })
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.detailLoading = false;
+                    return;
+                }
+
+                this.notify.alert('success', value.message);
+
+                this.documentService
+                    .getDocumentById(id)
+                    .subscribe(({ error, value }) => {
+                        if (error) {
+                            this.notify.alert('error', error.message);
+                            this.detailLoading = false;
+                            return;
+                        }
+                        this.currentDoc = value.data;
+                        this.detailLoading = false;
+                    });
+            });
+    }
+
     goToDocument(id) {
         this.router.navigateByUrl(`/library/document/${id}`);
+    }
+
+    bookmarkDocument(id) {
+        let payload = { is_bookmark: 'true' };
+
+        if (this.isBookmarked) payload.is_bookmark = 'false';
+
+        this.bookmarkLoading = true;
+
+        this.documentService
+            .bookmarkDocument(id, payload)
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.bookmarkLoading = false;
+                }
+
+                this.notify.alert('success', value.message);
+
+                this.bookmarkLoading = false;
+            });
     }
 }

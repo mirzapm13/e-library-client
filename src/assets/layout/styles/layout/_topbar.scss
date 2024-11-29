@@ -78,7 +78,7 @@
 
                 ul {
                     position: absolute;
-                    bottom: -9.4rem;
+                    bottom: -4.4rem;
                     right: 0;
                     display: none;
                     color: var(--topbar-item-text-color);
@@ -92,16 +92,15 @@
                         color: var(--topbar-item-text-color);
                     }
 
-                    .p-input-icon-left{
+                    .p-input-icon-left {
                         i {
-                            color: var( --topbar-item-text-color-secondary);
+                            color: var(--topbar-item-text-color-secondary);
                         }
                         input {
-                            &::placeholder{
-                                color: var( --topbar-item-text-color-secondary);
+                            &::placeholder {
+                                color: var(--topbar-item-text-color-secondary);
                             }
                         }
-                        
                     }
 
                     .p-inputtext {
@@ -120,19 +119,17 @@
                     color: var(--topbar-item-text-color);
                 }
             }
-              
-            
+
             &.topbar-search {
-                .p-input-icon-left{
+                .p-input-icon-left {
                     i {
-                        color: var( --topbar-item-text-color-secondary);
+                        color: var(--topbar-item-text-color-secondary);
                     }
                     input {
-                        &::placeholder{
-                            color: var( --topbar-item-text-color-secondary);
+                        &::placeholder {
+                            color: var(--topbar-item-text-color-secondary);
                         }
                     }
-                    
                 }
                 .p-inputtext {
                     padding-top: 0.5rem;
@@ -141,7 +138,6 @@
                     color: var(--topbar-item-text-color);
                     border-color: var(--topbar-border-color);
                     background-color: var(--topbar-input-bg-color);
-                   
                 }
             }
         }

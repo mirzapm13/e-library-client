@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
     imports: [
         AuthModule.forRoot({
             config: {
+                authWellknownEndpointUrl: environment.ssoWellKnown,
                 authority: environment.ssoAuthority,
                 redirectUrl: environment.ssoRedirectUrl,
                 postLogoutRedirectUri: environment.ssoPostLogoutRedirect,

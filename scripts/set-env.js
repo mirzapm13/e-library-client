@@ -16,6 +16,7 @@ const environmentFileContent = `
 export const environment = {
   production: ${environment === 'production'},
   apiUrl: '${process.env.API_URL}',
+  ssoWellKnown: '${process.env.SSO_WELL_KNOWN}',
   ssoAuthority : '${process.env.SSO_AUTHORITY}',
   ssoRedirectUrl : '${process.env.SSO_REDIRECT_URL}',
   ssoPostLogoutRedirect : '${process.env.SSO_POST_LOGOUT_REDIRECT}',
