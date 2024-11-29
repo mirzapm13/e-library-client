@@ -107,7 +107,8 @@ export class NewCategoryComponent implements OnInit {
                 }
 
                 this.notify.alert('success', value.message);
-                this.router.navigateByUrl('/master-data/category');
+                // this.router.navigateByUrl('/master-data/category');
+                this.location.back();
                 this.loading = false;
             });
     }

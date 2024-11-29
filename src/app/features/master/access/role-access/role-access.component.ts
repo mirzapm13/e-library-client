@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -341,7 +341,8 @@ export class RoleAccessComponent implements OnInit {
     constructor(
         private router: Router,
         private fb: FormBuilder,
-        private roleService: RolesService
+        private roleService: RolesService,
+        private location: Location
     ) {
         this.roleAccessForm = this.fb.group({
             nama: [],
@@ -362,6 +363,7 @@ export class RoleAccessComponent implements OnInit {
     }
 
     clickBack() {
-        this.router.navigateByUrl('/master-data/access');
+        // this.router.navigateByUrl('/master-data/access');
+        this.location.back();
     }
 }

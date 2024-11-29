@@ -10,7 +10,7 @@ import { CommonModule, Location } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { ConfirmService } from 'src/app/shared/services/confirmation.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { UserService } from 'src/app/core/auth/services/user.service';
@@ -253,14 +253,10 @@ export class DocumentDetailsComponent implements OnDestroy {
         // Serialize the PDFDocument to bytes (a Uint8Array)
         const pdfBytes = await pdfDoc.save();
 
-        this.pdfUrl = pdfBytes;
+        // this.pdfUrl = pdfBytes;
 
         // Trigger the browser to download the PDF document
-        // download(
-        //     pdfBytes,
-        //     'pdf-lib_modification_example.pdf',
-        //     'application/pdf'
-        // );
+        download(pdfBytes, this.currentDoc.documentNo, 'application/pdf');
     }
 
     showDialog() {

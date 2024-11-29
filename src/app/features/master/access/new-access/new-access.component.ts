@@ -12,6 +12,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { NotifyService } from 'src/app/shared/services/notify.service';
 import { RolesService } from 'src/app/shared/services/role.service';
 
 @Component({
@@ -36,7 +37,8 @@ export class NewAccessComponent {
     constructor(
         private fb: FormBuilder,
         private location: Location,
-        private roleService: RolesService
+        private roleService: RolesService,
+        private notify: NotifyService
     ) {
         this.newRoleForm = this.fb.group({
             name: [null, Validators.required],
@@ -57,9 +59,14 @@ export class NewAccessComponent {
         }
         this.roleService
             .addRole(this.newRoleForm.value)
-            .subscribe(({ isLoading, error, value }) => {
+            .subscribe(({ error, value }) => {
+                if (error) {
+                    this.notify.alert('error', error.message);
+                    this.loading = false;
+                    return;
+                }
                 this.loading = false;
-                console.log(value.data);
+                this.location.back();
             });
     }
 }
