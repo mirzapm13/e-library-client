@@ -58,6 +58,8 @@ export class DocumentDetailsComponent implements OnDestroy {
 
                     this.currentDoc = value.data;
 
+                    this.isBookmarked = value?.data?.is_bookmark;
+
                     let payload = { filename: value.data.filename };
 
                     // if (
@@ -399,10 +401,13 @@ export class DocumentDetailsComponent implements OnDestroy {
             .subscribe(({ error, value }) => {
                 if (error) {
                     this.notify.alert('error', error.message);
+
                     this.bookmarkLoading = false;
+                    this.isBookmarked = false;
                 }
 
                 this.notify.alert('success', value.message);
+                this.isBookmarked = !this.isBookmarked;
 
                 this.bookmarkLoading = false;
             });

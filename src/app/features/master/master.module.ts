@@ -4,16 +4,6 @@ import { ButtonModule } from 'primeng/button';
 import { MasterRoutingModule } from './master-routing.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        // FormsModule,
-        // ChartModule,
-        // MenuModule,
-        // TableModule,
-        // StyleClassModule,
-        // PanelMenuModule,
-        ButtonModule,
-        MasterRoutingModule,
-    ],
+    imports: [CommonModule, ButtonModule, MasterRoutingModule],
 })
 export class MasterModule {}

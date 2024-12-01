@@ -16,7 +16,6 @@ const routes: Routes = [
         component: AppLayoutComponent,
         canActivate: [AuthGuard],
         children: [
-            // { path: '', loadChildren: () => import('./demo/components/dashboards/dashboards.module').then((m) => m.DashboardsModule) },
             {
                 path: 'uikit',
                 data: { breadcrumb: 'UI Kit' },
@@ -32,13 +31,6 @@ const routes: Routes = [
                         (m) => m.DashboardModule
                     ),
             },
-            // {
-            //     path: 'user',
-            //     loadChildren: () =>
-            //         import('./features/user/user.module').then(
-            //             (m) => m.UserModule
-            //         ),
-            // },
             {
                 path: 'library',
                 data: { breadcrumb: 'Library' },

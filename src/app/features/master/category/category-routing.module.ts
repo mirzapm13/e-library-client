@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([
             {
                 path: '',
-                data: { breadcrumb: 'Manajemen Category' },
+                data: { breadcrumb: 'Category Management' },
                 loadComponent: () =>
                     import('./master-category/master-category.component').then(
                         (m) => m.MasterCategoryComponent

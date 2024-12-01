@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
     FormBuilder,
@@ -60,7 +60,8 @@ export class CategoryAccessComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private roleService: RolesService,
-        private notify: NotifyService
+        private notify: NotifyService,
+        private location: Location
     ) {
         this.categoryAccessForm = this.fb.group({
             selectedCategory: [[]],
@@ -145,6 +146,7 @@ export class CategoryAccessComponent implements OnInit {
 
                 this.notify.alert('success', value.message);
                 this.loading = false;
+                this.location.back();
             });
     }
 

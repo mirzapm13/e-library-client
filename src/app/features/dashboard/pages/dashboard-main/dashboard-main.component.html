@@ -125,7 +125,10 @@
             </p-dataView>
         </div>
     </div>
-    <div class="col-6">
+    <div
+        class="col-6"
+        *ngIf="currentUser?.permissions.includes('approve-document')"
+    >
         <div class="card h-full">
             <div class="CardTitle">
                 <h5>
