@@ -45,7 +45,7 @@ export class NewCategoryComponent implements OnInit {
     ) {
         this.newCategoryForm = this.fb.group({
             name: [null, Validators.required],
-            status: [false, Validators.required],
+            // status: [false, Validators.required],
             description: [null, Validators.required],
             parent_id: [null],
         });
