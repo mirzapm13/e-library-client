@@ -191,12 +191,18 @@
                                     <td style="width: 200px" class="font-bold">
                                         <div
                                             class="ReferenceTitle"
-                                            (click)="goToDocument(reference.id)"
+                                            (click)="
+                                                goToDocument(
+                                                    reference.reference_id
+                                                )
+                                            "
                                         >
                                             <p>{{ reference.document_no }}</p>
                                         </div>
                                     </td>
-                                    <td>{{ reference.type }}</td>
+                                    <td>
+                                        {{ mapReferenceType(reference.type) }}
+                                    </td>
                                     <td style="width: 200px">
                                         <span
                                             [class]="

@@ -412,4 +412,19 @@ export class DocumentDetailsComponent implements OnDestroy {
                 this.bookmarkLoading = false;
             });
     }
+
+    mapReferenceType(refType) {
+        switch (refType) {
+            case 'perubahan':
+                return 'Perubahan';
+
+            case 'pencabutan':
+                return 'Pencabutan';
+
+            case 'referensi':
+                return 'Hanya Referensi';
+            default:
+                return 'No Reference';
+        }
+    }
 }
