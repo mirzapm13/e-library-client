@@ -32,17 +32,17 @@
                         id="name"
                         formControlName="name"
                     />
-                </div>
-                <div
-                    *ngIf="
-                        newCategoryForm.controls['name']?.invalid &&
-                        newCategoryForm.controls['name']?.touched
-                    "
-                >
-                    <small
-                        *ngIf="newCategoryForm.controls['name']?.errors?.['required']"
-                        >Name is required.</small
+                    <div
+                        *ngIf="
+                            newCategoryForm.controls['name']?.invalid &&
+                            newCategoryForm.controls['name']?.touched
+                        "
                     >
+                        <small
+                            *ngIf="newCategoryForm.controls['name']?.errors?.['required']"
+                            >Name is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
