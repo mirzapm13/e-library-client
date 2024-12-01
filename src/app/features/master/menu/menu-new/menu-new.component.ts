@@ -152,4 +152,8 @@ export class MenuNewComponent implements OnInit {
             }
         });
     }
+
+    clearParent() {
+        this.newMenuForm.get('parent_id')?.setValue('');
+    }
 }

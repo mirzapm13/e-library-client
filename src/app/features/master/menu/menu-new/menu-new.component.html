@@ -130,11 +130,12 @@
                 <div class="col-12 md:col-10">
                     <p-treeSelect
                         formControlName="parent_id"
-                        [filter]="true"
                         class="block w-full"
                         [options]="menuOptions"
                         name="category"
                         value="id"
+                        [showClear]="true"
+                        (onClear)="clearParent()"
                     />
                 </div>
             </div>
