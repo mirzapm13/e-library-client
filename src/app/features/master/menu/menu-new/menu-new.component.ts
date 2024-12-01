@@ -58,7 +58,6 @@ export class MenuNewComponent implements OnInit {
             parent_id: [null],
             order: ['', Validators.required],
             status: [true, Validators.required],
-            description: [''],
             permissions: [[]],
         });
     }
@@ -117,7 +116,8 @@ export class MenuNewComponent implements OnInit {
 
     onSubmit() {
         if (!this.newMenuForm.valid) {
-            this.notify.alert('error', 'Check the required fields');
+            this.loading = false;
+            this.showAllValidationErrors(this.newMenuForm);
             return;
         }
 
@@ -142,5 +142,14 @@ export class MenuNewComponent implements OnInit {
 
     clickBack() {
         this.location.back();
+    }
+
+    private showAllValidationErrors(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+            const control = formGroup.get(field);
+            if (control) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
     }
 }

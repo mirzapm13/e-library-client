@@ -48,7 +48,7 @@ export class EditCategoryComponent {
         this.editCategoryForm = this.fb.group({
             name: [null, Validators.required],
             status: [false, Validators.required],
-            description: [null],
+            description: [null, Validators.required],
             parent_id: [null],
         });
     }
@@ -111,9 +111,10 @@ export class EditCategoryComponent {
 
         let payload = this.editCategoryForm.value;
         payload = { ...payload, parent_id: payload.parent_id?.id };
-        console.log(payload);
+
         if (!this.editCategoryForm.valid) {
-            console.log('not valid');
+            this.loading = false;
+            this.showAllValidationErrors(this.editCategoryForm);
             return;
         }
 
@@ -130,5 +131,14 @@ export class EditCategoryComponent {
                 this.notify.alert('success', value.message);
                 this.loading = false;
             });
+    }
+
+    private showAllValidationErrors(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+            const control = formGroup.get(field);
+            if (control) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
     }
 }

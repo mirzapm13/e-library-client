@@ -54,7 +54,8 @@ export class NewAccessComponent {
     onSubmit() {
         this.loading = true;
         if (!this.newRoleForm.valid) {
-            console.log('This is not valid');
+            this.loading = false;
+            this.showAllValidationErrors(this.newRoleForm);
             return;
         }
         this.roleService
@@ -68,5 +69,14 @@ export class NewAccessComponent {
                 this.loading = false;
                 this.location.back();
             });
+    }
+
+    private showAllValidationErrors(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+            const control = formGroup.get(field);
+            if (control) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
     }
 }

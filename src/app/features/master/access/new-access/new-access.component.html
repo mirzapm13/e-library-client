@@ -20,7 +20,9 @@
             class="flex flex-column gap-2 mt-5"
         >
             <div class="field grid">
-                <label class="col-2" for="name">Name</label>
+                <label class="col-2" for="name"
+                    >Name<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <input
                         pInputText
@@ -30,11 +32,24 @@
                         id="name"
                         formControlName="name"
                     />
+                    <div
+                        *ngIf="
+                            newRoleForm.controls['name']?.invalid &&
+                            newRoleForm.controls['name']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newRoleForm.controls['name']?.errors?.['required']"
+                            >Name is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="description">Description</label>
+                <label class="col-2" for="description"
+                    >Description<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <textarea
                         pInputText
@@ -45,6 +60,17 @@
                         rows="5"
                         formControlName="description"
                     ></textarea>
+                    <div
+                        *ngIf="
+                            newRoleForm.controls['description']?.invalid &&
+                            newRoleForm.controls['description']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newRoleForm.controls['description']?.errors?.['required']"
+                            >Description is required.</small
+                        >
+                    </div>
                 </div>
             </div>
             <!-- 

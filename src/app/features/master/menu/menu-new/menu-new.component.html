@@ -20,7 +20,9 @@
             class="flex flex-column gap-2 mt-5"
         >
             <div class="field grid">
-                <label class="col-2" for="name">Name</label>
+                <label class="col-2" for="name"
+                    >Name<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <input
                         pInputText
@@ -30,6 +32,17 @@
                         id="name"
                         formControlName="name"
                     />
+                    <div
+                        *ngIf="
+                            newMenuForm.controls['name']?.invalid &&
+                            newMenuForm.controls['name']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newMenuForm.controls['name']?.errors?.['required']"
+                            >Name is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
@@ -49,7 +62,9 @@
         </div> -->
 
             <div class="field grid">
-                <label class="col-2" for="path">Path</label>
+                <label class="col-2" for="path"
+                    >Path<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <input
                         pInputText
@@ -59,11 +74,24 @@
                         id="path"
                         formControlName="path"
                     />
+                    <div
+                        *ngIf="
+                            newMenuForm.controls['path']?.invalid &&
+                            newMenuForm.controls['path']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newMenuForm.controls['path']?.errors?.['required']"
+                            >Path is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="icon">Icon</label>
+                <label class="col-2" for="icon"
+                    >Icon<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <p-dropdown
                         styleClass="w-full"
@@ -83,6 +111,17 @@
                             </div>
                         </ng-template>
                     </p-dropdown>
+                    <div
+                        *ngIf="
+                            newMenuForm.controls['icon']?.invalid &&
+                            newMenuForm.controls['icon']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newMenuForm.controls['icon']?.errors?.['required']"
+                            >Icon is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
@@ -101,7 +140,9 @@
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="order">Order</label>
+                <label class="col-2" for="order"
+                    >Order<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <input
                         pInputText
@@ -111,13 +152,37 @@
                         id="order"
                         formControlName="order"
                     />
+                    <div
+                        *ngIf="
+                            newMenuForm.controls['order']?.invalid &&
+                            newMenuForm.controls['order']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newMenuForm.controls['order']?.errors?.['required']"
+                            >Order is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="status">Status</label>
+                <label class="col-2" for="status"
+                    >Status<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <p-inputSwitch formControlName="status" />
+                </div>
+                <div
+                    *ngIf="
+                        newMenuForm.controls['status']?.invalid &&
+                        newMenuForm.controls['status']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="newMenuForm.controls['status']?.errors?.['required']"
+                        >Status is required.</small
+                    >
                 </div>
             </div>
 
