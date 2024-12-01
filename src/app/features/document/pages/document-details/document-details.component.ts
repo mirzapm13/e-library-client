@@ -60,24 +60,43 @@ export class DocumentDetailsComponent implements OnDestroy {
 
                     let payload = { filename: value.data.filename };
 
-                    if (
-                        value.data?.approvers.some(
-                            (item) => item.email == this.currentUser.user.email
-                        )
-                    ) {
-                        this.currentApprove = true;
-                    }
+                    // if (
+                    //     value.data?.approvers.some(
+                    //         (item) => item.email == this.currentUser.user.email
+                    //     )
+                    // ) {
+                    //     this.currentApprove = true;
+                    // }
+
+                    value.data?.approvers?.forEach((item, idx) => {
+                        if (
+                            item.email == this.currentUser.user.email &&
+                            item.status == 'waiting'
+                        ) {
+                            if (
+                                value.data?.approvers[idx - 1]?.status ==
+                                'waiting'
+                            ) {
+                                return;
+                            }
+
+                            this.currentApprove = true;
+                        }
+                    });
 
                     this.references = value.data.reference;
+                    this.categoryApprover = value.data.category?.users;
 
-                    this.categoryService
-                        .getCategoryById(this.currentDoc.categoryId)
-                        .subscribe(({ error, value }) => {
-                            if (error) return;
+                    this.detailLoading = false;
 
-                            this.categoryApprover = value.data.users;
-                            this.detailLoading = false;
-                        });
+                    // this.categoryService
+                    //     .getCategoryById(this.currentDoc.categoryId)
+                    //     .subscribe(({ error, value }) => {
+                    //         if (error) return;
+
+                    //         this.categoryApprover = value.data.users;
+                    //         this.detailLoading = false;
+                    //     });
 
                     this.documentService.downloadFile(payload).subscribe({
                         next: (pdfBlob) => {
@@ -219,8 +238,8 @@ export class DocumentDetailsComponent implements OnDestroy {
                 y: page.getHeight() / 2 - textHeight / 2 + 40,
                 size: textSize,
                 font: helveticaFont,
-                color: rgb(0.95, 0.1, 0.1),
-                opacity: 0.5,
+                color: rgb(0.5, 0.5, 0.5),
+                opacity: 0.3,
             });
 
             page.drawText(
@@ -230,8 +249,8 @@ export class DocumentDetailsComponent implements OnDestroy {
                     y: page.getHeight() / 2 - textHeight / 2,
                     size: textSize,
                     font: helveticaFont,
-                    color: rgb(0.95, 0.1, 0.1),
-                    opacity: 0.5,
+                    color: rgb(0.5, 0.5, 0.5),
+                    opacity: 0.3,
                     // rotate: degrees(-60),
                 }
             );
@@ -243,8 +262,8 @@ export class DocumentDetailsComponent implements OnDestroy {
                     y: page.getHeight() / 2 - textHeight / 2 - 40,
                     size: textSize,
                     font: helveticaFont,
-                    color: rgb(0.95, 0.1, 0.1),
-                    opacity: 0.5,
+                    color: rgb(0.5, 0.5, 0.5),
+                    opacity: 0.3,
                     // rotate: degrees(-60),
                 }
             );
@@ -300,7 +319,7 @@ export class DocumentDetailsComponent implements OnDestroy {
     rejectDocument() {
         this.confirmService.approveConfirm(
             `Are you sure want to <b class="text-red-500">reject</b> document <b>${this.currentDoc.documentNo}</b>?`,
-            () => this.approveCallback(this.id)
+            () => this.rejectCallback(this.id)
         );
     }
 
@@ -317,18 +336,20 @@ export class DocumentDetailsComponent implements OnDestroy {
                 }
 
                 this.notify.alert('success', value.message);
+                this.location.back();
 
-                this.documentService
-                    .getDocumentById(id)
-                    .subscribe(({ error, value }) => {
-                        if (error) {
-                            this.notify.alert('error', error.message);
-                            this.detailLoading = false;
-                            return;
-                        }
-                        this.currentDoc = value.data;
-                        this.detailLoading = false;
-                    });
+                // this.documentService
+                //     .getDocumentById(id)
+                //     .subscribe(({ error, value }) => {
+                //         if (error) {
+                //             this.notify.alert('error', error.message);
+                //             this.detailLoading = false;
+                //             return;
+                //         }
+                //         this.currentDoc = value.data;
+
+                //         this.detailLoading = false;
+                //     });
             });
     }
 
@@ -346,17 +367,19 @@ export class DocumentDetailsComponent implements OnDestroy {
 
                 this.notify.alert('success', value.message);
 
-                this.documentService
-                    .getDocumentById(id)
-                    .subscribe(({ error, value }) => {
-                        if (error) {
-                            this.notify.alert('error', error.message);
-                            this.detailLoading = false;
-                            return;
-                        }
-                        this.currentDoc = value.data;
-                        this.detailLoading = false;
-                    });
+                this.location.back();
+
+                // this.documentService
+                //     .getDocumentById(id)
+                //     .subscribe(({ error, value }) => {
+                //         if (error) {
+                //             this.notify.alert('error', error.message);
+                //             this.detailLoading = false;
+                //             return;
+                //         }
+                //         this.currentDoc = value.data;
+                //         this.detailLoading = false;
+                //     });
             });
     }
 

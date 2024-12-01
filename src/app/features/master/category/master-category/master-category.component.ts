@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { Table, TableModule } from 'primeng/table';
 import { map } from 'rxjs';
 import { UserService } from 'src/app/core/auth/services/user.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
@@ -13,7 +14,7 @@ import { addParentName } from 'src/app/shared/utils/add-parent-name';
 @Component({
     selector: 'app-master-category',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TableModule],
+    imports: [CommonModule, ButtonModule, TableModule, InputTextModule],
     templateUrl: './master-category.component.html',
     styleUrl: './master-category.component.scss',
 })
@@ -31,6 +32,8 @@ export class MasterCategoryComponent implements OnInit {
     loading = false;
 
     userPermissions;
+
+    @ViewChild('dt2') dt2!: Table;
 
     ngOnInit(): void {
         this.loading = true;
@@ -98,5 +101,13 @@ export class MasterCategoryComponent implements OnInit {
             `Are you sure want to delete <b>${name}</b>?`,
             () => this.deleteCallback(id)
         );
+    }
+
+    onGlobalFilterEvent(event: Event) {
+        const input = event.target as HTMLInputElement;
+
+        if (this.dt2) {
+            this.dt2.filterGlobal(input.value, 'contains');
+        }
     }
 }

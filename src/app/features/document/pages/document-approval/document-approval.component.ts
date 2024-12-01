@@ -66,7 +66,7 @@ export class DocumentApprovalComponent implements OnInit {
         categoryId: '',
         page: 1,
         keyword: '',
-        // limit: 2,
+        limit: 10,
     };
 
     private subscriptions: Subscription = new Subscription();
@@ -148,6 +148,7 @@ export class DocumentApprovalComponent implements OnInit {
         console.log(evt);
         this.docLoading = true;
         this.filters.page = evt.page + 1;
+        this.filters.limit = evt.rows;
         this.applyFilter();
     }
 
@@ -178,7 +179,7 @@ export class DocumentApprovalComponent implements OnInit {
             status: params['status'] || '',
             page: params['page'] || 1,
             keyword: params['keyword'] || '',
-            // limit: params['limit'] || 2,
+            limit: params['limit'] || 10,
         };
     }
 
@@ -197,6 +198,9 @@ export class DocumentApprovalComponent implements OnInit {
 
         if (this.filters.keyword) queryParams['keyword'] = this.filters.keyword;
         else queryParams['keyword'] = undefined;
+
+        if (this.filters.limit) queryParams['limit'] = this.filters.limit;
+        else queryParams['limit'] = undefined;
 
         this.router.navigate([], {
             relativeTo: this.route,

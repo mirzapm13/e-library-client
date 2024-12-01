@@ -132,7 +132,7 @@ export class DocumentUploadComponent implements OnInit {
             description: [''],
             selectedCategory: ['', Validators.required],
             criteria: ['', Validators.required],
-            announce: [false, Validators.required],
+            announce: ['false', Validators.required],
             expiredAt: [''],
             tags: [[]],
         });
@@ -141,7 +141,7 @@ export class DocumentUploadComponent implements OnInit {
     loading = false;
 
     searchKey: any = '';
-    searchResult: string[] = [];
+    searchResult = [];
     searchSub = new Subject<string>();
 
     ngOnInit(): void {
@@ -176,7 +176,10 @@ export class DocumentUploadComponent implements OnInit {
                 )
             )
             .subscribe(({ error, value }) => {
-                this.searchResult = value.data;
+                this.searchResult = value.data.map((item) => ({
+                    number_title: `${item.document_no} - ${item.title}`,
+                    ...item,
+                }));
             });
     }
 
@@ -228,7 +231,11 @@ export class DocumentUploadComponent implements OnInit {
             ...(payload.selectedCategory && {
                 category_id: payload.selectedCategory.id,
             }),
-            reference: this.references.map(({ document_no, ...item }) => item),
+            reference: this.references.map(({ id, status, type, ...item }) => ({
+                reference_id: id,
+                status,
+                type,
+            })),
         };
 
         this.documentService
@@ -246,7 +253,7 @@ export class DocumentUploadComponent implements OnInit {
                 delete payload['expiredAt'];
                 delete payload['selectedCategory'];
 
-                console.log(payload);
+                // console.log(payload);
 
                 // return;
 
@@ -262,7 +269,7 @@ export class DocumentUploadComponent implements OnInit {
                         console.log(value);
 
                         this.notify.alert('success', value.message);
-                        // this.router.navigateByUrl('/master-data/category');
+                        this.location.back();
                         this.loading = false;
                     });
 
@@ -290,13 +297,32 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     addReference() {
-        if (this.searchKey == '') return;
-        this.references.push({
-            document_no: this.searchKey.document_no,
-            reference_id: this.searchKey.id,
-        });
+        if (typeof this.searchKey == 'string') {
+            this.notify.alert(
+                'warn',
+                `Please insert the correct document number`
+            );
+            return;
+        }
+
+        if (
+            this.references.some(
+                (item) => item.document_no == this.searchKey.document_no
+            )
+        ) {
+            this.notify.alert(
+                'warn',
+                `Document ${this.searchKey.document_no} is already added`
+            );
+            this.searchKey = '';
+            return;
+        }
+
+        this.references.push(this.searchKey);
+
+        // console.log(this.references);
+
         this.searchKey = '';
-        console.log(this.references);
     }
 
     deleteReference(idx) {
@@ -306,8 +332,21 @@ export class DocumentUploadComponent implements OnInit {
     changeReferenceOption(doc) {
         if (doc.type == 'pencabutan' || doc.type == 'perubahan') {
             doc.status = 'inactive';
-        } else if (doc.type == 'referensi') {
-            doc.status = 'active';
+        }
+
+        if (
+            doc.type == 'referensi' &&
+            doc.document_no == this.uploadForm.get('document_no')?.value &&
+            doc.status == 'active'
+        ) {
+            doc.status = 'inactive';
+            doc.type = 'perubahan';
+            this.notify.alert(
+                'error',
+                "Can not have the same document number for active 'Hanya Referensi'"
+            );
+
+            return;
         }
     }
 }

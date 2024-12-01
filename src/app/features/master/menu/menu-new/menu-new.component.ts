@@ -135,7 +135,7 @@ export class MenuNewComponent implements OnInit {
                 }
 
                 this.notify.alert('success', value.message);
-                this.router.navigateByUrl('/master-data/menu');
+                this.location.back();
                 this.loading = false;
             });
     }

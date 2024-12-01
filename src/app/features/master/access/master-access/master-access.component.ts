@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { Table, TableModule } from 'primeng/table';
 import { UserService } from 'src/app/core/auth/services/user.service';
 import { RolesService } from 'src/app/shared/services/role.service';
 import { User, UsersService } from 'src/app/shared/services/users.service';
@@ -10,7 +11,7 @@ import { User, UsersService } from 'src/app/shared/services/users.service';
 @Component({
     selector: 'app-master-role',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TableModule],
+    imports: [CommonModule, ButtonModule, TableModule, InputTextModule],
     templateUrl: './master-access.component.html',
     styleUrl: './master-access.component.scss',
 })
@@ -26,6 +27,8 @@ export class MasterAccessComponent implements OnInit {
     loading = true;
 
     userPermissions;
+
+    @ViewChild('dt2') dt2!: Table;
 
     ngOnInit(): void {
         this.roleService.getRoles().subscribe(({ isLoading, error, value }) => {
@@ -55,5 +58,13 @@ export class MasterAccessComponent implements OnInit {
 
     goToEditAccess(id) {
         this.router.navigateByUrl(`/master-data/access/edit/${id}`);
+    }
+
+    onGlobalFilterEvent(event: Event) {
+        const input = event.target as HTMLInputElement;
+
+        if (this.dt2) {
+            this.dt2.filterGlobal(input.value, 'contains');
+        }
     }
 }

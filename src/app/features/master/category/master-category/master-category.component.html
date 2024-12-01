@@ -1,9 +1,16 @@
 <div class="card">
-    <h5>Master Data - Category</h5>
+    <h5 class="mb-5">Master Data - Category</h5>
 
     <!-- <ng-container *ngIf="categories"> -->
     <div class="flex flex-column gap-4">
-        <div class="flex justify-content-end gap-2">
+        <div class="flex justify-content-between gap-2">
+            <input
+                pInputText
+                type="text"
+                (input)="onGlobalFilterEvent($event)"
+                placeholder="Search keyword"
+            />
+
             <p-button
                 icon="pi pi-plus"
                 label="New"
@@ -22,13 +29,18 @@
 
         <ng-template #tableView>
             <p-table
+                #dt2
                 [value]="categories"
                 [paginator]="true"
                 [rows]="10"
                 [tableStyle]="{ 'min-width': '50rem' }"
-                [rowsPerPageOptions]="[10, 20, 30]"
+                [rowsPerPageOptions]="[10, 20, 50, 100]"
                 paginatorDropdownAppendTo="body"
+                [globalFilterFields]="['name', 'path', 'menu.parents']"
             >
+                <!-- <ng-template pTemplate="caption"> -->
+
+                <!-- </ng-template> -->
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Nama</th>

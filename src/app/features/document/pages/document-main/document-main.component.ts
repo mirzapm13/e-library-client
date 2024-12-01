@@ -52,13 +52,7 @@ export class DocumentMainComponent implements OnInit {
 
     selectedChild;
 
-    tabItems: MenuItem[] | undefined = [
-        { label: 'All', icon: 'pi pi-list', value: 'all' },
-        { label: 'Release', icon: 'pi pi-file', value: 'release' },
-        { label: 'Bookmark', icon: 'pi pi-bookmark', value: 'bookmark' },
-
-        { label: 'Archive', icon: 'pi pi-history', value: 'archive' },
-    ];
+    tabItems: MenuItem[] | undefined = [];
 
     activeTab: MenuItem | undefined;
 
@@ -67,7 +61,7 @@ export class DocumentMainComponent implements OnInit {
         categoryId: '',
         page: 1,
         keyword: '',
-        // limit: 2,
+        limit: 10,
     };
 
     private subscriptions: Subscription = new Subscription();
@@ -87,13 +81,36 @@ export class DocumentMainComponent implements OnInit {
     ngOnInit(): void {
         this.currentUser = this.userService.getUserData();
 
-        if (this.currentUser.permissions.includes('upload-document')) {
-            this.tabItems.splice(3, 0, {
+        if (this.currentUser.permissions.includes('all-document'))
+            this.tabItems.push({
+                label: 'All',
+                icon: 'pi pi-list',
+                value: 'all',
+            });
+        if (this.currentUser.permissions.includes('release-document'))
+            this.tabItems.push({
+                label: 'Release',
+                icon: 'pi pi-file',
+                value: 'release',
+            });
+        if (this.currentUser.permissions.includes('bookmark-document'))
+            this.tabItems.push({
+                label: 'Bookmark',
+                icon: 'pi pi-bookmark',
+                value: 'bookmark',
+            });
+        if (this.currentUser.permissions.includes('waiting-document'))
+            this.tabItems.push({
                 label: 'Waiting for approval',
                 icon: 'pi pi-clock',
                 value: 'waiting',
             });
-        }
+        if (this.currentUser.permissions.includes('archive-document'))
+            this.tabItems.push({
+                label: 'Archive',
+                icon: 'pi pi-history',
+                value: 'archive',
+            });
 
         const paramsSubscription = this.route.queryParams
             .pipe(debounceTime(300)) // Optional: debounce for performance
@@ -156,8 +173,6 @@ export class DocumentMainComponent implements OnInit {
     }
 
     onActiveItemChange(event: MenuItem) {
-        this.docLoading = true;
-
         this.clearFilters();
         this.activeTab = event;
         this.filters.status = event['value'];
@@ -167,9 +182,10 @@ export class DocumentMainComponent implements OnInit {
     }
 
     onPageChange(evt) {
-        console.log(evt);
+        // console.log(evt);
         this.docLoading = true;
         this.filters.page = evt.page + 1;
+        this.filters.limit = evt.rows;
         this.applyFilter();
     }
 
@@ -200,7 +216,7 @@ export class DocumentMainComponent implements OnInit {
             status: params['status'] || '',
             page: params['page'] || 1,
             keyword: params['keyword'] || '',
-            // limit: params['limit'] || 2,
+            limit: params['limit'] || 10,
         };
     }
 
@@ -219,6 +235,9 @@ export class DocumentMainComponent implements OnInit {
 
         if (this.filters.keyword) queryParams['keyword'] = this.filters.keyword;
         else queryParams['keyword'] = undefined;
+
+        if (this.filters.limit) queryParams['limit'] = this.filters.limit;
+        else queryParams['limit'] = undefined;
 
         this.router.navigate([], {
             relativeTo: this.route,

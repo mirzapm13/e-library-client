@@ -99,9 +99,9 @@
                                 />
                             </td>
                             <td>
-                                <div class="flex justify-content-between">
+                                <div class="AccessCheckboxGroup">
                                     <div
-                                        class="flex flex-column"
+                                        class="flex flex-column align-items-center"
                                         *ngFor="
                                             let permission of item.permissions
                                         "
@@ -113,7 +113,9 @@
                                             [(ngModel)]="permission.active"
                                             [value]="permission.name"
                                         />
-                                        <p>{{ permission.name }}</p>
+                                        <p class="text-center">
+                                            {{ permission.name }}
+                                        </p>
                                     </div>
                                 </div>
                             </td>

@@ -185,6 +185,7 @@
                     formControlName="announce"
                     [binary]="true"
                     inputId="binary"
+                    value="'true'"
                 />
             </div>
         </div>
@@ -234,8 +235,12 @@
                             standalone: true
                         }"
                         [suggestions]="searchResult"
-                        field="document_no"
-                    />
+                        optionLabel="number_title"
+                    >
+                        <ng-template let-item pTemplate="item">
+                            {{ item.document_no }} - {{ item.title }}
+                        </ng-template>
+                    </p-autoComplete>
                     <p-button
                         label="Add"
                         icon="pi pi-plus"
@@ -253,7 +258,8 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Document Number</th>
-                                <th>Jenis Referensi</th>
+                                <th>Title</th>
+                                <th>Reference</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -261,6 +267,7 @@
                         <ng-template pTemplate="body" let-doc let-i="rowIndex">
                             <tr>
                                 <td>{{ doc.document_no }}</td>
+                                <td>{{ doc.title }}</td>
                                 <td>
                                     <p-dropdown
                                         [options]="referenceOptions"
@@ -284,6 +291,9 @@
                                         appendTo="body"
                                         [(ngModel)]="doc.status"
                                         [ngModelOptions]="{ standalone: true }"
+                                        (ngModelChange)="
+                                            changeReferenceOption(doc)
+                                        "
                                     />
                                 </td>
                                 <td>

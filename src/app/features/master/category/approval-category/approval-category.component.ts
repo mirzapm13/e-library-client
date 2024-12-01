@@ -9,14 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { TreeSelectModule } from 'primeng/treeselect';
-import {
-    debounceTime,
-    distinctUntilChanged,
-    filter,
-    of,
-    Subject,
-    switchMap,
-} from 'rxjs';
+import { Subject } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { UserListService } from 'src/app/shared/services/user-list.service';

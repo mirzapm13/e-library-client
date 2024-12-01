@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MenuService } from 'src/app/shared/services/menus.service';
@@ -10,6 +10,7 @@ import { NotifyService } from 'src/app/shared/services/notify.service';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmService } from 'src/app/shared/services/confirmation.service';
 import { UserService } from 'src/app/core/auth/services/user.service';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
     selector: 'app-menu-main',
@@ -20,6 +21,7 @@ import { UserService } from 'src/app/core/auth/services/user.service';
         ButtonModule,
         InputSwitchModule,
         FormsModule,
+        InputTextModule,
     ],
     templateUrl: './menu-main.component.html',
     styleUrl: './menu-main.component.scss',
@@ -38,6 +40,8 @@ export class MenuMainComponent implements OnInit {
     menus: any = [];
 
     loading = false;
+
+    @ViewChild('dt2') dt2!: Table;
 
     ngOnInit(): void {
         this.loading = true;
@@ -100,5 +104,12 @@ export class MenuMainComponent implements OnInit {
             `Are you sure want to delete <b>${name}</b>?`,
             () => this.deleteCallback(id)
         );
+    }
+
+    onGlobalFilterEvent(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (this.dt2) {
+            this.dt2.filterGlobal(input.value, 'contains');
+        }
     }
 }
