@@ -1,10 +1,12 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+    AbstractControl,
     FormBuilder,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
+    ValidationErrors,
     Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,20 +24,17 @@ import {
     debounceTime,
     distinctUntilChanged,
     filter,
-    map,
     Subject,
     switchMap,
 } from 'rxjs';
-import { UsersService } from 'src/app/shared/services/users.service';
 import { CategoryService } from 'src/app/shared/services/category.service';
 import { groupByParent } from 'src/app/shared/utils/group-by-parent';
-import { recursiveMap } from 'src/app/shared/utils/recursive-map';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DocumentService } from 'src/app/shared/services/document.service';
 import { NotifyService } from 'src/app/shared/services/notify.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
-import { values } from 'pdf-lib';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-document-upload',
@@ -66,27 +65,6 @@ export class DocumentUploadComponent implements OnInit {
     categories: any;
     users: any = [];
     selectedFile: File | null = null;
-
-    // references = [
-    //     {
-    //         document_no: 'XX9/001/GHK',
-    //         type: 'pencabutan',
-    //         active: 'active',
-    //         id: 'd7519b04-c894-4672-b98b-315ab7a87299',
-    //     },
-    //     {
-    //         document_no: 'XX9/002/GHK',
-    //         type: 'perubahan',
-    //         active: 'inactive',
-    //         id: 'asdadadad1323',
-    //     },
-    //     {
-    //         document_no: 'XX9/003/GHK',
-    //         type: 'referensi',
-    //         active: 'active',
-    //         id: 'asdadadad1323',
-    //     },
-    // ];
 
     references = [];
 
@@ -125,7 +103,7 @@ export class DocumentUploadComponent implements OnInit {
         private location: Location
     ) {
         this.uploadForm = this.fb.group({
-            file: ['', Validators.required],
+            file: [null, [Validators.required]],
             document_no: ['', Validators.required],
             title: ['', Validators.required],
             description: [''],
@@ -133,7 +111,7 @@ export class DocumentUploadComponent implements OnInit {
             criteria: ['', Validators.required],
             announce: ['false', Validators.required],
             expired_at: [''],
-            tags: [[]],
+            tags: [[], Validators.required],
         });
     }
 
@@ -280,7 +258,7 @@ export class DocumentUploadComponent implements OnInit {
                             return;
                         }
 
-                        console.log(value);
+                        // console.log(value);
 
                         this.notify.alert('success', value.message);
                         this.location.back();
@@ -292,8 +270,33 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     onFilePicked(event) {
-        console.log(event);
-        const file = (event.target as HTMLInputElement).files[0]; // Here we use only the first file (single file)
+        // const file = (event.target as HTMLInputElement).files[0]; // Here we use only the first file (single file)
+        // console.log(file);
+
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0]; // Use optional chaining to avoid null/undefined errors
+
+        let maxFileSize = 10;
+
+        const maxSizeInBytes = Number(environment.uploadMaxSize) * 1024 * 1024; // 10 MB
+        console.log(maxSizeInBytes);
+        const allowedMimeType = 'application/pdf';
+
+        if (file.size > maxSizeInBytes) {
+            this.notify.alert('error', `Max file size is ${maxFileSize}MB`);
+            input.value = ''; // Clear the file input
+            this.uploadForm.patchValue({ file: null });
+            return;
+        }
+
+        if (file.type !== allowedMimeType) {
+            this.notify.alert('error', `Only PDF is allowed`);
+            input.value = ''; // Clear the file input
+            this.uploadForm.patchValue({ file: null });
+
+            return;
+        }
+
         this.uploadForm.patchValue({ file: file });
     }
 

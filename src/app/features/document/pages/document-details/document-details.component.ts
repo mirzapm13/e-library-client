@@ -51,6 +51,7 @@ export class DocumentDetailsComponent implements OnDestroy {
             this.documentService
                 .getDocumentById(this.id)
                 .subscribe(({ error, value }) => {
+                    console.log(value.data);
                     if (error) {
                         this.notify.alert('error', error.message);
                         this.docLoading = false;
@@ -289,20 +290,15 @@ export class DocumentDetailsComponent implements OnDestroy {
     }
 
     checkApprovalFlow() {
-        let categoryAppArray = this.categoryApprover.map((item) => item.name);
+        let categoryAppArray = this.categoryApprover.map((item) => item.email);
         let currentDocAppArray = this.currentDoc.approvers.map(
-            (item) => item.name
+            (item) => item.email
         );
 
-        const haveSameContents = (a, b) =>
-            a.length === b.length &&
-            a.every(
-                (v) =>
-                    a.filter((e) => e === v).length ===
-                    b.filter((e) => e === v).length
-            );
-
-        return haveSameContents(categoryAppArray, currentDocAppArray);
+        return (
+            JSON.stringify(categoryAppArray) ===
+            JSON.stringify(currentDocAppArray)
+        );
     }
 
     approveDocument() {
