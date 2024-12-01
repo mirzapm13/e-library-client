@@ -20,7 +20,9 @@
             (ngSubmit)="onSubmit()"
         >
             <div class="field grid">
-                <label class="col-2" for="name">Name</label>
+                <label class="col-2" for="name"
+                    >Name<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <input
                         pInputText
@@ -31,17 +33,43 @@
                         formControlName="name"
                     />
                 </div>
-            </div>
-
-            <div class="field grid">
-                <label class="col-2" for="status">Status</label>
-                <div class="col-12 md:col-10">
-                    <p-inputSwitch formControlName="status" />
+                <div
+                    *ngIf="
+                        newCategoryForm.controls['name']?.invalid &&
+                        newCategoryForm.controls['name']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="newCategoryForm.controls['name']?.errors?.['required']"
+                        >Name is required.</small
+                    >
                 </div>
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="description">Description</label>
+                <label class="col-2" for="status"
+                    >Status<span class="text-red-500">*</span></label
+                >
+                <div class="col-12 md:col-10">
+                    <p-inputSwitch formControlName="status" />
+                </div>
+                <div
+                    *ngIf="
+                        newCategoryForm.controls['status']?.invalid &&
+                        newCategoryForm.controls['status']?.touched
+                    "
+                >
+                    <small
+                        *ngIf="newCategoryForm.controls['status']?.errors?.['required']"
+                        >Status is required.</small
+                    >
+                </div>
+            </div>
+
+            <div class="field grid">
+                <label class="col-2" for="description"
+                    >Description<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <textarea
                         pInputText
@@ -52,6 +80,17 @@
                         rows="5"
                         formControlName="description"
                     ></textarea>
+                    <div
+                        *ngIf="
+                            newCategoryForm.controls['description']?.invalid &&
+                            newCategoryForm.controls['description']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="newCategoryForm.controls['description']?.errors?.['required']"
+                            >Description is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 

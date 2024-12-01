@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([
             {
                 path: 'access',
-                data: { breadcrumb: 'Access Management' },
+                data: { breadcrumb: 'Role Management' },
                 loadChildren: () =>
                     import('./access/access.module').then(
                         (m) => m.AccessModule

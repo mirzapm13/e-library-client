@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -40,7 +40,8 @@ export class MenuAccessComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private roleService: RolesService,
-        private notify: NotifyService
+        private notify: NotifyService,
+        private location: Location
     ) {}
 
     loading = false;
@@ -105,6 +106,7 @@ export class MenuAccessComponent implements OnInit {
 
                 this.notify.alert('success', value.message);
                 this.loading = false;
+                this.location.back();
             });
     }
 

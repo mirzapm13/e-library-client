@@ -32,7 +32,6 @@
                 [(selection)]="selectedNodes"
                 dataKey="id"
             >
-                <!-- (onNodeSelect)="nodeSelect($event)" -->
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th *ngFor="let col of columns">
@@ -52,18 +51,13 @@
                                 [rowNode]="rowNode"
                             ></p-treeTableToggler>
 
-                            {{ rowData.name }} - {{ rowNode.node.level }}
+                            {{ rowData.name }}
                         </td>
                         <td>
                             <p-treeTableCheckbox
+                                *ngIf="rowNode.node.deepest"
                                 [value]="rowNode"
                             ></p-treeTableCheckbox>
-                            <!-- <input
-                                name="menu-access"
-                                type="checkbox"
-                                [(ngModel)]="rowData.active"
-                                [value]="rowData.id"
-                            /> -->
                         </td>
                     </tr>
                 </ng-template>
@@ -78,6 +72,4 @@
             ></p-button>
         </div>
     </div>
-
-    <p-button (onClick)="showNodes()" label="Click" />
 </div>

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([
             {
                 path: '',
-                data: { breadcrumb: 'Access Management' },
+                data: { breadcrumb: 'Role Management' },
                 loadComponent: () =>
                     import('./master-access/master-access.component').then(
                         (m) => m.MasterAccessComponent

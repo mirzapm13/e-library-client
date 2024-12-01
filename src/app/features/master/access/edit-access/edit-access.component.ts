@@ -70,10 +70,10 @@ export class EditAccessComponent implements OnInit {
     onSubmit() {
         this.loading = true;
         if (!this.editRoleForm.valid) {
-            this.notify.alert('error', 'Check the required fields');
+            this.loading = false;
+            this.showAllValidationErrors(this.editRoleForm);
             return;
         }
-        // return;
         this.roleService
             .editRole(this.id, this.editRoleForm.value)
             .subscribe(({ error, value }) => {
@@ -86,5 +86,14 @@ export class EditAccessComponent implements OnInit {
                 this.notify.alert('success', value.message);
                 this.loading = false;
             });
+    }
+
+    private showAllValidationErrors(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+            const control = formGroup.get(field);
+            if (control) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
     }
 }

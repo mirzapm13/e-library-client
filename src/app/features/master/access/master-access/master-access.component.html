@@ -1,9 +1,16 @@
 <div class="card">
-    <h5>Master Data - Access</h5>
+    <h5 class="mb-5">Master Data - Role</h5>
 
     <ng-container *ngIf="roles">
         <div class="flex flex-column gap-4">
-            <div class="flex justify-content-end gap-2">
+            <div class="flex justify-content-between gap-2">
+                <input
+                    pInputText
+                    type="text"
+                    (input)="onGlobalFilterEvent($event)"
+                    placeholder="Search keyword"
+                />
+
                 <p-button
                     icon="pi pi-plus"
                     label="New"
@@ -22,12 +29,15 @@
 
             <ng-template #tableView>
                 <p-table
+                    #dt2
                     [value]="roles"
                     [paginator]="true"
-                    [rows]="5"
+                    [rows]="10"
                     [tableStyle]="{ 'min-width': '50rem' }"
-                    [rowsPerPageOptions]="[5, 10, 20]"
+                    [rowsPerPageOptions]="[10, 20, 50, 100]"
                     [rowTrackBy]="trackByFunction"
+                    [globalFilterFields]="['name', 'description']"
+                    paginatorDropdownAppendTo="body"
                 >
                     <ng-template pTemplate="header">
                         <tr>

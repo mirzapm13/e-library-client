@@ -20,7 +20,9 @@
             (ngSubmit)="onSubmit()"
         >
             <div class="field grid">
-                <label class="col-2" for="name">Name</label>
+                <label class="col-2" for="name"
+                    >Name<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <input
                         pInputText
@@ -30,18 +32,33 @@
                         id="name"
                         formControlName="name"
                     />
+                    <div
+                        *ngIf="
+                            editCategoryForm.controls['name']?.invalid &&
+                            editCategoryForm.controls['name']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="editCategoryForm.controls['name']?.errors?.['required']"
+                            >Name is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="status">Status</label>
+                <label class="col-2" for="status"
+                    >Status<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <p-inputSwitch formControlName="status" />
                 </div>
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="description">Description</label>
+                <label class="col-2" for="description"
+                    >Description<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <textarea
                         pInputText
@@ -52,6 +69,17 @@
                         rows="5"
                         formControlName="description"
                     ></textarea>
+                    <div
+                        *ngIf="
+                            editCategoryForm.controls['description']?.invalid &&
+                            editCategoryForm.controls['description']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="editCategoryForm.controls['description']?.errors?.['required']"
+                            >Description is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 

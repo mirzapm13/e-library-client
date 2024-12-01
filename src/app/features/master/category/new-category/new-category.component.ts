@@ -46,7 +46,7 @@ export class NewCategoryComponent implements OnInit {
         this.newCategoryForm = this.fb.group({
             name: [null, Validators.required],
             status: [false, Validators.required],
-            description: [null],
+            description: [null, Validators.required],
             parent_id: [null],
         });
     }
@@ -92,8 +92,8 @@ export class NewCategoryComponent implements OnInit {
         console.log(payload);
 
         if (!this.newCategoryForm.valid) {
-            console.log('not valid');
             this.loading = false;
+            this.showAllValidationErrors(this.newCategoryForm);
             return;
         }
 
@@ -107,8 +107,18 @@ export class NewCategoryComponent implements OnInit {
                 }
 
                 this.notify.alert('success', value.message);
-                this.router.navigateByUrl('/master-data/category');
+                // this.router.navigateByUrl('/master-data/category');
+                this.location.back();
                 this.loading = false;
             });
+    }
+
+    private showAllValidationErrors(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+            const control = formGroup.get(field);
+            if (control) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
     }
 }

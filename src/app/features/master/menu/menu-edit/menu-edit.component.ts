@@ -159,7 +159,8 @@ export class MenuEditComponent {
         payload = { ...payload, parent_id: payload.parent_id?.id };
 
         if (!this.editMenuForm.valid) {
-            this.notify.alert('error', 'Check the required fields');
+            this.loading = false;
+            this.showAllValidationErrors(this.editMenuForm);
             return;
         }
         // return;
@@ -179,5 +180,14 @@ export class MenuEditComponent {
 
     clickBack() {
         this.location.back();
+    }
+
+    private showAllValidationErrors(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach((field) => {
+            const control = formGroup.get(field);
+            if (control) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
     }
 }

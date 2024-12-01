@@ -1,7 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
-    FormArray,
     FormBuilder,
     FormGroup,
     FormsModule,
@@ -132,8 +131,8 @@ export class DocumentUploadComponent implements OnInit {
             description: [''],
             selectedCategory: ['', Validators.required],
             criteria: ['', Validators.required],
-            announce: [false, Validators.required],
-            expiredAt: [''],
+            announce: ['false', Validators.required],
+            expired_at: [''],
             tags: [[]],
         });
     }
@@ -141,10 +140,16 @@ export class DocumentUploadComponent implements OnInit {
     loading = false;
 
     searchKey: any = '';
-    searchResult: string[] = [];
+    searchResult = [];
     searchSub = new Subject<string>();
 
+    onCheckboxChange(event: any): void {
+        const value = event.checked ? 'true' : 'false';
+        this.uploadForm.get('announce')?.setValue(value);
+    }
+
     ngOnInit(): void {
+        this.loading = true;
         this.categoryService
             .getCategoryByCurrentRole()
             .subscribe(({ error, value }) => {
@@ -160,6 +165,8 @@ export class DocumentUploadComponent implements OnInit {
                 const grouped = groupByParent(mapped, 'children', 'parent_id');
 
                 this.categories = grouped;
+
+                this.loading = false;
             });
 
         this.searchSub
@@ -176,7 +183,10 @@ export class DocumentUploadComponent implements OnInit {
                 )
             )
             .subscribe(({ error, value }) => {
-                this.searchResult = value.data;
+                this.searchResult = value.data.map((item) => ({
+                    number_title: `${item.document_no} - ${item.title}`,
+                    ...item,
+                }));
             });
     }
 
@@ -205,30 +215,41 @@ export class DocumentUploadComponent implements OnInit {
             return;
         }
 
+        for (let reference of this.references) {
+            if (!reference.status) {
+                this.notify.alert('error', 'Reference status is required');
+                this.loading = false;
+
+                return;
+            }
+
+            if (!reference.type) {
+                this.notify.alert('error', 'Reference type is required');
+                this.loading = false;
+
+                return;
+            }
+        }
+
         const fileFormData = new FormData();
         fileFormData.append('file', this.uploadForm.value.file);
 
         let payload = this.uploadForm.value;
         delete payload['file'];
 
-        this.references.forEach((item) => {
-            if (!item.status) {
-                this.notify.alert('error', 'Reference status is required');
-                this.loading = false;
-
-                return;
-            }
-        });
-
         payload = {
             ...payload,
             expired_at:
-                payload.expired_at && this.formatDate(payload.expiredAt),
+                payload.expired_at && this.formatDate(payload.expired_at),
             tags: payload.tags?.join(', '),
             ...(payload.selectedCategory && {
                 category_id: payload.selectedCategory.id,
             }),
-            reference: this.references.map(({ document_no, ...item }) => item),
+            reference: this.references.map(({ id, status, type, ...item }) => ({
+                reference_id: id,
+                status,
+                type,
+            })),
         };
 
         this.documentService
@@ -243,10 +264,10 @@ export class DocumentUploadComponent implements OnInit {
                 let filename = value.data.filename;
 
                 payload['filename'] = filename;
-                delete payload['expiredAt'];
+                // delete payload['expired_at'];
                 delete payload['selectedCategory'];
 
-                console.log(payload);
+                // console.log(payload);
 
                 // return;
 
@@ -262,7 +283,7 @@ export class DocumentUploadComponent implements OnInit {
                         console.log(value);
 
                         this.notify.alert('success', value.message);
-                        // this.router.navigateByUrl('/master-data/category');
+                        this.location.back();
                         this.loading = false;
                     });
 
@@ -290,13 +311,32 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     addReference() {
-        if (this.searchKey == '') return;
-        this.references.push({
-            document_no: this.searchKey.document_no,
-            reference_id: this.searchKey.id,
-        });
+        if (typeof this.searchKey == 'string') {
+            this.notify.alert(
+                'warn',
+                `Please insert the correct document number`
+            );
+            return;
+        }
+
+        if (
+            this.references.some(
+                (item) => item.document_no == this.searchKey.document_no
+            )
+        ) {
+            this.notify.alert(
+                'warn',
+                `Document ${this.searchKey.document_no} is already added`
+            );
+            this.searchKey = '';
+            return;
+        }
+
+        this.references.push(this.searchKey);
+
+        // console.log(this.references);
+
         this.searchKey = '';
-        console.log(this.references);
     }
 
     deleteReference(idx) {
@@ -306,8 +346,29 @@ export class DocumentUploadComponent implements OnInit {
     changeReferenceOption(doc) {
         if (doc.type == 'pencabutan' || doc.type == 'perubahan') {
             doc.status = 'inactive';
-        } else if (doc.type == 'referensi') {
-            doc.status = 'active';
         }
+
+        if (
+            doc.type == 'referensi' &&
+            doc.document_no == this.uploadForm.get('document_no')?.value &&
+            doc.status == 'active'
+        ) {
+            doc.status = 'inactive';
+            doc.type = 'perubahan';
+            this.notify.alert(
+                'error',
+                "Can not have the same document number for active 'Hanya Referensi'"
+            );
+
+            return;
+        }
+    }
+
+    clearDate() {
+        this.uploadForm.get('expired_at')?.setValue('');
+    }
+
+    clearCategory() {
+        this.uploadForm.get('selectedCategory')?.setValue('');
     }
 }
