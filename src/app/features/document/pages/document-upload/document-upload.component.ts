@@ -106,7 +106,7 @@ export class DocumentUploadComponent implements OnInit {
             file: [null, [Validators.required]],
             document_no: ['', Validators.required],
             title: ['', Validators.required],
-            description: [''],
+            description: ['', Validators.required],
             selectedCategory: ['', Validators.required],
             criteria: ['', Validators.required],
             announce: ['false', Validators.required],
