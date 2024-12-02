@@ -15,7 +15,6 @@ import { environment } from 'src/environments/environment';
                 responseType: 'code',
                 silentRenew: true,
                 useRefreshToken: true,
-                // silentRenewUrl: `${window.location.origin}/silent-renew.html`,
                 logLevel: LogLevel.Debug,
             },
         }),
