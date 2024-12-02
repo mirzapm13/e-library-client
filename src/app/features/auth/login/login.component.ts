@@ -51,9 +51,7 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.loading = true;
-        this.oidcSecurityService.authorize(null, {
-            redirectUrl: 'http://localhost:4200/',
-        });
+        this.oidcSecurityService.authorize();
     }
 }
 

@@ -7,5 +7,6 @@ export const environment = {
   ssoRedirectUrl : 'http://localhost:4200/',
   ssoPostLogoutRedirect : 'http://localhost:4200/auth/login/',
   ssoClientId : 'g24-library-front',
-  ssoScope : 'openid profile offline_access'
+  ssoScope : 'openid profile offline_access',
+  uploadMaxSize: '10'
 };

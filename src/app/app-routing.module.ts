@@ -16,14 +16,14 @@ const routes: Routes = [
         component: AppLayoutComponent,
         canActivate: [AuthGuard],
         children: [
-            {
-                path: 'uikit',
-                data: { breadcrumb: 'UI Kit' },
-                loadChildren: () =>
-                    import('./demo/components/uikit/uikit.module').then(
-                        (m) => m.UIkitModule
-                    ),
-            },
+            // {
+            //     path: 'uikit',
+            //     data: { breadcrumb: 'UI Kit' },
+            //     loadChildren: () =>
+            //         import('./demo/components/uikit/uikit.module').then(
+            //             (m) => m.UIkitModule
+            //         ),
+            // },
             {
                 path: '',
                 loadChildren: () =>

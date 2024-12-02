@@ -156,7 +156,10 @@ export class MenuEditComponent {
     onSubmit() {
         this.loading = true;
         let payload = this.editMenuForm.value;
-        payload = { ...payload, parent_id: payload.parent_id?.id };
+        payload = {
+            ...payload,
+            parent_id: payload.parent_id?.id ? payload.parent_id.id : null,
+        };
 
         if (!this.editMenuForm.valid) {
             this.loading = false;
@@ -164,6 +167,7 @@ export class MenuEditComponent {
             return;
         }
         // return;
+        console.log(payload);
         this.menuService
             .editMenu(this.id, payload)
             .subscribe(({ isLoading, error, value }) => {
@@ -175,11 +179,16 @@ export class MenuEditComponent {
 
                 this.notify.alert('success', value.message);
                 this.loading = false;
+                this.location.back();
             });
     }
 
     clickBack() {
         this.location.back();
+    }
+
+    clearParent() {
+        this.editMenuForm.get('parent_id')?.setValue(null);
     }
 
     private showAllValidationErrors(formGroup: FormGroup) {

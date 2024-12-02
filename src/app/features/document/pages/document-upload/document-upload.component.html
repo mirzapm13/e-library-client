@@ -27,8 +27,8 @@
                     <input
                         type="file"
                         placeholder="Choose File"
-                        accept="application/pdf"
                         (change)="onFilePicked($event)"
+                        accept="application/pdf"
                         formControlName="file"
                         id="file"
                     />
@@ -41,6 +41,22 @@
                         <small
                             *ngIf="uploadForm.controls['file']?.errors?.['required']"
                             >File is required.</small
+                        >
+                    </div>
+                    <div *ngIf="uploadForm.controls['file']?.errors as errors">
+                        <small
+                            *ngIf="
+                                errors['fileType'] &&
+                                uploadForm.controls['file']?.touched
+                            "
+                            >Only PDF files are allowed.</small
+                        >
+                        <small
+                            *ngIf="
+                                errors['fileSize'] &&
+                                uploadForm.controls['file']?.touched
+                            "
+                            >File must be smaller than 10 MB.</small
                         >
                     </div>
                 </div>
@@ -232,8 +248,10 @@
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="tag">Tag</label>
-                <div class="flex gap-5 col-12 md:col-10">
+                <label class="col-2" for="tag"
+                    >Tag<span class="text-red-500">*</span></label
+                >
+                <div class="gap-5 col-12 md:col-10">
                     <p-chips
                         class="TagInput"
                         styleClass="TagInput"
@@ -242,6 +260,17 @@
                         [max]="4"
                         placeholder="Maximum 4 items"
                     />
+                    <div
+                        *ngIf="
+                            uploadForm.controls['tags']?.invalid &&
+                            uploadForm.controls['tags']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="uploadForm.controls['tags']?.errors?.['required']"
+                            >Tags is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 

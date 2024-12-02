@@ -21,7 +21,8 @@ export const environment = {
   ssoRedirectUrl : '${process.env.SSO_REDIRECT_URL}',
   ssoPostLogoutRedirect : '${process.env.SSO_POST_LOGOUT_REDIRECT}',
   ssoClientId : '${process.env.SSO_CLIENT_ID}',
-  ssoScope : '${process.env.SSO_SCOPE}'
+  ssoScope : '${process.env.SSO_SCOPE}',
+  uploadMaxSize: '${process.env.UPLOAD_MAX_SIZE}'
 };
 `;
 
