@@ -52,7 +52,7 @@ export class MenuEditComponent {
             name: ['', Validators.required],
             path: ['', Validators.required],
             icon: ['', Validators.required],
-            parent_id: [''],
+            parent_id: [null],
             order: ['', Validators.required],
             status: [true, Validators.required],
             permissions: [[]],
@@ -158,7 +158,7 @@ export class MenuEditComponent {
         let payload = this.editMenuForm.value;
         payload = {
             ...payload,
-            parent_id: payload.parent_id?.id ? payload.parent_id.id : '',
+            parent_id: payload.parent_id?.id ? payload.parent_id.id : null,
         };
 
         if (!this.editMenuForm.valid) {
@@ -188,7 +188,7 @@ export class MenuEditComponent {
     }
 
     clearParent() {
-        this.editMenuForm.get('parent_id')?.setValue('');
+        this.editMenuForm.get('parent_id')?.setValue(null);
     }
 
     private showAllValidationErrors(formGroup: FormGroup) {

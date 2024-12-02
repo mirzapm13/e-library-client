@@ -122,7 +122,7 @@ export class MenuNewComponent implements OnInit {
         }
 
         let payload = this.newMenuForm.value;
-        payload = { ...payload, parent_id: payload?.parent_id.id };
+        payload = { ...payload, parent_id: payload?.parent_id?.id };
 
         this.menuService
             .addMenu(payload)
