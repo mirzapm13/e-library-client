@@ -270,16 +270,12 @@ export class DocumentUploadComponent implements OnInit {
     }
 
     onFilePicked(event) {
-        // const file = (event.target as HTMLInputElement).files[0]; // Here we use only the first file (single file)
-        // console.log(file);
-
         const input = event.target as HTMLInputElement;
         const file = input.files?.[0]; // Use optional chaining to avoid null/undefined errors
 
         let maxFileSize = 10;
 
         const maxSizeInBytes = Number(environment.uploadMaxSize) * 1024 * 1024; // 10 MB
-        console.log(maxSizeInBytes);
         const allowedMimeType = 'application/pdf';
 
         if (file.size > maxSizeInBytes) {
