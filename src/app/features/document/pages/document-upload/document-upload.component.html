@@ -118,7 +118,9 @@
             </div>
 
             <div class="field grid">
-                <label class="col-2" for="name">Description</label>
+                <label class="col-2" for="name"
+                    >Description<span class="text-red-500">*</span></label
+                >
                 <div class="col-12 md:col-10">
                     <textarea
                         pInputText
@@ -129,6 +131,17 @@
                         rows="5"
                         formControlName="description"
                     ></textarea>
+                    <div
+                        *ngIf="
+                            uploadForm.controls['description']?.invalid &&
+                            uploadForm.controls['description']?.touched
+                        "
+                    >
+                        <small
+                            *ngIf="uploadForm.controls['description']?.errors?.['required']"
+                            >Description is required.</small
+                        >
+                    </div>
                 </div>
             </div>
 
